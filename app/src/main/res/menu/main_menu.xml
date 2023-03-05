@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/tasks_sort_order"
+        android:icon="@drawable/baseline_filter"
+        android:orderInCategory="1"
+        android:title="tasks sort order"
+        app:showAsAction="always">
+        <menu>
+            <group android:checkableBehavior="single"
+                android:id="@+id/radio_group">
+                <item
+                    android:id="@+id/sort_by_date"
+                    android:checked="true"
+                    android:orderInCategory="10"
+                    android:title="by date"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/sort_by_name"
+                    android:orderInCategory="20"
+                    android:title="by name"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/sort_by_importance"
+                    android:orderInCategory="30"
+                    android:title="by importance"
+                    app:showAsAction="never" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/clear_checked"
+        android:icon="@drawable/baseline_remove"
+        android:orderInCategory="2"
+        android:title="clear checked"
+        app:showAsAction="always" />
+</menu>
