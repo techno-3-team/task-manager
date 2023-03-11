@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/clear_checked"
+        android:icon="@drawable/baseline_remove"
+        android:orderInCategory="1"
+        android:title="clear checked"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/tasks_sort_order"
         android:icon="@drawable/baseline_filter"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:title="tasks sort order"
         app:showAsAction="always">
         <menu>
@@ -29,10 +35,4 @@
             </group>
         </menu>
     </item>
-    <item
-        android:id="@+id/clear_checked"
-        android:icon="@drawable/baseline_remove"
-        android:orderInCategory="2"
-        android:title="clear checked"
-        app:showAsAction="always" />
 </menu>

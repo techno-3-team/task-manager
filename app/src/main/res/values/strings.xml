@@ -2,5 +2,11 @@
     <string name="app_name">task-manager</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="list1">list 1</string>
+    <string name="list2">list 2</string>
+    <string name="list3">list 3</string>
+    <string name="list1231">list 1231</string>
+    <string name="list5">list 5</string>
+    <string name="list12341">list 12341</string>
     <string name="app_widget_description">This is an app widget description</string>
 </resources>
