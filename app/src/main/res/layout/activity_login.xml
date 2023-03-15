@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:style="@style/style_button_light_blue" />
+        style="@style/style_button_light_blue" />
 
     <TextView
         android:id="@+id/continue_with_google"
@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:style="@style/style_button_navy_blue" />
+        style="@style/style_button_navy_blue" />
 
     <TextView
         android:id="@+id/textView5"
