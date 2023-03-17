@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
@@ -43,13 +42,15 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .add(R.id.main_container, mainFragment)
             .commit()
+
     }
 
-    private fun getTasks(): ArrayList<MainTask> {
+    private fun getTasks(): ArrayList<Task> {
         return arrayListOf(
-            MainTask("first", Date(System.currentTimeMillis()), null, null),
-            MainTask("second", null, 0, 7),
-            MainTask("third", Date(System.currentTimeMillis()), 5, 8)
+            Task("first", Date(System.currentTimeMillis()), null, null),
+            Task("second", null, 0, 7),
+            Task("third", Date(System.currentTimeMillis()), 5, 8),
+            Task("fourth", null, null, null)
         )
     }
 
