@@ -15,7 +15,6 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, Ti
     private lateinit var binding: ActivityTaskBinding
 
     var day = 0
-    var dayOfWeek = 0
     var month = 0
     var year = 0
     var hour = 0
@@ -38,7 +37,6 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, Ti
     private fun getDateTimeCalendar() {
         val cal = Calendar.getInstance()
         day = cal.get(Calendar.DAY_OF_MONTH)
-        dayOfWeek = cal.get(Calendar.DAY_OF_WEEK)
         month = cal.get(Calendar.MONTH)
         year = cal.get(Calendar.YEAR)
         hour = cal.get(Calendar.HOUR)
@@ -66,17 +64,6 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, Ti
         savedHour = hourOfDay
         savedMinute = minute
 
-        val stringDay = when (dayOfWeek) {
-            1 -> "Mon"
-            2 -> "Tue"
-            3 -> "Wen"
-            4 -> "Thu"
-            5 -> "Fri"
-            6 -> "Sut"
-            7 -> "Sun"
-            else -> {"not"}
-        }
-
-        binding.tvDateTime.text = "$stringDay, $savedHour:$savedMinute, $savedDay-$savedMonth-$savedYear"
+        binding.tvDateTime.text = "$savedHour:$savedMinute, $savedDay-${savedMonth + 1}-$savedYear"
     }
 }
