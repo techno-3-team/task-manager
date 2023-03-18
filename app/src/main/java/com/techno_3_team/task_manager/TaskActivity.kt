@@ -5,6 +5,8 @@ import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.widget.DatePicker
 import android.widget.TimePicker
 import com.techno_3_team.task_manager.databinding.ActivityTaskBinding
@@ -39,6 +41,12 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, Ti
         supportActionBar?.title = ""
 
         pickDate()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.task_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun getDateTimeCalendar() {
