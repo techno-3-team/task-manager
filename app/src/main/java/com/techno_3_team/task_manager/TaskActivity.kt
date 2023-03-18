@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.TimePicker
+import android.widget.Toolbar
 import com.techno_3_team.task_manager.databinding.ActivityTaskBinding
 import java.util.*
 
@@ -30,6 +31,8 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, Ti
         super.onCreate(savedInstanceState)
         binding = ActivityTaskBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val toolbar: Toolbar = findViewById(binding.toolbar.id)
 
         pickDate()
     }
