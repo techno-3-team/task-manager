@@ -3,11 +3,10 @@ package com.techno_3_team.task_manager
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.TimePicker
-import android.widget.Toolbar
 import com.techno_3_team.task_manager.databinding.ActivityTaskBinding
 import java.util.*
 
@@ -33,6 +32,11 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, Ti
         setContentView(binding.root)
 
         val toolbar: Toolbar = findViewById(binding.toolbar.id)
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.move_back)
+        supportActionBar?.title = ""
 
         pickDate()
     }
