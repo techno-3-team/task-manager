@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager
+package com.techno_3_team.task_manager.lists
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.techno_3_team.task_manager.R
 
 class ListsSettingsAdapter(
     private val lists: ArrayList<ListOfTasks>
@@ -16,14 +17,14 @@ class ListsSettingsAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ListsSettingsAdapter.ListsSettingsViewHolder {
+    ): ListsSettingsViewHolder {
         return ListsSettingsViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_list_of_lists, null)
         )
     }
 
     override fun onBindViewHolder(
-        holder: ListsSettingsAdapter.ListsSettingsViewHolder,
+        holder: ListsSettingsViewHolder,
         position: Int
     ) {
         holder.bind(lists[position])

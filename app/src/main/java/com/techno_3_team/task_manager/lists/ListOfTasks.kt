@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager
+package com.techno_3_team.task_manager.lists
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

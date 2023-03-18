@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.databinding.MainFragmentBinding
+import com.techno_3_team.task_manager.tasks.Task
+import com.techno_3_team.task_manager.tasks.TaskAdapter
 import java.util.*
 import kotlin.random.Random.Default.nextBoolean
 

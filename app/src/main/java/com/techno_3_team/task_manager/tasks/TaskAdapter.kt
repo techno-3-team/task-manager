@@ -1,6 +1,5 @@
-package com.techno_3_team.task_manager
+package com.techno_3_team.task_manager.tasks
 
-import TaskView
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.View.INVISIBLE
@@ -9,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.techno_3_team.task_manager.R
 
 class TaskAdapter(
     private val tasks: ArrayList<Task>

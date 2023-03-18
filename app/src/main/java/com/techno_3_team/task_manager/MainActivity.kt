@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
+import com.techno_3_team.task_manager.tasks.Task
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -63,23 +64,15 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.clear_checked -> {
-                clearCheckedTasks()
+//                clearCheckedTasks()
                 true
             }
             R.id.sort_by_date, R.id.sort_by_name, R.id.sort_by_importance -> {
-                updateTasksOrder(item)
+//                updateTasksOrder(item)
                 item.isChecked = true
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun updateTasksOrder(item: MenuItem) {
-//        TODO()
-    }
-
-    private fun clearCheckedTasks() {
-//        TODO()
     }
 }
