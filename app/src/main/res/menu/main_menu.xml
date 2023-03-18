@@ -5,32 +5,29 @@
         android:id="@+id/clear_checked"
         android:icon="@drawable/baseline_remove"
         android:orderInCategory="1"
-        android:title="clear checked"
+        android:title="@string/clear_checked"
         app:showAsAction="always" />
     <item
-        android:id="@+id/tasks_sort_order"
         android:icon="@drawable/baseline_filter"
         android:orderInCategory="2"
-        android:title="tasks sort order"
-        app:showAsAction="always">
+        android:title="@string/sort_order"
+        app:showAsAction="ifRoom">
         <menu>
-            <group android:checkableBehavior="single"
-                android:id="@+id/radio_group">
-                <item
-                    android:id="@+id/sort_by_date"
-                    android:checked="true"
-                    android:orderInCategory="10"
-                    android:title="by date"
-                    app:showAsAction="never" />
+            <group>
                 <item
                     android:id="@+id/sort_by_name"
+                    android:orderInCategory="10"
+                    android:title="@string/sort_by_name"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/sort_by_date"
                     android:orderInCategory="20"
-                    android:title="by name"
+                    android:title="@string/sort_by_date"
                     app:showAsAction="never" />
                 <item
                     android:id="@+id/sort_by_importance"
                     android:orderInCategory="30"
-                    android:title="by importance"
+                    android:title="@string/sort_by_importance"
                     app:showAsAction="never" />
             </group>
         </menu>
