@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.tasks
+package com.techno_3_team.task_manager
 
 enum class SortOrder {
     BY_DATE,

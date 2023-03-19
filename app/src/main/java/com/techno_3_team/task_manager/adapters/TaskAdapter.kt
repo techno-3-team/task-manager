@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.tasks
+package com.techno_3_team.task_manager.adapters
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.techno_3_team.task_manager.R
+import com.techno_3_team.task_manager.custom_views.TaskView
+import com.techno_3_team.task_manager.structures.Task
 
 class TaskAdapter(
     private val tasks: ArrayList<Task>
@@ -21,11 +23,6 @@ class TaskAdapter(
         return tasks.size
     }
 
-    fun addTask(task: Task) {
-        tasks.add(task)
-        notifyItemInserted(tasks.size - 1)
-    }
-
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.bind(tasks[position])
     }
@@ -34,7 +31,6 @@ class TaskAdapter(
         override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean = oldItem == newItem
 
         override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean = oldItem == newItem
-
     }
 
     class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

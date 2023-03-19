@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.tasks
+package com.techno_3_team.task_manager.custom_views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -11,7 +11,7 @@ import androidx.annotation.StyleRes
 import androidx.core.content.res.ResourcesCompat
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.databinding.TaskViewBinding
-import com.techno_3_team.task_manager.dp
+import com.techno_3_team.task_manager.support.dp
 import java.lang.Integer.max
 
 class TaskView @JvmOverloads constructor(

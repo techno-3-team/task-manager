@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager
+package com.techno_3_team.task_manager.fragments
 
 import android.os.Build
 import android.os.Bundle
@@ -7,15 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
+import com.techno_3_team.task_manager.adapters.TaskAdapter
 import com.techno_3_team.task_manager.databinding.MainFragmentBinding
-import com.techno_3_team.task_manager.tasks.Task
-import com.techno_3_team.task_manager.tasks.TaskAdapter
-import java.util.*
-import kotlin.random.Random.Default.nextBoolean
+import com.techno_3_team.task_manager.structures.ListOfLists
 
 
-class MainFragment : Fragment() {
+class MainFragment(private val taskListPosition: Int) : Fragment() {
 
+    private lateinit var taskAdapter: TaskAdapter
     private var binding: MainFragmentBinding? = null
     private val _binding: MainFragmentBinding
         get() = binding!!
@@ -32,27 +32,15 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(_binding) {
-            val tasks = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                arguments?.getParcelableArrayList(MAIN_TASKS_KEY, Task::class.java)!!
+            val listOfLists = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                arguments?.getParcelable(LIST_LISTS_KEY, ListOfLists::class.java)!!
             } else {
-                arguments?.getParcelableArrayList(MAIN_TASKS_KEY)!!
+                arguments?.getParcelable(LIST_LISTS_KEY)!!
             }
-            val taskAdapter = TaskAdapter(tasks)
+            val tasks = listOfLists.list[taskListPosition].tasks
+            taskAdapter = TaskAdapter(tasks)
             lvTasksList.adapter = taskAdapter
             lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
-
-            FAB.setOnClickListener {
-                val isDateNull = nextBoolean()
-                val isProgressNull = nextBoolean()
-                taskAdapter.addTask(
-                    Task(
-                        "random task",
-                        if (isDateNull) null else Date(System.currentTimeMillis()),
-                        if (isProgressNull) null else (0..6).random(),
-                        if (isProgressNull) null else (6..12).random(),
-                    )
-                )
-            }
         }
     }
 

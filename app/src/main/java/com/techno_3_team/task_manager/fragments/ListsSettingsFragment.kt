@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.lists
+package com.techno_3_team.task_manager.fragments
 
 import android.os.Build
 import android.os.Bundle
@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.techno_3_team.task_manager.LIST_LISTS_KEY
+import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
+import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
+import com.techno_3_team.task_manager.structures.ListOfTasks
 
 
 class ListsSettingsFragment : Fragment() {
