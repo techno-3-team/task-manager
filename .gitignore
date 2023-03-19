@@ -102,3 +102,4 @@ hs_err_pid*
 .gradle/7.5/executionHistory/executionHistory.bin
 .gradle/file-system.probe
 *.bin
+.gradle/7.5/executionHistory/executionHistory.bin
