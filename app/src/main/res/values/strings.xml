@@ -12,9 +12,4 @@
     <string name="continue_without_authorization">Войти без аккаунта</string>
     <string name="continue_with_google">Войти с Google</string>
     <string name="welcome">Добро пожаловать в ...</string>
-    <string name="google_account">Google аккаунт</string>
-    <string name="lists">Списки</string>
-    <string name="en">EN</string>
-    <string name="ru">RU</string>
-    <string name="switch_languages">переключение языков</string>
 </resources>

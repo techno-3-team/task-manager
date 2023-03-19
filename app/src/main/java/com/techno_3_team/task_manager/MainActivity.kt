@@ -4,13 +4,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.Adapter
-import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
 import java.util.*
 import kotlin.collections.ArrayList
@@ -19,7 +15,6 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var isDay: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
         supportActionBar?.title = ""
+
         val mainFragment = MainFragment()
         val bundle = Bundle().apply {
             putParcelableArrayList(
@@ -64,20 +60,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.clear_checked -> {
                 clearCheckedTasks()
+                true
             }
             R.id.sort_by_date, R.id.sort_by_name, R.id.sort_by_importance -> {
                 updateTasksOrder(item)
                 item.isChecked = true
-            }
-            android.R.id.home -> {
-                binding.drawer.openDrawer(GravityCompat.START)
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
-        return true
     }
 
     private fun updateTasksOrder(item: MenuItem) {
@@ -86,24 +80,5 @@ class MainActivity : AppCompatActivity() {
 
     private fun clearCheckedTasks() {
 //        TODO()
-    }
-
-    fun onClickListenerButtonDayNight(view: View) {
-        toggleButtonImageDayNight()
-    }
-
-    private fun toggleButtonImageDayNight() {
-        isDay = !isDay
-        updateButtonImageDayNight()
-    }
-
-    private fun updateButtonImageDayNight() {
-        val imgBt = findViewById<ImageButton>(R.id.btSwitcherLang)
-        if (isDay) {
-            imgBt.setImageResource(R.drawable.baseline_wb_sunny_24)
-
-        } else {
-            imgBt.setImageResource(R.drawable.baseline_nightlight_round_24)
-        }
     }
 }
