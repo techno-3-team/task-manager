@@ -40,7 +40,28 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, Ti
         supportActionBar?.setHomeAsUpIndicator(R.drawable.move_back)
         supportActionBar?.title = ""
 
+        val mainFragment = MainFragment()
+        val bundle = Bundle().apply {
+            putParcelableArrayList(
+                MAIN_TASKS_KEY,
+                getTasks()
+            )
+        }
+        mainFragment.arguments = bundle
+
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.task_container, mainFragment)
+            .commit()
+
         pickDate()
+    }
+
+    private fun getTasks(): ArrayList<SubTask> {
+        return arrayListOf(
+            SubTask("first", Date(System.currentTimeMillis())),
+            SubTask("second", null)
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
