@@ -4,84 +4,57 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.Adapter
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.google.android.material.tabs.TabLayout
-import com.techno_3_team.task_manager.adapters.TabPagerAdapter
-import com.techno_3_team.task_manager.databinding.ActivityLoginBinding
+import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
-import com.techno_3_team.task_manager.structures.ListOfLists
-import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
-import com.techno_3_team.task_manager.support.RandomData
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mainBinding: ActivityMainBinding
-    private lateinit var loginBinding: ActivityLoginBinding
-    private lateinit var listOfLists: ListOfLists
-    private var sortOrder = SortOrder.BY_DATE
+    private lateinit var binding: ActivityMainBinding
+    private var isDay: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        loginBinding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(loginBinding.root)
+        val toolbar: Toolbar = findViewById(binding.toolbar.id)
+        setSupportActionBar(toolbar)
 
-        val buttonWithoutAuth = loginBinding.continueWithoutAutorization
-        buttonWithoutAuth.setOnClickListener {
-            mainBinding = ActivityMainBinding.inflate(layoutInflater)
-            setContentView(mainBinding.root)
-
-            val toolbar: Toolbar = findViewById(mainBinding.toolbar.id)
-            setSupportActionBar(toolbar)
-
-            // кнопка "назад" стилизованная под бургер
-            // не уверен, что это хорошая идея
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
-            supportActionBar?.title = ""
-
-            initTabs()
-
-            mainBinding.FAB.setOnClickListener {}
-        }
-    }
-
-    private fun initTabs() {
-        val randomData = RandomData((0..10).random(), 20, 12)
-        listOfLists = randomData.getRandomData()
-
+        // кнопка "назад" стилизованная под бургер
+        // не уверен, что это хорошая идея
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
+        supportActionBar?.title = ""
+        val mainFragment = MainFragment()
         val bundle = Bundle().apply {
-            putParcelable(
-                LIST_LISTS_KEY,
-                listOfLists
+            putParcelableArrayList(
+                MAIN_TASKS_KEY,
+                getTasks()
             )
         }
+        mainFragment.arguments = bundle
 
-        val tabLayout = mainBinding.tabs
-        val viewPager = mainBinding.viewPager
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.main_container, mainFragment)
+            .commit()
+    }
 
-        listOfLists.list.forEach{
-            tabLayout.addTab(mainBinding.tabs.newTab().setText(it.name));
-        }
-
-        val adapter = TabPagerAdapter(supportFragmentManager, bundle, tabLayout.tabCount)
-        viewPager.adapter = adapter
-        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                viewPager.currentItem = tab.position
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                viewPager.currentItem = tab.position
-
-            }
-        })
+    private fun getTasks(): ArrayList<MainTask> {
+        return arrayListOf(
+            MainTask("first", Date(System.currentTimeMillis()), null, null),
+            MainTask("second", null, 0, 7),
+            MainTask("third", Date(System.currentTimeMillis()), 5, 8)
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -91,35 +64,46 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
+        when (item.itemId) {
             R.id.clear_checked -> {
                 clearCheckedTasks()
-                true
             }
-            R.id.sort_by_date -> {
-                updateTasksOrder()
-                sortOrder = SortOrder.BY_DATE
-                true
+            R.id.sort_by_date, R.id.sort_by_name, R.id.sort_by_importance -> {
+                updateTasksOrder(item)
+                item.isChecked = true
             }
-            R.id.sort_by_name -> {
-                updateTasksOrder()
-                sortOrder = SortOrder.BY_NAME
-                true
-            }
-            R.id.sort_by_importance -> {
-                updateTasksOrder()
-                sortOrder = SortOrder.BY_IMPORTANCE
-                true
+            android.R.id.home -> {
+                binding.drawer.openDrawer(GravityCompat.START)
             }
             else -> super.onOptionsItemSelected(item)
         }
+        return true
+    }
+
+    private fun updateTasksOrder(item: MenuItem) {
+//        TODO()
     }
 
     private fun clearCheckedTasks() {
-        // TODO()
+//        TODO()
     }
 
-    private fun updateTasksOrder() {
-        // TODO()
+    fun onClickListenerButtonDayNight(view: View) {
+        toggleButtonImageDayNight()
+    }
+
+    private fun toggleButtonImageDayNight() {
+        isDay = !isDay
+        updateButtonImageDayNight()
+    }
+
+    private fun updateButtonImageDayNight() {
+        val imgBt = findViewById<ImageButton>(R.id.btSwitcherLang)
+        if (isDay) {
+            imgBt.setImageResource(R.drawable.baseline_wb_sunny_24)
+
+        } else {
+            imgBt.setImageResource(R.drawable.baseline_nightlight_round_24)
+        }
     }
 }
