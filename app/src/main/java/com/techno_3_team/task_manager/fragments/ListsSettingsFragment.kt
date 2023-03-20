@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
-import com.techno_3_team.task_manager.structures.ListOfTasks
+import com.techno_3_team.task_manager.structures.ListOfLists
 
 
 class ListsSettingsFragment : Fragment() {
@@ -31,11 +31,12 @@ class ListsSettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(_binding){
-            val listNames = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                arguments?.getParcelableArrayList(LIST_LISTS_KEY, ListOfTasks::class.java)!!
+            val listOfLists = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                arguments?.getParcelable(LIST_LISTS_KEY, ListOfLists::class.java)!!
             }else{
-                arguments?.getParcelableArrayList(LIST_LISTS_KEY)!!
+                arguments?.getParcelable(LIST_LISTS_KEY)!!
             }
+            val listNames = listOfLists.list
             val listSettingsAdapter = ListsSettingsAdapter(listNames)
             lists.adapter= listSettingsAdapter
             lists.layoutManager = LinearLayoutManager(lists.context)

@@ -3,6 +3,7 @@ package com.techno_3_team.task_manager.adapters
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -12,9 +13,9 @@ import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.custom_views.TaskView
 import com.techno_3_team.task_manager.structures.Task
 
-class TaskAdapter(
+class TaskListAdapter(
     private val tasks: ArrayList<Task>
-) : ListAdapter<Task, TaskAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
+) : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder(TaskView(parent.context))
     }
@@ -45,6 +46,7 @@ class TaskAdapter(
             if (task.date == null) {
                 date.visibility = INVISIBLE
             } else {
+                date.visibility = VISIBLE
                 val dateArr = task.date.toString().split(" ")
                 date.text = "${dateArr[2]} ${dateArr[1]}  ${dateArr[3]}".lowercase()
             }
@@ -52,6 +54,7 @@ class TaskAdapter(
             if (task.doneSubtasksCount == null) {
                 subProgress.visibility = INVISIBLE
             } else {
+                subProgress.visibility = VISIBLE
                 subProgress.text = "${task.doneSubtasksCount} из ${task.allSubtasksCount}"
             }
         }

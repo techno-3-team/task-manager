@@ -1,62 +1,70 @@
 package com.techno_3_team.task_manager
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.widget.Adapter
+import android.util.Log
+import android.view.*
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
-import java.util.*
-import kotlin.collections.ArrayList
+import com.techno_3_team.task_manager.structures.ListOfLists
+import com.techno_3_team.task_manager.fragments.ListsSettingsFragment
+import com.techno_3_team.task_manager.fragments.MainFragment
+import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
+import com.techno_3_team.task_manager.support.RandomData
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var mainBinding: ActivityMainBinding
+    private lateinit var listOfLists: ListOfLists
+    private var sortOrder = SortOrder.BY_DATE
     private var isDay: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        val toolbar: Toolbar = findViewById(binding.toolbar.id)
+        mainBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mainBinding.root)
+
+        val toolbar: Toolbar = findViewById(mainBinding.toolbar.id)
         setSupportActionBar(toolbar)
 
-        // кнопка "назад" стилизованная под бургер
-        // не уверен, что это хорошая идея
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
         supportActionBar?.title = ""
-        val mainFragment = MainFragment()
+
+        val randomData = RandomData((1..10).random(), 20, 12)
+        listOfLists = randomData.getRandomData()
         val bundle = Bundle().apply {
-            putParcelableArrayList(
-                MAIN_TASKS_KEY,
-                getTasks()
+            putParcelable(
+                LIST_LISTS_KEY,
+                listOfLists
             )
         }
-        mainFragment.arguments = bundle
 
+        val  mainFragment = MainFragment()
+        mainFragment.arguments = bundle
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.main_container, mainFragment)
+            .add(mainBinding.mainContainer.id, mainFragment, "MF")
             .commit()
-    }
 
-    private fun getTasks(): ArrayList<MainTask> {
-        return arrayListOf(
-            MainTask("first", Date(System.currentTimeMillis()), null, null),
-            MainTask("second", null, 0, 7),
-            MainTask("third", Date(System.currentTimeMillis()), 5, 8)
-        )
-    }
+        val listsSettingsFragment = ListsSettingsFragment()
+        listsSettingsFragment.arguments = bundle
 
+        val btListsSideBar = mainBinding.sideBar.btListsSideBar
+        btListsSideBar.setOnClickListener {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(mainFragment.id, listsSettingsFragment, "LSF")
+                .commit()
+
+            mainBinding.drawer.closeDrawer(Gravity.LEFT)
+            Log.println(Log.INFO, "ButtonClick", "list page click")
+        }
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
@@ -64,28 +72,40 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.clear_checked -> {
                 clearCheckedTasks()
+                true
             }
-            R.id.sort_by_date, R.id.sort_by_name, R.id.sort_by_importance -> {
-                updateTasksOrder(item)
-                item.isChecked = true
+            R.id.sort_by_date -> {
+                updateTasksOrder()
+                sortOrder = SortOrder.BY_DATE
+                true
+            }
+            R.id.sort_by_name -> {
+                updateTasksOrder()
+                sortOrder = SortOrder.BY_NAME
+                true
+            }
+            R.id.sort_by_importance -> {
+                updateTasksOrder()
+                sortOrder = SortOrder.BY_IMPORTANCE
+                true
             }
             android.R.id.home -> {
-                binding.drawer.openDrawer(GravityCompat.START)
+                mainBinding.drawer.openDrawer(GravityCompat.START)
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
-        return true
-    }
-
-    private fun updateTasksOrder(item: MenuItem) {
-//        TODO()
     }
 
     private fun clearCheckedTasks() {
-//        TODO()
+        // TODO()
+    }
+
+    private fun updateTasksOrder() {
+        // TODO()
     }
 
     fun onClickListenerButtonDayNight(view: View) {
@@ -101,7 +121,6 @@ class MainActivity : AppCompatActivity() {
         val imgBt = findViewById<ImageButton>(R.id.btSwitcherLang)
         if (isDay) {
             imgBt.setImageResource(R.drawable.baseline_wb_sunny_24)
-
         } else {
             imgBt.setImageResource(R.drawable.baseline_nightlight_round_24)
         }

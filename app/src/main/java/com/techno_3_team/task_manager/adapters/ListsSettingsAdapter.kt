@@ -44,10 +44,11 @@ class ListsSettingsAdapter(
 
         fun bind(list: ListOfTasks) {
             listName.text = list.name
-            listSubName.text = list.completed.toString() + "из" + list.total.toString()
+            listSubName.text = "${list.completed} + из + ${list.total}"
             upButton.setOnClickListener{
                 Toast.makeText(upButton.context, "UP!", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 }
