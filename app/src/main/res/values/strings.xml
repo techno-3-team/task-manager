@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">task-manager</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="list1">list 1</string>
+    <string name="list2">list 2</string>
+    <string name="list3">list 3</string>
+    <string name="list1231">list 1231</string>
+    <string name="list5">list 5</string>
+    <string name="list12341">list 12341</string>
+
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="continue_without_authorization">Войти без аккаунта</string>
+    <string name="continue_with_google">Войти с Google</string>
+    <string name="welcome">Добро пожаловать в ...</string>
+
+    <string name="move_above">Move above</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="clear_checked">clear checked</string>
+    <string name="sort_order">tasks sort order</string>
+    <string name="sort_by_date">by date</string>
+    <string name="sort_by_name">by name</string>
+    <string name="sort_by_importance">by importance</string>
+
+    <string name="google_account">Google аккаунт</string>
+    <string name="lists">Списки</string>
+    <string name="en">EN</string>
+    <string name="ru">RU</string>
+    <string name="switch_languages">переключение языков</string>
+
+    <string name="floating_action_button">floating action button</string>
 </resources>

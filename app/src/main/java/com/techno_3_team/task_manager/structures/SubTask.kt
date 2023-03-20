@@ -1,0 +1,13 @@
+package com.techno_3_team.task_manager.structures
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import java.util.*
+
+@Parcelize
+open class SubTask(
+    var header: String,
+    var isCompleted: Boolean,
+    var date: Date?,
+    var description: String?
+) : Parcelable
