@@ -103,3 +103,14 @@ hs_err_pid*
 .gradle/file-system.probe
 *.bin
 .gradle/7.5/executionHistory/executionHistory.bin
+/.gradle/buildOutputCleanup/cache.properties
+/.gradle/7.5/checksums/checksums.lock
+/.idea/compiler.xml
+/.gradle/7.5/dependencies-accessors/dependencies-accessors.lock
+/.gradle/7.5/dependencies-accessors/gc.properties
+/.gradle/7.5/gc.properties
+/.gradle/vcs-1/gc.properties
+/.idea/gradle.xml
+/local.properties
+/.idea/misc.xml
+/.idea/vcs.xml
