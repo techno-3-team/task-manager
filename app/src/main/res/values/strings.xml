@@ -30,6 +30,9 @@
     <string name="en">EN</string>
     <string name="ru">RU</string>
     <string name="switch_languages">переключение языков</string>
+    <string name="switch_theme">переключение темы</string>
+
+    <string name="trashbox">delete</string>
 
     <string name="floating_action_button">floating action button</string>
 </resources>

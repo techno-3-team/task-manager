@@ -14,7 +14,7 @@ import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 
 
-class MainFragment : Fragment(), HasMainScreenActions {
+class TaskListContainerFragment : Fragment(), HasMainScreenActions {
 
     private lateinit var listOfLists: ListOfLists
     private var binding: TaskListContainerFragmentBinding? = null
@@ -67,24 +67,24 @@ class MainFragment : Fragment(), HasMainScreenActions {
         })
     }
 
+    override fun onDestroyView() {
+        binding = null
+        super.onDestroyView()
+    }
+
     companion object {
         @JvmStatic
-        fun newInstance(listOfLists: ListOfLists): MainFragment {
+        fun newInstance(listOfLists: ListOfLists): TaskListContainerFragment {
             val bundle = Bundle().apply {
                 putParcelable(
                     LIST_LISTS_KEY,
                     listOfLists
                 )
             }
-            val fragment = MainFragment()
+            val fragment = TaskListContainerFragment()
             fragment.arguments = bundle
             return fragment
         }
-    }
-
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
     }
 
     override fun sortTasks() {
@@ -94,4 +94,5 @@ class MainFragment : Fragment(), HasMainScreenActions {
     override fun removeAllCompleted() {
 //        TODO("Not yet implemented")
     }
+
 }
