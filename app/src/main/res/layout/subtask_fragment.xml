@@ -38,16 +38,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_bar" />
 
-    <Spinner
-        android:id="@+id/listSpin"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="12dp"
-        android:entries="@array/lists"
-        app:layout_constraintEnd_toEndOf="@+id/taskCheck"
-        app:layout_constraintStart_toStartOf="@+id/taskCheck"
-        app:layout_constraintTop_toBottomOf="@+id/taskCheck" />
-
     <LinearLayout
         android:id="@+id/llDateTime"
         android:layout_width="0dp"
@@ -55,9 +45,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/listSpin"
-        app:layout_constraintStart_toStartOf="@+id/listSpin"
-        app:layout_constraintTop_toBottomOf="@+id/listSpin">
+        app:layout_constraintEnd_toEndOf="@+id/taskCheck"
+        app:layout_constraintStart_toStartOf="@+id/taskCheck"
+        app:layout_constraintTop_toBottomOf="@+id/taskCheck">
 
         <ImageView
             android:id="@+id/ivCalendar"
@@ -107,31 +97,4 @@
             android:scrollHorizontally="false"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lv_tasks_list"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingLeft="16dp"
-        android:paddingTop="16dp"
-        android:paddingRight="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/FAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/baseline_add"
-        app:backgroundTint="@color/main_teal"
-        app:circularflow_radiusInDP="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:shapeAppearanceOverlay="@style/fab_square" />
 </androidx.constraintlayout.widget.ConstraintLayout>
