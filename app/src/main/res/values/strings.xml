@@ -9,6 +9,7 @@
     <string name="list1231">list 1231</string>
     <string name="list5">list 5</string>
     <string name="list12341">list 12341</string>
+    <string name="SetDate">Set date and time</string>
 
     <string name="app_widget_description">This is an app widget description</string>
     <string name="continue_without_authorization">Войти без аккаунта</string>
@@ -34,5 +35,13 @@
 
     <string name="trashbox">delete</string>
 
+    <string-array name="lists">
+        <item>tasks list 1</item>
+        <item>tasks list 2</item>
+        <item>tasks list 3</item>
+        <item>tasks list 4</item>
+    </string-array>
+
     <string name="floating_action_button">floating action button</string>
+    <string name="task_description">task description</string>
 </resources>
