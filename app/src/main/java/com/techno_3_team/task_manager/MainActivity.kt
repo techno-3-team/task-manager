@@ -1,5 +1,6 @@
 package com.techno_3_team.task_manager
 
+import android.icu.text.IDNA.Info
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -16,7 +17,10 @@ import com.techno_3_team.task_manager.databinding.LoginFragmentBinding
 import com.techno_3_team.task_manager.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager.fragments.ListsSettingsFragment
 import com.techno_3_team.task_manager.fragments.MainFragment
+import com.techno_3_team.task_manager.fragments.SubtaskFragment
+import com.techno_3_team.task_manager.fragments.TaskFragment
 import com.techno_3_team.task_manager.structures.ListOfLists
+import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.RESULT_KEY
 import com.techno_3_team.task_manager.support.RandomData
 
@@ -29,8 +33,10 @@ class MainActivity : AppCompatActivity(), Navigator {
     private var sortOrder = SortOrder.BY_DATE
     private var isDay: Boolean = true
 
-    private val currentFragment: Fragment
-        get() = supportFragmentManager.findFragmentById(mainBinding.mainContainer.id)!!
+    private lateinit var randomData: RandomData
+
+    private val currentFragment: Fragment?
+        get() = supportFragmentManager.findFragmentById(mainBinding.mainContainer.id)
 
     private var fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewCreated(
@@ -61,7 +67,7 @@ class MainActivity : AppCompatActivity(), Navigator {
     }
 
     private fun initData() {
-        val randomData = RandomData((1..10).random(), 20, 12)
+        randomData = RandomData((4..12).random(), 20, 12)
         listOfLists = randomData.getRandomData()
     }
 
@@ -93,22 +99,36 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.main_menu, menu)
+        val fragment = currentFragment
+
+        menu?.clear()
+        if (fragment is HasMainScreenActions) {
+            inflater.inflate(R.menu.main_menu, menu)
+            supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
+        } else if (fragment is HasDeleteAction) {
+            inflater.inflate(R.menu.menu_trashbox, menu)
+            if (currentFragment is ListsSettingsFragment) {
+                menu!![0].isVisible = false
+            }
+            supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24)
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        Log.println(Log.INFO, "asdfgfadse", "asdffads")
+        Log.println(Log.INFO, "NAVIGATION", "back click")
         onBackPressedDispatcher.onBackPressed()
         return super.onSupportNavigateUp()
     }
 
     override fun showMainTaskScreen() {
-//        TODO("Not yet implemented")
+        val randomSubtaskList = randomData.getRandomSubtasks(5)
+        launchFragment(TaskFragment.newInstance(randomSubtaskList))
     }
 
-    override fun showSubTaskScreen() {
-//        TODO("Not yet implemented")
+    override fun showSubtaskScreen(subtask: Subtask) {
+        launchFragment(SubtaskFragment.newInstance(subtask))
     }
 
     override fun showListSettingsScreen() {
@@ -146,17 +166,7 @@ class MainActivity : AppCompatActivity(), Navigator {
             supportActionBar?.title = "менеджер задач"
         }
 
-        mainBinding.toolbar.menu.clear()
-        if (fragment is HasMainScreenActions) {
-            mainBinding.toolbar.inflateMenu(R.menu.main_menu)
-            supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
-        } else if (fragment is HasDeleteAction) {
-            mainBinding.toolbar.inflateMenu(R.menu.menu_trashbox)
-            if (fragment is ListsSettingsFragment) {
-                mainBinding.toolbar.menu[0].isVisible = false
-            }
-            supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24)
-        }
+        onCreateOptionsMenu(mainBinding.toolbar.menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -9,12 +9,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.techno_3_team.task_manager.Navigator
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.custom_views.TaskView
 import com.techno_3_team.task_manager.structures.Task
 
 class TaskListAdapter(
-    private val tasks: ArrayList<Task>
+    private val tasks: ArrayList<Task>,
+    private val navigator: Navigator
 ) : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder(TaskView(parent.context))
@@ -25,7 +27,7 @@ class TaskListAdapter(
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(tasks[position])
+        holder.bind(tasks[position], navigator)
     }
 
     class TaskItemDiffCallback : DiffUtil.ItemCallback<Task>() {
@@ -40,7 +42,7 @@ class TaskListAdapter(
         private val subProgress: TextView = itemView.findViewById(R.id.subtasks_progress)
 
         @SuppressLint("SetTextI18n")
-        fun bind(task: Task) {
+        fun bind(task: Task, navigator: Navigator) {
             header.text = task.header
 
             if (task.date == null) {
@@ -56,6 +58,10 @@ class TaskListAdapter(
             } else {
                 subProgress.visibility = VISIBLE
                 subProgress.text = "${task.doneSubtasksCount} из ${task.allSubtasksCount}"
+            }
+
+            itemView.setOnClickListener {
+                navigator.showMainTaskScreen()
             }
         }
     }

@@ -38,8 +38,8 @@ class MainFragment : Fragment(), HasMainScreenActions {
         } else {
             arguments?.getParcelable(LIST_LISTS_KEY)!!
         }
-        initTabs()
 
+        initTabs()
     }
 
     private fun initTabs() {
@@ -50,7 +50,7 @@ class MainFragment : Fragment(), HasMainScreenActions {
             tabLayout.addTab(_binding.tabs.newTab().setText(it.name));
         }
 
-        val adapter = TabPagerAdapter(parentFragmentManager, listOfLists, tabLayout.tabCount)
+        val adapter = TabPagerAdapter(childFragmentManager, listOfLists, tabLayout.tabCount)
         viewPager.adapter = adapter
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
 

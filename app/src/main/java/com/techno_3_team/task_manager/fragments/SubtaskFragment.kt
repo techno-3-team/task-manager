@@ -8,16 +8,16 @@ import androidx.fragment.app.Fragment
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.os.Build
 import android.widget.DatePicker
 import android.widget.TimePicker
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.techno_3_team.task_manager.adapters.SubTaskAdapter
-import com.techno_3_team.task_manager.structures.SubTask
-import com.techno_3_team.task_manager.support.MAIN_TASKS_KEY
+import com.techno_3_team.task_manager.HasCustomTitle
+import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.structures.Subtask
+import com.techno_3_team.task_manager.support.SUBTASK_KEY
 import java.util.*
 
-open class SubTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
+    TimePickerDialog.OnTimeSetListener, HasCustomTitle, HasDeleteAction {
 
     private lateinit var binding: TaskFragmentBinding
 
@@ -44,7 +44,8 @@ open class SubTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener, Tim
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pickDate()
+// тут NPE из-за наследования
+//        pickDate()
     }
 
     private fun getDateTimeCalendar() {
@@ -81,8 +82,24 @@ open class SubTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener, Tim
         binding.tvDateTime.text = "$savedHour:$savedMinute, $savedDay-${savedMonth + 1}-$savedYear"
     }
 
+    override fun getCustomTitle() = "подзадача"
+
     companion object {
         @JvmStatic
-        fun newInstance() = TaskFragment();
+        fun newInstance(subtask: Subtask) : SubtaskFragment {
+            val fragment = SubtaskFragment()
+            val bundle = Bundle().apply {
+                putParcelable(
+                    SUBTASK_KEY,
+                    subtask
+                )
+            }
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
+    override fun deleteElement() {
+//        TODO("Not yet implemented")
     }
 }

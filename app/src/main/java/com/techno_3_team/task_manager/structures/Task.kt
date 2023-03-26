@@ -9,5 +9,5 @@ open class Task(
     description: String,
     var doneSubtasksCount: Int?,
     var allSubtasksCount: Int?,
-    var subTasks: ArrayList<SubTask>?
-) : SubTask(header, isCompleted, date, description)
+    var subTasks: ArrayList<Subtask>?
+) : Subtask(header, isCompleted, date, description)

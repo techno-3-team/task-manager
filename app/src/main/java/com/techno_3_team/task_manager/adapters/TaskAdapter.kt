@@ -8,13 +8,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.techno_3_team.task_manager.Navigator
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.custom_views.SubTaskView
-import com.techno_3_team.task_manager.structures.SubTask
+import com.techno_3_team.task_manager.structures.Subtask
+import com.techno_3_team.task_manager.support.getRandomString
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.random.Random
 
-class SubTaskAdapter(
-    private val tasks: ArrayList<SubTask>
-) : ListAdapter<SubTask, SubTaskAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
+class TaskAdapter(
+    private val tasks: ArrayList<Subtask>,
+    private val navigator: Navigator
+) : ListAdapter<Subtask, TaskAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder(SubTaskView(parent.context))
     }
@@ -23,19 +29,21 @@ class SubTaskAdapter(
         return tasks.size
     }
 
-    fun addTask(subTask: SubTask) {
+    fun addTask(subTask: Subtask) {
         tasks.add(subTask)
         notifyItemInserted(tasks.size - 1)
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(tasks[position])
+        holder.bind(tasks[position], navigator)
     }
 
-    class TaskItemDiffCallback : DiffUtil.ItemCallback<SubTask>() {
-        override fun areItemsTheSame(oldItem: SubTask, newItem: SubTask): Boolean = oldItem == newItem
+    class TaskItemDiffCallback : DiffUtil.ItemCallback<Subtask>() {
+        override fun areItemsTheSame(oldItem: Subtask, newItem: Subtask): Boolean =
+            oldItem == newItem
 
-        override fun areContentsTheSame(oldItem: SubTask, newItem: SubTask): Boolean = oldItem == newItem
+        override fun areContentsTheSame(oldItem: Subtask, newItem: Subtask): Boolean =
+            oldItem == newItem
 
     }
 
@@ -44,7 +52,7 @@ class SubTaskAdapter(
         private val date: TextView = itemView.findViewById(R.id.date)
 
         @SuppressLint("SetTextI18n")
-        fun bind(task: SubTask) {
+        fun bind(task: Subtask, navigator: Navigator) {
             header.text = task.header
 
             if (task.date == null) {
@@ -52,6 +60,15 @@ class SubTaskAdapter(
             } else {
                 val dateArr = task.date.toString().split(" ")
                 date.text = "${dateArr[2]} ${dateArr[1]}  ${dateArr[3]}".lowercase()
+            }
+            itemView.setOnClickListener {
+                val randomSubtask = Subtask(
+                    getRandomString((5..100).random()),
+                    Random.nextBoolean(),
+                    if (Random.nextBoolean()) null else Date(System.currentTimeMillis()),
+                    getRandomString((25..100).random()),
+                )
+                navigator.showSubtaskScreen(randomSubtask)
             }
         }
     }

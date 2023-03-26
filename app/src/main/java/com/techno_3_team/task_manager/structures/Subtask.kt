@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Parcelize
-open class SubTask(
+open class Subtask(
     var header: String,
     var isCompleted: Boolean,
     var date: Date?,
