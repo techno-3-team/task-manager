@@ -1,13 +1,12 @@
 package com.techno_3_team.task_manager.data.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.techno_3_team.task_manager.data.entities.List
 import com.techno_3_team.task_manager.data.entities.Subtask
 import com.techno_3_team.task_manager.data.entities.Task
 
+@Dao
 interface LTSTDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -19,9 +18,11 @@ interface LTSTDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addList(list: List)
 
-    @Query("SELECT * FROM list_tasks_table WHERE listName = :listName")
+    @Transaction
+    @Query("SELECT * FROM list_tasks_table")
     fun readTasks(listName: String) : LiveData<kotlin.collections.List<Task>>
 
-    @Query("SELECT * FROM tasks_subtasks_table WHERE header = :taskName")
+    @Transaction
+    @Query("SELECT * FROM task_subtasks_table")
     fun readSubtasks(taskName: String) : LiveData<kotlin.collections.List<Subtask>>
 }

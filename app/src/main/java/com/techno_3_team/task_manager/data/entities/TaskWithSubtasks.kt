@@ -8,7 +8,6 @@ import androidx.room.Relation
 @Entity(tableName = "tasks_subtasks_table")
 class TaskWithSubtasks(
     @Embedded val task: Task,
-    @PrimaryKey(autoGenerate = false)
     @Relation(
         parentColumn = "id",
         entityColumn = "taskId"

@@ -1,6 +1,5 @@
 package com.techno_3_team.task_manager
 
-import android.icu.text.IDNA.Info
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -13,6 +12,8 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
+import com.techno_3_team.task_manager.data.LTSTViewModel
 import com.techno_3_team.task_manager.databinding.LoginFragmentBinding
 import com.techno_3_team.task_manager.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager.fragments.ListsSettingsFragment
@@ -23,16 +24,20 @@ import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.RESULT_KEY
 import com.techno_3_team.task_manager.support.RandomData
+import com.techno_3_team.task_manager.support.getRandomString
+import java.util.*
+import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity(), Navigator {
+
 
     private lateinit var loginBinding: LoginFragmentBinding
     private lateinit var mainBinding: MainFragmentBinding
     private lateinit var listOfLists: ListOfLists
     private var sortOrder = SortOrder.BY_DATE
     private var isDay: Boolean = true
-
+    private lateinit var ltstViewModel : LTSTViewModel
     private lateinit var randomData: RandomData
 
     private val currentFragment: Fragment?
@@ -59,6 +64,17 @@ class MainActivity : AppCompatActivity(), Navigator {
         loginBinding.continueWithoutAutorization.setOnClickListener {
             initMainFragment()
         }
+
+        ltstViewModel = ViewModelProvider(this).get(LTSTViewModel::class.java)
+        val randomSubtask = com.techno_3_team.task_manager.data.entities.Subtask(
+            1,
+            2,
+            getRandomString((5..100).random()),
+            Random.nextBoolean(),
+            Date(System.currentTimeMillis()),
+            getRandomString((25..100).random()),
+        )
+        ltstViewModel.addSubtask(randomSubtask)
     }
 
     override fun onDestroy() {
