@@ -2,19 +2,21 @@ package com.techno_3_team.task_manager.data
 
 import androidx.lifecycle.LiveData
 import com.techno_3_team.task_manager.data.dao.LTSTDao
+import com.techno_3_team.task_manager.data.entities.ListWithTasks
 import com.techno_3_team.task_manager.data.entities.Subtask
 import com.techno_3_team.task_manager.data.entities.Task
+import com.techno_3_team.task_manager.data.entities.TaskWithSubtasks
 
 class LTSTRepository(private val ltstDao: LTSTDao) {
 
-    lateinit var readTasks : LiveData<List<Task>>
-    lateinit var readSubtasks : LiveData<List<Subtask>>
+    var readTasks: LiveData<ListWithTasks>? = null
+    var readSubtasks: LiveData<TaskWithSubtasks>? = null
 
-    suspend fun readTasks(listName: String) {
+    fun readTasks(listName: String) {
         readTasks = ltstDao.readTasks(listName)
     }
 
-    suspend fun readSubtasks(taskName: String) {
+    fun readSubtasks(taskName: String) {
         readSubtasks = ltstDao.readSubtasks(taskName)
     }
 

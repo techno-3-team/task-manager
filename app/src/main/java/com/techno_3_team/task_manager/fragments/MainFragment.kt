@@ -2,6 +2,7 @@ package com.techno_3_team.task_manager.fragments
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,9 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.techno_3_team.task_manager.HasMainScreenActions
 import com.techno_3_team.task_manager.adapters.TabPagerAdapter
+import com.techno_3_team.task_manager.data.LTSTViewModel
 import com.techno_3_team.task_manager.databinding.TaskListContainerFragmentBinding
+import com.techno_3_team.task_manager.navigator
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 
@@ -40,6 +43,12 @@ class MainFragment : Fragment(), HasMainScreenActions {
         }
 
         initTabs()
+
+        _binding.FAB.setOnClickListener {
+            Log.println(Log.INFO, "tag", "+ click")
+//            val taskList = navigator().getTaskList("list_2")
+//            Log.println(Log.INFO, "tag", taskList.toString())
+        }
     }
 
     private fun initTabs() {

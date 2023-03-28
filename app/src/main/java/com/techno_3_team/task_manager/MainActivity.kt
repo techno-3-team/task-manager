@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.techno_3_team.task_manager.data.LTSTViewModel
+import com.techno_3_team.task_manager.data.entities.Task
 import com.techno_3_team.task_manager.databinding.LoginFragmentBinding
 import com.techno_3_team.task_manager.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager.fragments.ListsSettingsFragment
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity(), Navigator {
     private lateinit var listOfLists: ListOfLists
     private var sortOrder = SortOrder.BY_DATE
     private var isDay: Boolean = true
-    private lateinit var ltstViewModel : LTSTViewModel
+    private lateinit var ltstViewModel: LTSTViewModel
     private lateinit var randomData: RandomData
 
     private val currentFragment: Fragment?
@@ -65,17 +66,53 @@ class MainActivity : AppCompatActivity(), Navigator {
             initMainFragment()
         }
 
-        ltstViewModel = ViewModelProvider(this).get(LTSTViewModel::class.java)
-        val randomSubtask = com.techno_3_team.task_manager.data.entities.Subtask(
-            1,
-            2,
-            getRandomString((5..100).random()),
-            Random.nextBoolean(),
-            Date(System.currentTimeMillis()),
-            getRandomString((25..100).random()),
-        )
-        ltstViewModel.addSubtask(randomSubtask)
+        ltstViewModel = ViewModelProvider(this)[LTSTViewModel::class.java]
+        insertExample()
     }
+
+    private fun insertExample() {
+        ltstViewModel.addList(
+            com.techno_3_team.task_manager.data.entities.List(
+                1,
+                "list_1"
+            )
+        )
+        ltstViewModel.addList(
+            com.techno_3_team.task_manager.data.entities.List(
+                2,
+                "list_2"
+            )
+        )
+        ltstViewModel.addList(
+            com.techno_3_team.task_manager.data.entities.List(
+                3,
+                "list_3"
+            )
+        )
+        ltstViewModel.addTask(
+            Task(
+                1,
+                2,
+                "first",
+                false,
+                null,
+                "komafdsg",
+                null, null
+            )
+        )
+        ltstViewModel.addTask(
+            Task(
+                2,
+                2,
+                "second",
+                true,
+                null,
+                "dsafnjkasdf",
+                null, null
+            )
+        )
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -130,6 +167,10 @@ class MainActivity : AppCompatActivity(), Navigator {
         }
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun getTaskList(listName: String): List<Task> {
+        return ltstViewModel.getTaskListByListName(listName)?.value!!.tasks
     }
 
     override fun onSupportNavigateUp(): Boolean {

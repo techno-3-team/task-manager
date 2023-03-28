@@ -4,13 +4,13 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Relation
 
-@Entity(tableName = "list_tasks_table")
+//@Entity(tableName = "list_tasks_table")
 data class ListWithTasks(
-    @Embedded val list: List,
+    @Embedded
+    val list: List,
     @Relation(
         parentColumn = "listId",
-        entityColumn = "listId",
-        entity = Task::class
+        entityColumn = "listId"
     )
     val tasks: kotlin.collections.List<Task>
 )

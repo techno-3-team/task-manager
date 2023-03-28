@@ -1,25 +1,28 @@
 package com.techno_3_team.task_manager.data
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.techno_3_team.task_manager.data.entities.ListWithTasks
 import com.techno_3_team.task_manager.data.entities.Subtask
 import com.techno_3_team.task_manager.data.entities.Task
+import com.techno_3_team.task_manager.data.entities.TaskWithSubtasks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LTSTViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val readTasks : LiveData<List<Task>>
-    private val readSubtasks : LiveData<List<Subtask>>
+//    private val readTasks: LiveData<ListWithTasks>
+//    private val readSubtasks: LiveData<TaskWithSubtasks>
     private val repository: LTSTRepository
 
     init {
         val ltstDao = LTSTDatabase.getDataBase(application).mainDao()
         repository = LTSTRepository(ltstDao)
-        readTasks = repository.readTasks
-        readSubtasks = repository.readSubtasks
+//        readTasks = repository.readTasks
+//        readSubtasks = repository.readSubtasks
     }
 
     fun addList(list: com.techno_3_team.task_manager.data.entities.List) {
@@ -38,5 +41,25 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addSubtask(subtask)
         }
+    }
+
+    fun getTaskListByListName(listName: String): LiveData<ListWithTasks>? {
+        var result : LiveData<ListWithTasks>? = null
+        viewModelScope.launch {
+            repository.readTasks(listName)
+            result = repository.readTasks
+        }
+        Log.println(Log.INFO, "tag", "result = $result")
+        return result
+    }
+
+    fun getSubtaskListByTaskName(taskName: String): LiveData<TaskWithSubtasks>? {
+        var result : LiveData<TaskWithSubtasks>? = null
+        viewModelScope.launch {
+            repository.readSubtasks(taskName)
+            result = repository.readSubtasks
+        }
+        Log.println(Log.INFO, "tag", "result = $result")
+        return result
     }
 }

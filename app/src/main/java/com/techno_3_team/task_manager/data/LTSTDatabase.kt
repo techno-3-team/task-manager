@@ -9,7 +9,7 @@ import com.techno_3_team.task_manager.data.entities.*
 import com.techno_3_team.task_manager.data.entities.List
 
 @Database(
-    entities = [List::class, Task::class, Subtask::class, ListWithTasks::class, TaskWithSubtasks::class],
+    entities = [List::class, Task::class, Subtask::class],
     version = 1,
     exportSchema = false
 )

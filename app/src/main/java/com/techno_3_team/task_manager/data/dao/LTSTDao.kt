@@ -1,10 +1,16 @@
 package com.techno_3_team.task_manager.data.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Transaction
+import androidx.room.Query
 import com.techno_3_team.task_manager.data.entities.List
 import com.techno_3_team.task_manager.data.entities.Subtask
 import com.techno_3_team.task_manager.data.entities.Task
+import com.techno_3_team.task_manager.data.entities.ListWithTasks
+import com.techno_3_team.task_manager.data.entities.TaskWithSubtasks
 
 @Dao
 interface LTSTDao {
@@ -19,10 +25,10 @@ interface LTSTDao {
     suspend fun addList(list: List)
 
     @Transaction
-    @Query("SELECT * FROM list_tasks_table")
-    fun readTasks(listName: String) : LiveData<kotlin.collections.List<Task>>
+    @Query("SELECT * FROM list_table WHERE listName = :listName")
+    fun readTasks(listName: String): LiveData<ListWithTasks>
 
     @Transaction
-    @Query("SELECT * FROM task_subtasks_table")
-    fun readSubtasks(taskName: String) : LiveData<kotlin.collections.List<Subtask>>
+    @Query("SELECT * FROM task_table WHERE header = :taskName")
+    fun readSubtasks(taskName: String): LiveData<TaskWithSubtasks>
 }
