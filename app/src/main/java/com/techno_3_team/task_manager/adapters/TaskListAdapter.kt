@@ -16,7 +16,7 @@ import com.techno_3_team.task_manager.custom_views.TaskView
 import com.techno_3_team.task_manager.structures.Task
 
 class TaskListAdapter(
-    private val tasks: ArrayList<Task>,
+    private var tasks: ArrayList<Task>,
     private val navigator: Navigator
 ) : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -61,14 +61,8 @@ class TaskListAdapter(
                 subProgress.text = "${task.doneSubtasksCount} из ${task.allSubtasksCount}"
             }
 
-//            itemView.setOnClickListener {
-//                navigator.showMainTaskScreen()
-//            }
-
             itemView.setOnClickListener {
-                Log.println(Log.INFO, "tag", "+ click")
-                val taskList = navigator.getTaskList("list_2")
-                Log.println(Log.INFO, "tag", taskList.toString())
+                navigator.showMainTaskScreen()
             }
         }
     }

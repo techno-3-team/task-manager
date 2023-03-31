@@ -22,6 +22,9 @@ class TaskView @JvmOverloads constructor(
     @AttrRes defStyleAttr: Int = 0,
     @StyleRes defStyleRes: Int = 0
 ) : ViewGroup(context, attrs, defStyleAttr, defStyleRes) {
+    private val PRIMARY_SPACE: Int // space between header and elements of help info
+    private val SECONDARY_SPACE: Int// space between help elements of help info
+    private val MARGIN_BETWEEN_TASKS: Int
 
     private val binding: TaskViewBinding
     private var checkbox: CheckBox
@@ -29,19 +32,25 @@ class TaskView @JvmOverloads constructor(
     private var date: TextView
     private var subtasksProgress: TextView
     private var textViewsHeight = 0
-
-    private val PRIMARY_SPACE = dp(4, this) // space between header and elements of help info
-    private val SECONDARY_SPACE = dp(2, this) // space between help elements of help info
-    private val MARGIN_BETWEEN_TASKS = dp(8, this)
+    private var margins: MarginLayoutParams?
 
     init {
         this.setWillNotDraw(false)
         View.inflate(context, R.layout.task_view, this)
+
         binding = TaskViewBinding.bind(this)
+
         checkbox = binding.checkbox
         header = binding.header
         date = binding.date
         subtasksProgress = binding.subtasksProgress
+
+        PRIMARY_SPACE = dp(4, this)
+        SECONDARY_SPACE = dp(2, this)
+        MARGIN_BETWEEN_TASKS = dp(8, this)
+
+        margins = MarginLayoutParams::class.java.cast(layoutParams)
+        margins?.bottomMargin = MARGIN_BETWEEN_TASKS
 
         setStyle()
     }
@@ -86,7 +95,7 @@ class TaskView @JvmOverloads constructor(
         val topBottomPadding = (height
                 - (textViewsHeight + PRIMARY_SPACE + SECONDARY_SPACE)) / 2
 
-        val checkBoxLeft = (checkbox.measuredWidth / 1.5).toInt()
+        val checkBoxLeft = (checkbox.measuredWidth * 0.4).toInt()
         val checkBoxTop = height / 2 - checkbox.measuredHeight / 2
         checkbox.layout(
             checkBoxLeft,
@@ -127,7 +136,7 @@ class TaskView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas?) {
-        val margins = MarginLayoutParams::class.java.cast(layoutParams)
+        margins = MarginLayoutParams::class.java.cast(layoutParams)
         margins?.bottomMargin = MARGIN_BETWEEN_TASKS
         layoutParams = margins
         super.onDraw(canvas)

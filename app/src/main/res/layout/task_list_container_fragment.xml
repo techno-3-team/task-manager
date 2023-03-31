@@ -8,9 +8,8 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/tabs_border_bottom"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabIndicatorColor="@color/dark_blue"
+        style="@style/tabs_style"
         app:tabMode="scrollable" />
 
     <androidx.viewpager.widget.ViewPager

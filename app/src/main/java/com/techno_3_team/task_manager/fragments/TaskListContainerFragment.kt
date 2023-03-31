@@ -7,17 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.techno_3_team.task_manager.HasMainScreenActions
 import com.techno_3_team.task_manager.adapters.TabPagerAdapter
 import com.techno_3_team.task_manager.data.LTSTViewModel
+import com.techno_3_team.task_manager.data.entities.Task
 import com.techno_3_team.task_manager.databinding.TaskListContainerFragmentBinding
-import com.techno_3_team.task_manager.navigator
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 
 
-class MainFragment : Fragment(), HasMainScreenActions {
+class TaskListContainerFragment : Fragment(), HasMainScreenActions {
 
     private lateinit var listOfLists: ListOfLists
     private var binding: TaskListContainerFragmentBinding? = null
@@ -44,11 +45,6 @@ class MainFragment : Fragment(), HasMainScreenActions {
 
         initTabs()
 
-        _binding.FAB.setOnClickListener {
-            Log.println(Log.INFO, "tag", "+ click")
-//            val taskList = navigator().getTaskList("list_2")
-//            Log.println(Log.INFO, "tag", taskList.toString())
-        }
     }
 
     private fun initTabs() {
@@ -60,6 +56,7 @@ class MainFragment : Fragment(), HasMainScreenActions {
         }
 
         val adapter = TabPagerAdapter(childFragmentManager, listOfLists, tabLayout.tabCount)
+
         viewPager.adapter = adapter
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
 
@@ -78,14 +75,14 @@ class MainFragment : Fragment(), HasMainScreenActions {
 
     companion object {
         @JvmStatic
-        fun newInstance(listOfLists: ListOfLists): MainFragment {
+        fun newInstance(listOfLists: ListOfLists): TaskListContainerFragment {
             val bundle = Bundle().apply {
                 putParcelable(
                     LIST_LISTS_KEY,
                     listOfLists
                 )
             }
-            val fragment = MainFragment()
+            val fragment = TaskListContainerFragment()
             fragment.arguments = bundle
             return fragment
         }

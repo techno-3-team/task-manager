@@ -14,15 +14,15 @@ import kotlinx.coroutines.launch
 
 class LTSTViewModel(application: Application) : AndroidViewModel(application) {
 
-//    private val readTasks: LiveData<ListWithTasks>
-//    private val readSubtasks: LiveData<TaskWithSubtasks>
+    val readTasks: LiveData<ListWithTasks>
+     val readSubtasks: LiveData<TaskWithSubtasks>
     private val repository: LTSTRepository
 
     init {
         val ltstDao = LTSTDatabase.getDataBase(application).mainDao()
         repository = LTSTRepository(ltstDao)
-//        readTasks = repository.readTasks
-//        readSubtasks = repository.readSubtasks
+        readTasks = repository.readTasks
+        readSubtasks = repository.readSubtasks
     }
 
     fun addList(list: com.techno_3_team.task_manager.data.entities.List) {
@@ -49,7 +49,6 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
             repository.readTasks(listName)
             result = repository.readTasks
         }
-        Log.println(Log.INFO, "tag", "result = $result")
         return result
     }
 
@@ -59,7 +58,6 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
             repository.readSubtasks(taskName)
             result = repository.readSubtasks
         }
-        Log.println(Log.INFO, "tag", "result = $result")
         return result
     }
 }

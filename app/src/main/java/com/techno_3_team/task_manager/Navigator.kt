@@ -12,8 +12,6 @@ fun Fragment.navigator(): Navigator {
 
 interface Navigator {
 
-    fun getTaskList(listName: String): List<com.techno_3_team.task_manager.data.entities.Task>
-
     fun showMainTaskScreen()
 
     fun showSubtaskScreen(subtask: Subtask)

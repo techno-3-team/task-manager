@@ -1,13 +1,25 @@
 <resources>
 
-    <style name="Widget.Taskmanager.AppWidget.Container" parent="android:Widget">
-        <item name="android:id">@android:id/background</item>
-        <item name="android:background">?android:attr/colorBackground</item>
+    <style name="Theme.CustomTheme.Default" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/main_teal</item>
+        <item name="colorPrimaryVariant">@color/navy_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/dark_blue</item>
+        <item name="taskHeaderColor">@color/task_header_color</item>
+        <item name="taskTextSubColor">@color/task_text_sub_color</item>
+        <item name="taskDoneTextColor">@color/task_done_text_color</item>
+        <item name="checkboxColor">@color/task_text_sub_color</item>
     </style>
 
-    <style name="Widget.Taskmanager.AppWidget.InnerView" parent="android:Widget">
-        <item name="android:background">?android:attr/colorBackground</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    <style name="Theme.CustomTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/navy_blue</item>
+        <item name="colorOnPrimary">@color/main_teal</item>
+        <item name="colorSecondary">@color/dark_blue</item>
+        <item name="taskHeaderColor">@color/task_header_color</item>
+        <item name="taskTextSubColor">@color/task_text_sub_color</item>
+        <item name="taskDoneTextColor">@color/task_done_text_color</item>
+        <item name="checkboxColor">@color/task_header_color</item>
     </style>
 
     <style name="fab_square" parent="">
@@ -40,5 +52,39 @@
     <style name="check_box_style">
        <item name="android:colorControlNormal">@color/task_header_color</item>
        <item name="android:colorControlActivated">@color/task_header_color</item>
+    </style>
+
+    <style name="appbar_style">
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="toolbar_style">
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="toolbar_style_title_text">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="tabs_style">
+        <item name="android:background">@drawable/tabs_border_bottom</item>
+        <item name="tabIndicatorColor">?attr/colorSecondary</item>
+        <item name="tabSelectedTextColor">?attr/colorSecondary</item>
+    </style>
+
+    <style name="task_header_list_style">
+        <item name="android:textColor" >?attr/taskHeaderColor</item>
+        <item name="android:textSize" >16sp</item>
+    </style>
+
+    <style name="task_subtext_list_style">
+        <item name="android:textColor" >?attr/taskTextSubColor</item>
+        <item name="android:textSize" >14sp</item>
+    </style>
+
+    <style name="custom_checkbox_style">
+        <item name="android:buttonTint">?attr/checkboxColor</item>
     </style>
 </resources>

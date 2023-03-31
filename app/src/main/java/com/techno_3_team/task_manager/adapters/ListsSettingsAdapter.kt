@@ -14,7 +14,6 @@ class ListsSettingsAdapter(
     private val lists: ArrayList<ListOfTasks>
 ) : RecyclerView.Adapter<ListsSettingsAdapter.ListsSettingsViewHolder>() {
 
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

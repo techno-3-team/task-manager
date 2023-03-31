@@ -9,8 +9,8 @@ import com.techno_3_team.task_manager.data.entities.TaskWithSubtasks
 
 class LTSTRepository(private val ltstDao: LTSTDao) {
 
-    var readTasks: LiveData<ListWithTasks>? = null
-    var readSubtasks: LiveData<TaskWithSubtasks>? = null
+    var readTasks: LiveData<ListWithTasks> = ltstDao.readTasks("")
+    var readSubtasks: LiveData<TaskWithSubtasks> = ltstDao.readSubtasks("")
 
     fun readTasks(listName: String) {
         readTasks = ltstDao.readTasks(listName)
