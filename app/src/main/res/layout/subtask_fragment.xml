@@ -5,25 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/main_teal"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-
     <CheckBox
         android:id="@+id/taskCheck"
         android:layout_width="match_parent"
@@ -31,19 +12,22 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="12dp"
-        android:text="Subtask"
+        android:button="@drawable/custom_checkbox"
+        android:checked="false"
+        android:paddingStart="8dp"
+        android:text="@string/parent_task"
         android:textColor="#001018"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <LinearLayout
         android:id="@+id/llDateTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/taskCheck"
         app:layout_constraintStart_toStartOf="@+id/taskCheck"
@@ -53,16 +37,18 @@
             android:id="@+id/ivCalendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="3dp"
             app:srcCompat="@drawable/calendar" />
 
         <TextView
             android:id="@+id/tvDateTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="11dp"
             android:layout_weight="1"
             android:text="@string/SetDate"
-            android:textColor="#001018" />
+            android:textColor="#1D3557"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -85,16 +71,21 @@
         <EditText
             android:id="@+id/taDesc"
             android:layout_width="360dp"
-            android:layout_height="117dp"
+            android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="top|start"
             android:hint="@string/task_description"
             android:inputType="textMultiLine"
             android:lines="6"
             android:overScrollMode="always"
+            android:paddingLeft="8dp"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColorHint="#1D3557"
+            android:textSize="14sp" />
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
