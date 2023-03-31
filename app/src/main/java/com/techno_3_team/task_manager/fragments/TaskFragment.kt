@@ -8,15 +8,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.HasCustomTitle
 import com.techno_3_team.task_manager.HasDeleteAction
-import com.techno_3_team.task_manager.adapters.TaskAdapter
+import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import com.techno_3_team.task_manager.navigator
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY
 
+
 class TaskFragment : SubtaskFragment(), HasCustomTitle, HasDeleteAction {
 
     private lateinit var binding: TaskFragmentBinding
+    private var list: List<String> = listOf("list1", "list2", "list3", "list123")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +39,19 @@ class TaskFragment : SubtaskFragment(), HasCustomTitle, HasDeleteAction {
                 arguments?.getParcelableArrayList(TASK_LIST_KEY)!!
             }
 
-            val subTaskAdapter = TaskAdapter(subtaskList, navigator())
+            val subTaskAdapter = SubtaskAdapter(subtaskList, navigator())
             lvTasksList.adapter = subTaskAdapter
             lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
+
+            if (taskCheck.isChecked) {
+                taskCheck.alpha = 0.5f
+                listSpin.alpha = 0.5f
+                llDateTime.alpha = 0.5f
+                linearLayout.alpha = 0.5f
+                lvTasksList.alpha = 0.5f
+            }
         }
+
     }
 
     companion object {

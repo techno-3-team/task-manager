@@ -10,19 +10,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.techno_3_team.task_manager.Navigator
 import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.custom_views.SubTaskView
+import com.techno_3_team.task_manager.custom_views.TaskView
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.getRandomString
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 
-class TaskAdapter(
+class SubtaskAdapter(
     private val tasks: ArrayList<Subtask>,
     private val navigator: Navigator
-) : ListAdapter<Subtask, TaskAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
+) : ListAdapter<Subtask, SubtaskAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        return TaskViewHolder(SubTaskView(parent.context))
+        return TaskViewHolder(TaskView(parent.context))
     }
 
     override fun getItemCount(): Int {
