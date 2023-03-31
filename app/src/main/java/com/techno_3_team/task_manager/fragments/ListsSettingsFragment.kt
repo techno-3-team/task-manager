@@ -2,15 +2,19 @@ package com.techno_3_team.task_manager.fragments
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout.VERTICAL
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
 import com.techno_3_team.task_manager.structures.ListOfLists
+import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
+import com.techno_3_team.task_manager.support.SpacingItemDecorator
 
 
 class ListsSettingsFragment : Fragment() {
@@ -39,7 +43,8 @@ class ListsSettingsFragment : Fragment() {
             val listNames = listOfLists.list
             val listSettingsAdapter = ListsSettingsAdapter(listNames)
             lists.adapter= listSettingsAdapter
-            lists.layoutManager = LinearLayoutManager(lists.context)
+            lists.layoutManager = GridLayoutManager(lists.context, 1)
+            lists.addItemDecoration(SpacingItemDecorator(20))
         }
     }
 

@@ -38,16 +38,10 @@ class ListsSettingsAdapter(
     class ListsSettingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val listName: TextView = itemView.findViewById(R.id.list_name)
         private val listSubName: TextView = itemView.findViewById(R.id.list_subname)
-        private val upButton: ImageButton = itemView.findViewById(R.id.move_list_up_button)
-        private val downButton: ImageButton = itemView.findViewById(R.id.move_list_down_button)
-        private val deleteList: ImageButton = itemView.findViewById(R.id.delete_list_button)
 
         fun bind(list: ListOfTasks) {
             listName.text = list.name
-            listSubName.text = "${list.completed} + из + ${list.total}"
-            upButton.setOnClickListener{
-                Toast.makeText(upButton.context, "UP!", Toast.LENGTH_SHORT).show()
-            }
+            listSubName.text = "${list.completed} из ${list.total}"
         }
 
     }
