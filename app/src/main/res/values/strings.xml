@@ -32,4 +32,5 @@
     <string name="switch_languages">переключение языков</string>
 
     <string name="floating_action_button">floating action button</string>
+    <string name="add_new_list">add new list</string>
 </resources>

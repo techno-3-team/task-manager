@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout.VERTICAL
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
+import com.techno_3_team.task_manager.support.SimpleItemTouchHelperCallback
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 
 
@@ -45,6 +44,9 @@ class ListsSettingsFragment : Fragment() {
             lists.adapter= listSettingsAdapter
             lists.layoutManager = GridLayoutManager(lists.context, 1)
             lists.addItemDecoration(SpacingItemDecorator(20))
+            val callback = SimpleItemTouchHelperCallback(listSettingsAdapter)
+            val touchHelper = ItemTouchHelper(callback)
+            touchHelper.attachToRecyclerView(lists)
         }
     }
 
