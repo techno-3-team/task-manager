@@ -68,8 +68,8 @@
     </style>
 
     <style name="check_box_style">
-       <item name="android:colorControlNormal">@color/task_header_color</item>
-       <item name="android:colorControlActivated">@color/task_header_color</item>
+        <item name="android:colorControlNormal">@color/task_header_color</item>
+        <item name="android:colorControlActivated">@color/task_header_color</item>
     </style>
 
     <style name="appbar_style">
@@ -97,13 +97,13 @@
     </style>
 
     <style name="task_header_list_style">
-        <item name="android:textColor" >?attr/taskHeaderColor</item>
-        <item name="android:textSize" >16sp</item>
+        <item name="android:textColor">?attr/taskHeaderColor</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="task_subtext_list_style">
-        <item name="android:textColor" >?attr/taskTextSubColor</item>
-        <item name="android:textSize" >14sp</item>
+        <item name="android:textColor">?attr/taskTextSubColor</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="custom_checkbox_style">
@@ -123,7 +123,7 @@
         <item name="android:gravity">start</item>
     </style>
 
-    <style name="radio_selector_style" >
+    <style name="radio_selector_style">
         <item name="android:textColor">?attr/sidebarLangButtonTextColor</item>
     </style>
 
@@ -131,7 +131,16 @@
         <item name="android:background">?attr/leftRadioSelectorBackground</item>
     </style>
 
-    <style name="radio_selector_right_style" parent="radio_selector_style" >
+    <style name="radio_selector_right_style" parent="radio_selector_style">
         <item name="android:background">?attr/rightRadioSelectorBackground</item>
+    </style>
+
+    <style name="list_settings_style">
+        <item name="android:background">?attr/taskBackground</item>
+    </style>
+
+    <style name="list_settings_text_style">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/task_header_color</item>
     </style>
 </resources>

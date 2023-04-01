@@ -8,14 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.HasCustomTitle
 import com.techno_3_team.task_manager.HasDeleteAction
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
 import com.techno_3_team.task_manager.structures.ListOfLists
-import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 import com.techno_3_team.task_manager.support.SimpleItemTouchHelperCallback
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 

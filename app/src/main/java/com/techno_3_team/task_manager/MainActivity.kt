@@ -61,19 +61,19 @@ class MainActivity : AppCompatActivity(), Navigator {
         initTheme()
         super.onCreate(savedInstanceState)
 
-        val showAuthScreen = preference.getBoolean(AUTH_KEY,true)
+        val showAuthScreen = preference.getBoolean(AUTH_KEY, true)
         if (showAuthScreen) {
             loginBinding = LoginFragmentBinding.inflate(layoutInflater)
             setContentView(loginBinding.root)
 
             loginBinding.continueWithoutAutorization.setOnClickListener {
-                initMainFragment()
+                initMainFragment(savedInstanceState)
                 preference.edit()
                     .putBoolean(AUTH_KEY, false)
                     .apply()
             }
         } else {
-            initMainFragment()
+            initMainFragment(savedInstanceState)
         }
     }
 
@@ -99,9 +99,10 @@ class MainActivity : AppCompatActivity(), Navigator {
         listOfLists = randomData.getRandomData()
     }
 
-    private fun initMainFragment() {
+    private fun initMainFragment(savedInstanceState: Bundle?) {
         mainBinding = MainFragmentBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
+
 
         val toolbar: Toolbar = findViewById(mainBinding.toolbar.id)
         setSupportActionBar(toolbar)
@@ -113,10 +114,12 @@ class MainActivity : AppCompatActivity(), Navigator {
         initData()
 
         val taskListContainerFragment = TaskListContainerFragment.newInstance(listOfLists)
-        supportFragmentManager
+        if (savedInstanceState == null) {
+            supportFragmentManager
             .beginTransaction()
             .add(mainBinding.mainContainer.id, taskListContainerFragment, "MF")
             .commit()
+        }
 
         mainBinding.sideBar.btListsSideBar.setOnClickListener {
             showListSettingsScreen()
@@ -125,6 +128,7 @@ class MainActivity : AppCompatActivity(), Navigator {
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, false)
 
         setCurrentThemeIcon()
+
 //        ltstViewModel = ViewModelProvider(this)[LTSTViewModel::class.java]
 //        ltstViewModel.readTasks.observe(viewLifecycleOwner) { }
     }
