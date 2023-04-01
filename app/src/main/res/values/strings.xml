@@ -43,6 +43,7 @@
     </string-array>
 
     <string name="floating_action_button">floating action button</string>
+    <string name="add_new_list">add new list</string>
     <string name="task_description">task description</string>
     <string name="parent_task">Parent Task</string>
 </resources>
