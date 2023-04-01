@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.adapters.TaskListAdapter
 import com.techno_3_team.task_manager.databinding.TaskListFragmentBinding
+import com.techno_3_team.task_manager.navigator
 import com.techno_3_team.task_manager.structures.ListOfTasks
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY
 
@@ -38,7 +39,7 @@ class TaskListFragment : Fragment() {
                 arguments?.getParcelable(TASK_LIST_KEY)!!
             }
             val tasks = listOfLists.tasks
-            taskListAdapter = TaskListAdapter(tasks)
+            taskListAdapter = TaskListAdapter(tasks, navigator())
             lvTasksList.adapter = taskListAdapter
             lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
         }

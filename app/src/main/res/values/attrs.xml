@@ -3,5 +3,17 @@
         <attr name="appWidgetPadding" format="dimension" />
         <attr name="appWidgetInnerRadius" format="dimension" />
         <attr name="appWidgetRadius" format="dimension" />
+        <attr name="taskHeaderColor" format="color" />
+        <attr name="taskTextSubColor" format="color" />
+        <attr name="taskDoneTextColor" format="color" />
+        <attr name="checkboxColor" format="color" />
+        <attr name="taskBackColor" format="color" />
+        <attr name="taskBorderColor" format="color" />
+        <attr name="taskBackground" format="reference|color" />
+        <attr name="fabBackgroundColor" format="reference|color" />
+        <attr name="sidebarButtonBackground" format="reference|color" />
+        <attr name="sidebarLangButtonTextColor" format="reference|color" />
+        <attr name="leftRadioSelectorBackground" format="reference|color" />
+        <attr name="rightRadioSelectorBackground" format="reference|color" />
     </declare-styleable>
 </resources>

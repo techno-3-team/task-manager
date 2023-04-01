@@ -10,7 +10,7 @@ import com.techno_3_team.task_manager.support.TASK_LIST_KEY
 
 class TabPagerAdapter(
     fm: FragmentManager,
-    val listOfLists: ListOfLists,
+    private val listOfLists: ListOfLists,
     var tabsCount: Int
 ) : FragmentPagerAdapter(fm) {
 

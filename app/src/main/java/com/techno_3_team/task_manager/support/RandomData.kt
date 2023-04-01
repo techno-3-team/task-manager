@@ -2,7 +2,7 @@ package com.techno_3_team.task_manager.support
 
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.structures.ListOfTasks
-import com.techno_3_team.task_manager.structures.SubTask
+import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.structures.Task
 import java.util.*
 import kotlin.collections.ArrayList
@@ -34,20 +34,14 @@ class RandomData(
         return ListOfLists(resList)
     }
 
-    private fun getRandomString(length: Int): String {
-        return (1..length).joinToString("") {
-            ('a'.plus((0..25).random())).toString()
-        }
-    }
-
     private fun getRandomTasks(count: Int): ArrayList<Task> {
         val taskList = ArrayList<Task>()
         for (i in 0 until count) {
             val isDateNull = Random.nextBoolean()
             val isSubTasksExists = Random.nextBoolean()
-            var subTasks: ArrayList<SubTask>? = null
+            var subTasks: ArrayList<Subtask>? = null
             if (isSubTasksExists) {
-                subTasks = getRandomSubTasks((1..maxSubTasksCount).random())
+                subTasks = getRandomSubtasks((1..maxSubTasksCount).random())
             }
             taskList.add(
                 Task(
@@ -65,11 +59,11 @@ class RandomData(
         return taskList
     }
 
-    private fun getRandomSubTasks(count: Int): ArrayList<SubTask> {
-        val subTaskList = ArrayList<SubTask>()
+    fun getRandomSubtasks(count: Int): ArrayList<Subtask> {
+        val subTaskList = ArrayList<Subtask>()
         for (i in 0 until count) {
             subTaskList.add(
-                SubTask(
+                Subtask(
                     getRandomString((5..100).random()),
                     Random.nextBoolean(),
                     if (Random.nextBoolean()) null else Date(System.currentTimeMillis()),

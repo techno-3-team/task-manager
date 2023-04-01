@@ -2,21 +2,23 @@ package com.techno_3_team.task_manager.fragments
 
 import android.os.Build
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.techno_3_team.task_manager.HasCustomTitle
+import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
 import com.techno_3_team.task_manager.structures.ListOfLists
-import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 import com.techno_3_team.task_manager.support.SimpleItemTouchHelperCallback
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 
 
-class ListsSettingsFragment : Fragment() {
+class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
     private var binding: FragmentListsSettingsBinding? = null
     private val _binding: FragmentListsSettingsBinding
         get() = binding!!
@@ -53,5 +55,26 @@ class ListsSettingsFragment : Fragment() {
     override fun onDestroyView() {
         binding = null
         super.onDestroyView()
+    }
+
+    override fun getCustomTitle() = "списки"
+
+    companion object {
+        @JvmStatic
+        fun newInstance(listOfLists: ListOfLists): ListsSettingsFragment {
+            val bundle = Bundle().apply {
+                putParcelable(
+                    LIST_LISTS_KEY,
+                    listOfLists
+                )
+            }
+            val fragment = ListsSettingsFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
+    override fun deleteElement() {
+//        TODO("Not yet implemented")
     }
 }

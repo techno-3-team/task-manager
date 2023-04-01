@@ -1,18 +1,48 @@
 <resources>
 
-    <style name="Widget.Taskmanager.AppWidget.Container" parent="android:Widget">
-        <item name="android:id">@android:id/background</item>
-        <item name="android:background">?android:attr/colorBackground</item>
+    <style name="Theme.CustomTheme.Default" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/main_teal</item>
+        <item name="colorPrimaryVariant">@color/navy_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/dark_blue</item>
+        <item name="taskHeaderColor">@color/task_header_color</item>
+        <item name="taskTextSubColor">@color/task_text_sub_color</item>
+        <item name="taskDoneTextColor">@color/task_done_text_color</item>
+        <item name="checkboxColor">@color/task_text_sub_color</item>
+        <item name="taskBackground">@drawable/task_back_default</item>
+        <item name="fabBackgroundColor">@color/main_teal</item>
+        <item name="sidebarButtonBackground">@drawable/ripple_side_buttons</item>
+        <item name="sidebarLangButtonTextColor">@drawable/sidebar_lang_buttons_text_color</item>
+        <item name="leftRadioSelectorBackground">@drawable/radio_selector_left</item>
+        <item name="rightRadioSelectorBackground">@drawable/radio_selector_right</item>
     </style>
 
-    <style name="Widget.Taskmanager.AppWidget.InnerView" parent="android:Widget">
-        <item name="android:background">?android:attr/colorBackground</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    <style name="Theme.CustomTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/navy_blue</item>
+        <item name="colorOnPrimary">@color/main_teal</item>
+        <item name="colorSecondary">@color/dark_blue</item>
+        <item name="taskHeaderColor">@color/task_header_color</item>
+        <item name="taskTextSubColor">@color/task_text_sub_color</item>
+        <item name="taskDoneTextColor">@color/task_done_text_color</item>
+        <item name="checkboxColor">@color/task_header_color</item>
+        <item name="taskBackground">@drawable/task_back_light</item>
+        <item name="fabBackgroundColor">@color/main_teal_tint</item>
+        <item name="sidebarButtonBackground">@drawable/ripple_side_buttons_light</item>
+        <item name="sidebarLangButtonTextColor">@drawable/sidebar_lang_buttons_text_color_light</item>
+        <item name="leftRadioSelectorBackground">@drawable/radio_selector_left_light</item>
+        <item name="rightRadioSelectorBackground">@drawable/radio_selector_right_light</item>
     </style>
 
-    <style name="fab_square" parent="">
+    <style name="fab_shape">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="fab_style">
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="backgroundTint">?attr/fabBackgroundColor</item>
     </style>
 
     <style name="style_button_light_blue">
@@ -38,7 +68,79 @@
     </style>
 
     <style name="check_box_style">
-       <item name="android:colorControlNormal">@color/task_header_color</item>
-       <item name="android:colorControlActivated">@color/task_header_color</item>
+        <item name="android:colorControlNormal">@color/task_header_color</item>
+        <item name="android:colorControlActivated">@color/task_header_color</item>
+    </style>
+
+    <style name="appbar_style">
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="toolbar_style">
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="toolbar_style_title_text">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="tabs_style">
+        <item name="android:background">@drawable/tabs_border_bottom</item>
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
+        <item name="tabIndicatorColor">?attr/colorSecondary</item>
+        <item name="tabSelectedTextColor">?attr/colorSecondary</item>
+        <item name="tabIndicator">@drawable/tab_indicator_shape</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorHeight">4dp</item>
+    </style>
+
+    <style name="task_header_list_style">
+        <item name="android:textColor">?attr/taskHeaderColor</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="task_subtext_list_style">
+        <item name="android:textColor">?attr/taskTextSubColor</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="custom_checkbox_style">
+        <item name="android:buttonTint">?attr/checkboxColor</item>
+    </style>
+
+    <style name="custom_task_style">
+        <item name="background">?attr/taskBackground</item>
+    </style>
+
+    <style name="sidebar_button_style">
+        <item name="android:background">?attr/sidebarButtonBackground</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:drawablePadding">32dp</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+    <style name="radio_selector_style">
+        <item name="android:textColor">?attr/sidebarLangButtonTextColor</item>
+    </style>
+
+    <style name="radio_selector_left_style" parent="radio_selector_style">
+        <item name="android:background">?attr/leftRadioSelectorBackground</item>
+    </style>
+
+    <style name="radio_selector_right_style" parent="radio_selector_style">
+        <item name="android:background">?attr/rightRadioSelectorBackground</item>
+    </style>
+
+    <style name="list_settings_style">
+        <item name="android:background">?attr/taskBackground</item>
+    </style>
+
+    <style name="list_settings_text_style">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/task_header_color</item>
     </style>
 </resources>
