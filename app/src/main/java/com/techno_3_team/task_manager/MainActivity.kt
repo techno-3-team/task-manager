@@ -1,6 +1,5 @@
 package com.techno_3_team.task_manager
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.*
@@ -13,6 +12,7 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.preference.PreferenceManager
 import com.techno_3_team.task_manager.databinding.LoginFragmentBinding
 import com.techno_3_team.task_manager.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager.fragments.ListsSettingsFragment
@@ -21,6 +21,8 @@ import com.techno_3_team.task_manager.fragments.TaskFragment
 import com.techno_3_team.task_manager.fragments.TaskListContainerFragment
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.structures.Subtask
+import com.techno_3_team.task_manager.support.AUTH_KEY
+import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
 import com.techno_3_team.task_manager.support.RESULT_KEY
 import com.techno_3_team.task_manager.support.RandomData
 
@@ -30,6 +32,10 @@ class MainActivity : AppCompatActivity(), Navigator {
     private lateinit var loginBinding: LoginFragmentBinding
     private lateinit var mainBinding: MainFragmentBinding
     private lateinit var listOfLists: ListOfLists
+
+    private val preference by lazy {
+        PreferenceManager.getDefaultSharedPreferences(this)
+    }
 
     private var sortOrder = SortOrder.BY_DATE
     private var isDay: Boolean = true
@@ -52,16 +58,35 @@ class MainActivity : AppCompatActivity(), Navigator {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initTheme()
         super.onCreate(savedInstanceState)
 
-//        loginBinding = LoginFragmentBinding.inflate(layoutInflater)
-//        setContentView(loginBinding.root)
-//
-//        loginBinding.continueWithoutAutorization.setOnClickListener {
-//            initMainFragment()
-//        }
+        val showAuthScreen = preference.getBoolean(AUTH_KEY,true)
+        if (showAuthScreen) {
+            loginBinding = LoginFragmentBinding.inflate(layoutInflater)
+            setContentView(loginBinding.root)
 
-        initMainFragment()
+            loginBinding.continueWithoutAutorization.setOnClickListener {
+                initMainFragment()
+                preference.edit()
+                    .putBoolean(AUTH_KEY, false)
+                    .apply()
+            }
+        } else {
+            initMainFragment()
+        }
+    }
+
+    private fun initTheme() {
+        val isDefaultThemeKey = preference.getBoolean(IS_DEFAULT_THEME_KEY, true)
+
+        isDay = isDefaultThemeKey
+
+        if (isDefaultThemeKey) {
+            setTheme(R.style.Theme_CustomTheme_Default);
+        } else {
+            setTheme(R.style.Theme_CustomTheme_Light);
+        }
     }
 
     override fun onDestroy() {
@@ -99,6 +124,7 @@ class MainActivity : AppCompatActivity(), Navigator {
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, false)
 
+        setCurrentThemeIcon()
 //        ltstViewModel = ViewModelProvider(this)[LTSTViewModel::class.java]
 //        ltstViewModel.readTasks.observe(viewLifecycleOwner) { }
     }
@@ -217,13 +243,20 @@ class MainActivity : AppCompatActivity(), Navigator {
         updateButtonImageDayNight()
     }
 
-    private fun updateButtonImageDayNight() {
+    private fun setCurrentThemeIcon() {
         val imgBt = findViewById<ImageButton>(R.id.btSwitcherTheme)
         if (isDay) {
             imgBt.setImageResource(R.drawable.baseline_wb_sunny_32)
         } else {
             imgBt.setImageResource(R.drawable.baseline_nights_stay_32)
         }
+    }
+
+    private fun updateButtonImageDayNight() {
+        preference.edit()
+            .putBoolean(IS_DEFAULT_THEME_KEY, isDay)
+            .apply()
+        recreate()
     }
 
 //    private fun insertExample() {

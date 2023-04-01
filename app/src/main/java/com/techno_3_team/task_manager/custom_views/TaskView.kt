@@ -10,7 +10,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
-import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.res.getDrawableOrThrow
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.databinding.TaskViewBinding
 import com.techno_3_team.task_manager.support.dp
@@ -32,7 +32,6 @@ class TaskView @JvmOverloads constructor(
     private var date: TextView
     private var subtasksProgress: TextView
     private var textViewsHeight = 0
-    private var margins: MarginLayoutParams?
 
     init {
         this.setWillNotDraw(false)
@@ -49,14 +48,19 @@ class TaskView @JvmOverloads constructor(
         SECONDARY_SPACE = dp(2, this)
         MARGIN_BETWEEN_TASKS = dp(8, this)
 
-        margins = MarginLayoutParams::class.java.cast(layoutParams)
-        margins?.bottomMargin = MARGIN_BETWEEN_TASKS
-
-        setStyle()
+        setStyle(attrs, defStyleAttr, defStyleRes)
     }
 
-    private fun setStyle() {
-        background = ResourcesCompat.getDrawable(resources, R.drawable.task_back, null)
+    private fun setStyle(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
+        val typedArray = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.AppWidgetAttrs,
+            defStyleAttr,
+            defStyleRes
+        )
+        this.background = typedArray
+            .getDrawableOrThrow(R.styleable.AppWidgetAttrs_taskBackground)
+        typedArray.recycle()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -136,7 +140,7 @@ class TaskView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas?) {
-        margins = MarginLayoutParams::class.java.cast(layoutParams)
+        val margins = MarginLayoutParams::class.java.cast(layoutParams)
         margins?.bottomMargin = MARGIN_BETWEEN_TASKS
         layoutParams = margins
         super.onDraw(canvas)

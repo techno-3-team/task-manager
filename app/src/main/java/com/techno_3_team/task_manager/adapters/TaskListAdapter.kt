@@ -20,7 +20,7 @@ class TaskListAdapter(
     private val navigator: Navigator
 ) : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        return TaskViewHolder(TaskView(parent.context))
+        return TaskViewHolder(TaskView(parent.context, null, 0, R.style.custom_task_style))
     }
 
     override fun getItemCount(): Int {
@@ -60,6 +60,8 @@ class TaskListAdapter(
                 subProgress.visibility = VISIBLE
                 subProgress.text = "${task.doneSubtasksCount} из ${task.allSubtasksCount}"
             }
+
+            itemView
 
             itemView.setOnClickListener {
                 navigator.showMainTaskScreen()

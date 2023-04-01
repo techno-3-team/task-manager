@@ -24,17 +24,14 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/FAB"
+        style="@style/fab_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/floating_action_button"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:clickable="true"
-        android:contentDescription="@string/floating_action_button"
-        android:focusable="true"
         android:src="@drawable/baseline_add"
-        app:backgroundTint="@color/main_teal"
-        app:circularflow_radiusInDP="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:shapeAppearanceOverlay="@style/fab_square" />
+        app:shapeAppearanceOverlay="@style/fab_shape" />
 </androidx.constraintlayout.widget.ConstraintLayout>

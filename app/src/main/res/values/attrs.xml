@@ -9,5 +9,11 @@
         <attr name="checkboxColor" format="color" />
         <attr name="taskBackColor" format="color" />
         <attr name="taskBorderColor" format="color" />
+        <attr name="taskBackground" format="reference|color" />
+        <attr name="fabBackgroundColor" format="reference|color" />
+        <attr name="sidebarButtonBackground" format="reference|color" />
+        <attr name="sidebarLangButtonTextColor" format="reference|color" />
+        <attr name="leftRadioSelectorBackground" format="reference|color" />
+        <attr name="rightRadioSelectorBackground" format="reference|color" />
     </declare-styleable>
 </resources>

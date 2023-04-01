@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true"
-        android:color="@android:color/white"/>
+        android:drawable="@drawable/radio_selected_right_light"/>
     <item android:state_checked="false"
-        android:color="@android:color/black"/>
+        android:drawable="@drawable/radio_normal_right_light"/>
+
 </selector>
