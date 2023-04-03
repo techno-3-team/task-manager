@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Менеджер задач</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="list1">list 1</string>
+    <string name="list2">list 2</string>
+    <string name="list3">list 3</string>
+    <string name="list1231">list 1231</string>
+    <string name="list5">list 5</string>
+    <string name="list12341">list 12341</string>
+    <string name="set_deadline">установить дедлайн</string>
+
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="continue_without_authorization">Войти без аккаунта</string>
+    <string name="continue_with_google">Войти с Google</string>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="list_toolbar_name">Списки</string>
+    <string name="task_toolbar_name">Задача</string>
+    <string name="subtask_toolbar_name">Подзадача</string>
+
+    <string name="move_above">Move above</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="clear_checked">clear checked</string>
+    <string name="sort_order">tasks sort order</string>
+    <string name="sort_by_date">по дате</string>
+    <string name="sort_by_name">по названию</string>
+    <string name="sort_by_importance">по важности</string>
+
+    <string name="google_account">Google аккаунт</string>
+    <string name="en">EN</string>
+    <string name="ru">RU</string>
+    <string name="switch_languages">переключение языков</string>
+    <string name="switch_theme">переключение темы</string>
+
+    <string name="trashbox">delete</string>
+
+    <string-array name="lists">
+        <item>tasks list 1</item>
+        <item>tasks list 2</item>
+        <item>tasks list 3</item>
+        <item>tasks list 4</item>
+    </string-array>
+
+    <string name="floating_action_button">floating action button</string>
+    <string name="add_new_list">add new list</string>
+    <string name="task_description">описание задачи</string>
+    <string name="subtask_description">описание подзадачи</string>
+    <string name="parent_task_name">Название задачи</string>
+    <string name="subtask_name">Название подзадачи</string>
+</resources>

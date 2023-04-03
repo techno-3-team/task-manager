@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.HasCustomTitle
 import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import com.techno_3_team.task_manager.navigator
@@ -69,7 +70,7 @@ class TaskFragment : SubtaskFragment(), HasCustomTitle, HasDeleteAction {
         }
     }
 
-    override fun getCustomTitle() = "задача"
+    override fun getCustomTitle() = getString(R.string.task_toolbar_name)
 
     override fun deleteElement() {
 //        TODO("Not yet implemented")

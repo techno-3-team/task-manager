@@ -12,6 +12,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import com.techno_3_team.task_manager.HasCustomTitle
 import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.SUBTASK_KEY
 import java.util.*
@@ -82,7 +83,7 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         binding.tvDateTime.text = "$savedHour:$savedMinute, $savedDay-${savedMonth + 1}-$savedYear"
     }
 
-    override fun getCustomTitle() = "подзадача"
+    override fun getCustomTitle() = getString(R.string.subtask_toolbar_name)
 
     companion object {
         @JvmStatic

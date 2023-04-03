@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.techno_3_team.task_manager.HasCustomTitle
 import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
@@ -57,7 +58,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
         super.onDestroyView()
     }
 
-    override fun getCustomTitle() = "списки"
+    override fun getCustomTitle() = getString(R.string.list_toolbar_name)
 
     companion object {
         @JvmStatic

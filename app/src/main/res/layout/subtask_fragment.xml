@@ -15,7 +15,7 @@
         android:button="@drawable/custom_checkbox"
         android:checked="false"
         android:paddingStart="8dp"
-        android:text="@string/parent_task"
+        android:text="@string/subtask_name"
         android:textColor="#001018"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="11dp"
             android:layout_weight="1"
-            android:text="@string/SetDate"
+            android:text="@string/set_deadline"
             android:textColor="#1D3557"
             android:textSize="14sp" />
     </LinearLayout>
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="top|start"
-            android:hint="@string/task_description"
+            android:hint="@string/subtask_description"
             android:inputType="textMultiLine"
             android:lines="6"
             android:overScrollMode="always"
