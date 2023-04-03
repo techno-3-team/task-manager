@@ -5,16 +5,16 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/white">
+    android:background="@color/white">
 
     <CheckBox
         android:id="@+id/taskCheck"
+        style="@style/custom_checkbox_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:checked="false"
-        style="@style/custom_checkbox_style"
         android:textColor="#001018"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,19 +114,19 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/FAB"
+        style="@style/fab_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:clickable="true"
-        app:shapeAppearanceOverlay="@style/fab_shape"
         android:focusable="true"
-        style="@style/fab_style"
         android:src="@drawable/baseline_add"
         app:backgroundTint="@color/main_teal"
         app:circularflow_radiusInDP="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:shapeAppearanceOverlay="@style/fab_shape" />
 
     <EditText
         android:id="@+id/editText"
