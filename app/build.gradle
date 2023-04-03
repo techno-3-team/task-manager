@@ -39,7 +39,7 @@ android {
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation 'androidx.preference:preference:1.2.0'
 
     // Navigation Component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
