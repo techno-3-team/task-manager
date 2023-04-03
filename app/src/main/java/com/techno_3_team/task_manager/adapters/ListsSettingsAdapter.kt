@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.structures.ListOfTasks
 import com.techno_3_team.task_manager.support.ItemTouchHelperAdapter
@@ -43,6 +44,11 @@ class ListsSettingsAdapter(
             listSubName.text = "${list.completed} из ${list.total}"
         }
 
+    }
+
+    fun addMovie(list: ListOfTasks) {
+        lists.add(list)
+        notifyItemInserted(lists.size - 1)
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
