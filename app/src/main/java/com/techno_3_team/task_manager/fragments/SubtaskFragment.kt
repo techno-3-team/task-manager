@@ -13,6 +13,7 @@ import android.widget.TimePicker
 import com.techno_3_team.task_manager.HasCustomTitle
 import com.techno_3_team.task_manager.HasDeleteAction
 import com.techno_3_team.task_manager.R
+import com.techno_3_team.task_manager.databinding.SubtaskFragmentBinding
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.SUBTASK_KEY
 import java.util.*
@@ -20,7 +21,7 @@ import java.util.*
 open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener, HasCustomTitle, HasDeleteAction {
 
-    private lateinit var binding: TaskFragmentBinding
+    private lateinit var binding: SubtaskFragmentBinding
 
     private var day = 0
     private var month = 0
@@ -39,14 +40,27 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = TaskFragmentBinding.inflate(inflater)
+        binding = SubtaskFragmentBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        with (binding) {
+            taskCheck.setOnClickListener {
+                if (taskCheck.isChecked) {
+                    taskCheck.alpha = 0.5f
+                    llDateTime.alpha = 0.5f
+                    linearLayout.alpha = 0.5f
+                } else {
+                    taskCheck.alpha = 1f
+                    llDateTime.alpha = 1f
+                    linearLayout.alpha = 1f
+                }
+            }
+        }
 // тут NPE из-за наследования
-//        pickDate()
+        pickDate()
     }
 
     private fun getDateTimeCalendar() {

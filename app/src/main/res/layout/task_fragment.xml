@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/white">
 
     <CheckBox
         android:id="@+id/taskCheck"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="12dp"
-        android:button="@drawable/custom_checkbox"
         android:checked="false"
-        android:paddingStart="8dp"
-        android:text="@string/parent_task_name"
+        style="@style/custom_checkbox_style"
         android:textColor="#001018"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,9 +28,9 @@
         android:background="@drawable/custom_spinner"
         android:entries="@array/lists"
         android:padding="0dp"
-        android:paddingStart="16dp"
+        android:paddingStart="26dp"
         android:popupElevation="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/taskCheck"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/taskCheck"
         app:layout_constraintTop_toBottomOf="@+id/taskCheck" />
 
@@ -50,7 +48,7 @@
             android:id="@+id/ivCalendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="2dp"
+            android:paddingStart="10dp"
             app:srcCompat="@drawable/calendar" />
 
         <TextView
@@ -77,21 +75,22 @@
             android:id="@+id/ivDesc"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:paddingStart="-1dp"
+            android:paddingStart="10dp"
             android:scaleType="center"
             app:srcCompat="@drawable/description" />
 
         <EditText
             android:id="@+id/taDesc"
-            android:layout_width="360dp"
-            android:layout_height="117dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="top|start"
             android:hint="@string/task_description"
-            android:inputType="textMultiLine"
-            android:lines="6"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="2000"
+            android:maxLines="6"
             android:overScrollMode="always"
-            android:paddingStart="2dp"
+            android:paddingStart="10dp"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
@@ -109,8 +108,8 @@
         android:paddingTop="16dp"
         android:paddingRight="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -120,10 +119,27 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:clickable="true"
+        app:shapeAppearanceOverlay="@style/fab_shape"
         android:focusable="true"
+        style="@style/fab_style"
         android:src="@drawable/baseline_add"
         app:backgroundTint="@color/main_teal"
         app:circularflow_radiusInDP="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Task Name"
+        android:textColor="#1D3557"
+        app:layout_constraintBottom_toBottomOf="@+id/taskCheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/taskCheck"
+        app:layout_constraintTop_toTopOf="@+id/taskCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>
