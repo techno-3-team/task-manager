@@ -11,8 +11,8 @@ class SpacingItemDecorator(private val verticalSpaceHeight: Int): RecyclerView.I
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        if (parent.getChildAdapterPosition(view) != parent.adapter!!.getItemCount() - 1) {
+//        if (parent.getChildAdapterPosition(view) != parent.adapter!!.getItemCount() - 1) {
             outRect.bottom = verticalSpaceHeight;
-        }
+//        }
     }
 }
