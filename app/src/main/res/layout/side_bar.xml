@@ -73,7 +73,7 @@
         android:paddingTop="18dp"
         android:paddingEnd="16dp"
         android:paddingBottom="18dp"
-        android:text="@string/lists"
+        android:text="@string/list_toolbar_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btGoogleSideBAr" />

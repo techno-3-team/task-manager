@@ -2,7 +2,6 @@ package com.techno_3_team.task_manager.fragments
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.techno_3_team.task_manager.adapters.TabPagerAdapter
 import com.techno_3_team.task_manager.data.LTSTViewModel
 import com.techno_3_team.task_manager.data.entities.Task
 import com.techno_3_team.task_manager.databinding.TaskListContainerFragmentBinding
+import com.techno_3_team.task_manager.navigator
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 
@@ -71,6 +71,11 @@ class TaskListContainerFragment : Fragment(), HasMainScreenActions {
                 viewPager.currentItem = tab.position
             }
         })
+
+
+        _binding.FAB.setOnClickListener {
+            navigator().showMainTaskScreen(0)
+        }
     }
 
     companion object {

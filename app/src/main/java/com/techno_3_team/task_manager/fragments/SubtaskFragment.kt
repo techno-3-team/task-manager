@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.widget.DatePicker
 import android.widget.TimePicker
 import com.techno_3_team.task_manager.HasCustomTitle
 import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.R
+import com.techno_3_team.task_manager.databinding.SubtaskFragmentBinding
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.SUBTASK_KEY
 import java.util.*
@@ -19,7 +20,7 @@ import java.util.*
 open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener, HasCustomTitle, HasDeleteAction {
 
-    private lateinit var binding: TaskFragmentBinding
+    private lateinit var binding: SubtaskFragmentBinding
 
     private var day = 0
     private var month = 0
@@ -38,14 +39,27 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = TaskFragmentBinding.inflate(inflater)
+        binding = SubtaskFragmentBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-// тут NPE из-за наследования
-//        pickDate()
+        with (binding) {
+            taskCheck.setOnClickListener {
+                if (taskCheck.isChecked) {
+                    taskCheck.alpha = 0.5f
+                    llDateTime.alpha = 0.5f
+                    linearLayout.alpha = 0.5f
+                } else {
+                    taskCheck.alpha = 1f
+                    llDateTime.alpha = 1f
+                    linearLayout.alpha = 1f
+                }
+            }
+        }
+
+        pickDate()
     }
 
     private fun getDateTimeCalendar() {
@@ -82,7 +96,7 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         binding.tvDateTime.text = "$savedHour:$savedMinute, $savedDay-${savedMonth + 1}-$savedYear"
     }
 
-    override fun getCustomTitle() = "подзадача"
+    override fun getCustomTitle() = getString(R.string.subtask_toolbar_name)
 
     companion object {
         @JvmStatic

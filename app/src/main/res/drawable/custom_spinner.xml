@@ -8,7 +8,7 @@
     </item>
     <item
         android:drawable="@drawable/arrow_down"
-        android:left="0dp"
+        android:left="8dp"
         android:top="14dp"
         android:height="12dp"
         android:width="18dp"/>

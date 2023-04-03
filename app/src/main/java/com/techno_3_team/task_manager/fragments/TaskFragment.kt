@@ -1,24 +1,42 @@
 package com.techno_3_team.task_manager.fragments
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
+import android.widget.TimePicker
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.techno_3_team.task_manager.HasCustomTitle
-import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
-import com.techno_3_team.task_manager.navigator
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY
+import java.util.*
 
 
-class TaskFragment : SubtaskFragment(), HasCustomTitle, HasDeleteAction {
+class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
+    TimePickerDialog.OnTimeSetListener, HasCustomTitle, HasDeleteAction {
+
 
     private lateinit var binding: TaskFragmentBinding
-    private var list: List<String> = listOf("list1", "list2", "list3", "list123")
+
+    private var day = 0
+    private var month = 0
+    private var year = 0
+    private var hour = 0
+    private var minute = 0
+
+    private var savedDay = 0
+    private var savedMonth = 0
+    private var savedYear = 0
+    private var savedHour = 0
+    private var savedMinute = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,15 +61,65 @@ class TaskFragment : SubtaskFragment(), HasCustomTitle, HasDeleteAction {
             lvTasksList.adapter = subTaskAdapter
             lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
 
-            if (taskCheck.isChecked) {
-                taskCheck.alpha = 0.5f
-                listSpin.alpha = 0.5f
-                llDateTime.alpha = 0.5f
-                linearLayout.alpha = 0.5f
-                lvTasksList.alpha = 0.5f
+            taskCheck.setOnClickListener {
+                if (taskCheck.isChecked) {
+                    editText.alpha = 0.5f
+                    taskCheck.alpha = 0.5f
+                    listSpin.alpha = 0.5f
+                    llDateTime.alpha = 0.5f
+                    linearLayout.alpha = 0.5f
+                    lvTasksList.alpha = 0.5f
+                } else {
+                    editText.alpha = 1f
+                    taskCheck.alpha = 1f
+                    listSpin.alpha = 1f
+                    llDateTime.alpha = 1f
+                    linearLayout.alpha = 1f
+                    lvTasksList.alpha = 1f
+                }
+            }
+            pickDate()
+
+            FAB.setOnClickListener {
+                navigator().showSubtaskScreen()
             }
         }
 
+    }
+
+
+    private fun getDateTimeCalendar() {
+        val cal = Calendar.getInstance()
+        day = cal.get(Calendar.DAY_OF_MONTH)
+        month = cal.get(Calendar.MONTH)
+        year = cal.get(Calendar.YEAR)
+        hour = cal.get(Calendar.HOUR)
+        minute = cal.get(Calendar.MINUTE)
+    }
+
+    fun pickDate() {
+        binding.llDateTime.setOnClickListener {
+            getDateTimeCalendar()
+            this.context?.let { it1 -> DatePickerDialog(it1, this, year, month, day).show() }
+        }
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        savedDay = dayOfMonth
+        savedMonth = month
+        savedYear = year
+
+        getDateTimeCalendar()
+
+        TimePickerDialog(this.context, this, hour, minute, true).show()
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+        savedHour = hourOfDay
+        savedMinute = minute
+
+        binding.tvDateTime.text = "$savedHour:$savedMinute, $savedDay-${savedMonth + 1}-$savedYear"
     }
 
     companion object {
@@ -69,7 +137,7 @@ class TaskFragment : SubtaskFragment(), HasCustomTitle, HasDeleteAction {
         }
     }
 
-    override fun getCustomTitle() = "задача"
+    override fun getCustomTitle() = getString(R.string.task_toolbar_name)
 
     override fun deleteElement() {
 //        TODO("Not yet implemented")

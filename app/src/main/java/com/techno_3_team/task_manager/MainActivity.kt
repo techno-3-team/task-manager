@@ -1,5 +1,8 @@
 package com.techno_3_team.task_manager
 
+import android.app.Activity
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.*
@@ -21,10 +24,8 @@ import com.techno_3_team.task_manager.fragments.TaskFragment
 import com.techno_3_team.task_manager.fragments.TaskListContainerFragment
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.structures.Subtask
-import com.techno_3_team.task_manager.support.AUTH_KEY
-import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
-import com.techno_3_team.task_manager.support.RESULT_KEY
-import com.techno_3_team.task_manager.support.RandomData
+import com.techno_3_team.task_manager.support.*
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), Navigator {
@@ -103,31 +104,36 @@ class MainActivity : AppCompatActivity(), Navigator {
         mainBinding = MainFragmentBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
 
-
         val toolbar: Toolbar = findViewById(mainBinding.toolbar.id)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
-        supportActionBar?.title = "менеджер задач"
+        supportActionBar?.title = getString(R.string.app_name)
 
         initData()
 
         val taskListContainerFragment = TaskListContainerFragment.newInstance(listOfLists)
         if (savedInstanceState == null) {
             supportFragmentManager
-            .beginTransaction()
-            .add(mainBinding.mainContainer.id, taskListContainerFragment, "MF")
-            .commit()
+                .beginTransaction()
+                .add(mainBinding.mainContainer.id, taskListContainerFragment, "MF")
+                .commit()
         }
-
         mainBinding.sideBar.btListsSideBar.setOnClickListener {
             showListSettingsScreen()
         }
-
-        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, false)
+        mainBinding.sideBar.radioButtonEn.setOnClickListener {
+            setLocaleLanguage(this, "en")
+        }
+        mainBinding.sideBar.radioButtonRus.setOnClickListener {
+            setLocaleLanguage(this, "ru")
+        }
 
         setCurrentThemeIcon()
+        setLanguageRadioButton()
+
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, false)
 
 //        ltstViewModel = ViewModelProvider(this)[LTSTViewModel::class.java]
 //        ltstViewModel.readTasks.observe(viewLifecycleOwner) { }
@@ -157,13 +163,13 @@ class MainActivity : AppCompatActivity(), Navigator {
         return super.onSupportNavigateUp()
     }
 
-    override fun showMainTaskScreen() {
-        val randomSubtaskList = randomData.getRandomSubtasks(5)
+    override fun showMainTaskScreen(subtasksCount: Int) {
+        val randomSubtaskList = randomData.getRandomSubtasks(subtasksCount)
         launchFragment(TaskFragment.newInstance(randomSubtaskList))
     }
 
-    override fun showSubtaskScreen(subtask: Subtask) {
-        launchFragment(SubtaskFragment.newInstance(subtask))
+    override fun showSubtaskScreen() {
+        launchFragment(SubtaskFragment.newInstance(RandomData.getRandomSubtask()))
     }
 
     override fun showListSettingsScreen() {
@@ -199,9 +205,8 @@ class MainActivity : AppCompatActivity(), Navigator {
         if (fragment is HasCustomTitle) {
             supportActionBar?.title = (fragment as HasCustomTitle).getCustomTitle()
         } else {
-            supportActionBar?.title = "менеджер задач"
+            supportActionBar?.title = getString(R.string.app_name)
         }
-
         onCreateOptionsMenu(mainBinding.toolbar.menu)
     }
 
@@ -262,6 +267,43 @@ class MainActivity : AppCompatActivity(), Navigator {
             .apply()
         recreate()
     }
+
+    private fun setLanguageRadioButton() {
+        val languageCode = preference.getInt(LANGUAGE_KEY, -1)
+
+        val currLang = Locale.getDefault().language
+        if (languageCode < 1 && currLang == "en" || languageCode == 0 && currLang == "ru") {
+            mainBinding.sideBar.radioButtonEn.isChecked = true
+        }
+
+        if (languageCode == 0 && currLang == "ru") {
+            setLocaleLanguage(this, "en")
+        } else if (languageCode > 0 && currLang == "en") {
+            setLocaleLanguage(this, "ru")
+        }
+    }
+
+    private fun setLocaleLanguage(activity: Activity, languageStringCode: String?) {
+        if (Locale.getDefault().language == languageStringCode) {
+            return
+        }
+        preference.edit()
+            .putInt(
+                LANGUAGE_KEY,
+                if (languageStringCode == "ru") 1 else 0
+            ).apply()
+
+        val locale = languageStringCode?.let { Locale(it) }
+        if (locale != null) {
+            Locale.setDefault(locale)
+        }
+        val resources: Resources = activity.resources
+        val config: Configuration = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+        recreate()
+    }
+
 
 //    private fun insertExample() {
 //        ltstViewModel.addList(

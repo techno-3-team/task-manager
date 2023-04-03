@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">task-manager</string>
+    <string name="app_name">Task manager</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
@@ -9,12 +9,15 @@
     <string name="list1231">list 1231</string>
     <string name="list5">list 5</string>
     <string name="list12341">list 12341</string>
-    <string name="SetDate">Set date and time</string>
+    <string name="set_deadline">set deadline</string>
 
     <string name="app_widget_description">This is an app widget description</string>
-    <string name="continue_without_authorization">Войти без аккаунта</string>
-    <string name="continue_with_google">Войти с Google</string>
-    <string name="welcome">Добро пожаловать в ...</string>
+    <string name="continue_without_authorization">Sign in without an account</string>
+    <string name="continue_with_google">Sign in with Google</string>
+    <string name="welcome">Welcome!</string>
+    <string name="list_toolbar_name">Lists</string>
+    <string name="task_toolbar_name">Task</string>
+    <string name="subtask_toolbar_name">Subtask</string>
 
     <string name="move_above">Move above</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -26,12 +29,11 @@
     <string name="sort_by_name">by name</string>
     <string name="sort_by_importance">by importance</string>
 
-    <string name="google_account">Google аккаунт</string>
-    <string name="lists">Списки</string>
+    <string name="google_account">Google account</string>
     <string name="en">EN</string>
     <string name="ru">RU</string>
-    <string name="switch_languages">переключение языков</string>
-    <string name="switch_theme">переключение темы</string>
+    <string name="switch_languages">switch language</string>
+    <string name="switch_theme">switch theme</string>
 
     <string name="trashbox">delete</string>
 
@@ -45,5 +47,7 @@
     <string name="floating_action_button">floating action button</string>
     <string name="add_new_list">add new list</string>
     <string name="task_description">task description</string>
-    <string name="parent_task">Parent Task</string>
+    <string name="subtask_description">subtask description</string>
+    <string name="parent_task_name">task name</string>
+    <string name="subtask_name">subtask name</string>
 </resources>
