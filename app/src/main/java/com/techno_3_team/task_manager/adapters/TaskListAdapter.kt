@@ -1,7 +1,6 @@
 package com.techno_3_team.task_manager.adapters
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
@@ -61,10 +60,8 @@ class TaskListAdapter(
                 subProgress.text = "${task.doneSubtasksCount} из ${task.allSubtasksCount}"
             }
 
-            itemView
-
             itemView.setOnClickListener {
-                navigator.showMainTaskScreen()
+                navigator.showMainTaskScreen(5)
             }
         }
     }

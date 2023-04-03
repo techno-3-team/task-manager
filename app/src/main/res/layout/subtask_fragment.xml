@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:background="@color/white"
     android:layout_width="match_parent"
@@ -11,11 +10,10 @@
         android:id="@+id/taskCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="16dp"
         android:checked="false"
         style="@style/custom_checkbox_style"
-        android:textColor="#001018"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,10 +22,11 @@
         android:id="@+id/llDateTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/taskCheck"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/taskCheck">
 
         <ImageView
@@ -41,10 +40,10 @@
             android:id="@+id/tvDateTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:text="@string/set_deadline"
-            android:textColor="#1D3557" />
+            android:textColor="@color/task_header_color" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,8 +58,8 @@
 
         <ImageView
             android:id="@+id/ivDesc"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingStart="10dp"
             android:scaleType="center"
             app:srcCompat="@drawable/description" />
@@ -71,17 +70,16 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="top|start"
-            android:hint="@string/task_description"
+            android:hint="@string/subtask_description"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLength="2000"
-            android:maxLines="6"
             android:overScrollMode="always"
             android:paddingStart="10dp"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColorHint="#1D3557"
+            android:textColorHint="@color/task_header_color"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -92,8 +90,8 @@
         android:background="@null"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="SubTask Name"
-        android:textColor="#1D3557"
+        android:text="@string/subtask_name"
+        android:textColor="@color/task_header_color"
         app:layout_constraintBottom_toBottomOf="@+id/taskCheck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

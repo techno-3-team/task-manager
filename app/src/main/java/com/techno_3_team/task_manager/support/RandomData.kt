@@ -63,14 +63,20 @@ class RandomData(
         val subTaskList = ArrayList<Subtask>()
         for (i in 0 until count) {
             subTaskList.add(
-                Subtask(
-                    getRandomString((5..100).random()),
-                    Random.nextBoolean(),
-                    if (Random.nextBoolean()) null else Date(System.currentTimeMillis()),
-                    getRandomString((25..100).random()),
-                )
+                getRandomSubtask()
             )
         }
         return subTaskList
+    }
+
+    companion object {
+        fun getRandomSubtask() : Subtask {
+            return Subtask(
+                getRandomString((5..100).random()),
+                Random.nextBoolean(),
+                if (Random.nextBoolean()) null else Date(System.currentTimeMillis()),
+                getRandomString((25..100).random()),
+            )
+        }
     }
 }

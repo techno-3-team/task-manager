@@ -9,12 +9,12 @@
 
     <CheckBox
         android:id="@+id/taskCheck"
-        style="@style/custom_checkbox_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="16dp"
         android:checked="false"
+        style="@style/custom_checkbox_style"
         android:textColor="#001018"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,20 +25,21 @@
         android:layout_width="0dp"
         android:layout_height="36dp"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
         android:background="@drawable/custom_spinner"
         android:entries="@array/lists"
         android:padding="0dp"
-        android:paddingStart="26dp"
+        android:paddingStart="28dp"
         android:popupElevation="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/taskCheck"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskCheck" />
 
     <LinearLayout
         android:id="@+id/llDateTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/listSpin"
         app:layout_constraintStart_toStartOf="@+id/listSpin"
@@ -55,10 +56,10 @@
             android:id="@+id/tvDateTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:text="@string/set_deadline"
-            android:textColor="#1D3557" />
+            android:textColor="@color/task_header_color" />
     </LinearLayout>
 
     <LinearLayout
@@ -73,8 +74,8 @@
 
         <ImageView
             android:id="@+id/ivDesc"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingStart="10dp"
             android:scaleType="center"
             app:srcCompat="@drawable/description" />
@@ -88,14 +89,14 @@
             android:hint="@string/task_description"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLength="2000"
-            android:maxLines="6"
+            android:maxLines="10"
             android:overScrollMode="always"
             android:paddingStart="10dp"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColorHint="#1D3557"
+            android:textColorHint="@color/task_header_color"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -117,15 +118,12 @@
         style="@style/fab_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/floating_action_button"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/baseline_add"
-        app:backgroundTint="@color/main_teal"
-        app:circularflow_radiusInDP="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:shapeAppearanceOverlay="@style/fab_shape" />
 
     <EditText
@@ -135,8 +133,8 @@
         android:background="@null"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Task Name"
-        android:textColor="#1D3557"
+        android:text="@string/parent_task_name"
+        android:textColor="@color/task_header_color"
         app:layout_constraintBottom_toBottomOf="@+id/taskCheck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

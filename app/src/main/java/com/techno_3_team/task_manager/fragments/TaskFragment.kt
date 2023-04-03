@@ -11,16 +11,13 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import com.techno_3_team.task_manager.structures.Subtask
-import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
@@ -82,6 +79,10 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 }
             }
             pickDate()
+
+            FAB.setOnClickListener {
+                navigator().showSubtaskScreen()
+            }
         }
 
     }

@@ -48,6 +48,6 @@
     <string name="add_new_list">add new list</string>
     <string name="task_description">task description</string>
     <string name="subtask_description">subtask description</string>
-    <string name="parent_task_name">Task name</string>
-    <string name="subtask_name">Subtask name</string>
+    <string name="parent_task_name">task name</string>
+    <string name="subtask_name">subtask name</string>
 </resources>

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.widget.DatePicker
@@ -59,7 +58,7 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 }
             }
         }
-// тут NPE из-за наследования
+
         pickDate()
     }
 

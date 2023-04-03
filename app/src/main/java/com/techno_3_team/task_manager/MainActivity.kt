@@ -163,13 +163,13 @@ class MainActivity : AppCompatActivity(), Navigator {
         return super.onSupportNavigateUp()
     }
 
-    override fun showMainTaskScreen() {
-        val randomSubtaskList = randomData.getRandomSubtasks(5)
+    override fun showMainTaskScreen(subtasksCount: Int) {
+        val randomSubtaskList = randomData.getRandomSubtasks(subtasksCount)
         launchFragment(TaskFragment.newInstance(randomSubtaskList))
     }
 
-    override fun showSubtaskScreen(subtask: Subtask) {
-        launchFragment(SubtaskFragment.newInstance(subtask))
+    override fun showSubtaskScreen() {
+        launchFragment(SubtaskFragment.newInstance(RandomData.getRandomSubtask()))
     }
 
     override fun showListSettingsScreen() {

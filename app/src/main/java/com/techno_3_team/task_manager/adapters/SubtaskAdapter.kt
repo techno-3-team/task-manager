@@ -12,10 +12,8 @@ import com.techno_3_team.task_manager.Navigator
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.custom_views.TaskView
 import com.techno_3_team.task_manager.structures.Subtask
-import com.techno_3_team.task_manager.support.getRandomString
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.random.Random
 
 class SubtaskAdapter(
     private val tasks: ArrayList<Subtask>,
@@ -62,13 +60,7 @@ class SubtaskAdapter(
                 date.text = "${dateArr[2]} ${dateArr[1]}  ${dateArr[3]}".lowercase()
             }
             itemView.setOnClickListener {
-                val randomSubtask = Subtask(
-                    getRandomString((5..100).random()),
-                    Random.nextBoolean(),
-                    if (Random.nextBoolean()) null else Date(System.currentTimeMillis()),
-                    getRandomString((25..100).random()),
-                )
-                navigator.showSubtaskScreen(randomSubtask)
+                navigator.showSubtaskScreen()
             }
         }
     }
