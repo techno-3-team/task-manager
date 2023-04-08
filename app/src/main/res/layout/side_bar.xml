@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -41,33 +42,118 @@
             android:textAlignment="center" />
     </RadioGroup>
 
-    <Button
+    <!--    <Button-->
+    <!--        android:id="@+id/btGoogleSideBAr"-->
+    <!--        style="@style/sidebar_button_style"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginLeft="16dp"-->
+    <!--        android:layout_marginTop="124dp"-->
+    <!--        android:layout_marginRight="16dp"-->
+    <!--        android:drawableStart="@drawable/baseline_account_circle_24"-->
+    <!--        android:drawableEnd="@drawable/keyboard_arrow_up"-->
+    <!--        android:paddingStart="16dp"-->
+    <!--        android:paddingTop="18dp"-->
+    <!--        android:paddingEnd="16dp"-->
+    <!--        android:paddingBottom="18dp"-->
+    <!--        android:text="@string/google_account"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <RelativeLayout
         android:id="@+id/btGoogleSideBAr"
-        style="@style/sidebar_button_style"
+        style="@style/style_button_light_blue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="124dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        android:drawableStart="@drawable/baseline_account_circle_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/account_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/account_icon"
+            android:src="@drawable/baseline_account_circle_24" />
+
+        <TextView
+            android:id="@+id/google_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/account_image"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="start"
+            android:text="@string/google_account"
+            android:textColor="@color/dark_blue"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/account_select_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:contentDescription="@string/account_select_action"
+            android:gravity="center"
+            android:src="@drawable/keyboard_arrow_up" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btGoogleSideBAr2AccountManagement"
+        style="@style/style_button_light_blue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:drawableStart="@drawable/google"
         android:paddingStart="16dp"
         android:paddingTop="18dp"
         android:paddingEnd="16dp"
         android:paddingBottom="18dp"
-        android:text="@string/google_account"
+        android:text="@string/account_managenet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btGoogleSideBAr" />
 
     <Button
-        android:id="@+id/btListsSideBar"
-        style="@style/sidebar_button_style"
+        android:id="@+id/btGoogleSideBAr2Sync"
+        style="@style/style_button_light_blue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:drawableStart="@drawable/sync"
+        android:paddingStart="16dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="18dp"
+        android:text="@string/synchronize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btGoogleSideBAr2AccountManagement" />
+
+    <Button
+        android:id="@+id/btListsSideBar"
+        style="@style/style_button_light_blue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:drawableStart="@drawable/baseline_format_list_bulleted_24"
         android:paddingStart="16dp"
         android:paddingTop="18dp"
@@ -76,7 +162,7 @@
         android:text="@string/list_toolbar_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btGoogleSideBAr" />
+        app:layout_constraintTop_toBottomOf="@+id/btGoogleSideBAr2Sync" />
 
     <ImageButton
         android:id="@+id/btSwitcherTheme"
@@ -93,4 +179,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/baseline_wb_sunny_32" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/managementGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="btGoogleSideBAr2AccountManagement,btGoogleSideBAr2Sync"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

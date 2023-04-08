@@ -28,9 +28,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="baseline_check_box_outline_blank_24" />
-                            <entry key="sourceFile" value="E:\Projects\task-manager\app\src\main\res\drawable\arrow-drop-up-1-svgrepo-com.svg" />
+                            <entry key="outputName" value="keyboard_arrow_up" />
+                            <entry key="sourceFile" value="D:\keyboard_arrow_up.svg" />
                           </map>
                         </option>
                       </PersistentState>

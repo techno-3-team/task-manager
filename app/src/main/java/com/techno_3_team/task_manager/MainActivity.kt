@@ -1,5 +1,6 @@
 package com.techno_3_team.task_manager
 
+import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.content.res.Configuration
 import android.content.res.Resources
@@ -23,7 +24,6 @@ import com.techno_3_team.task_manager.fragments.SubtaskFragment
 import com.techno_3_team.task_manager.fragments.TaskFragment
 import com.techno_3_team.task_manager.fragments.TaskListContainerFragment
 import com.techno_3_team.task_manager.structures.ListOfLists
-import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.*
 import java.util.*
 
@@ -57,6 +57,12 @@ class MainActivity : AppCompatActivity(), Navigator {
             updateUi()
         }
     }
+    private var managementShown = false
+
+    //временная переменная до создания логики авторизированного пользователя
+    //TODO: инициализировать переменную в правильных местах
+    private var authorized = true
+//    private var authorized = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initTheme()
@@ -84,9 +90,9 @@ class MainActivity : AppCompatActivity(), Navigator {
         isDay = isDefaultThemeKey
 
         if (isDefaultThemeKey) {
-            setTheme(R.style.Theme_CustomTheme_Default);
+            setTheme(R.style.Theme_CustomTheme_Default)
         } else {
-            setTheme(R.style.Theme_CustomTheme_Light);
+            setTheme(R.style.Theme_CustomTheme_Light)
         }
     }
 
@@ -128,6 +134,20 @@ class MainActivity : AppCompatActivity(), Navigator {
         }
         mainBinding.sideBar.radioButtonRus.setOnClickListener {
             setLocaleLanguage(this, "ru")
+        }
+
+        setAccountButton()
+        mainBinding.sideBar.btGoogleSideBAr.setOnClickListener {
+            accountManagement()
+        }
+
+        mainBinding.sideBar.btGoogleSideBAr2AccountManagement.setOnClickListener {
+            //TODO: управление аккаунтами гугл
+        }
+
+        mainBinding.sideBar.btGoogleSideBAr2Sync.setOnClickListener {
+            //TODO: синхорнизировать задачи с гугл аккаунтом.
+            //для разреешения коллизий -- наше приложение в приоритете
         }
 
         setCurrentThemeIcon()
@@ -302,6 +322,39 @@ class MainActivity : AppCompatActivity(), Navigator {
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
         recreate()
+    }
+
+    fun rotateFab(view: View, rotate: Boolean): Boolean {
+        view.animate().setDuration(200)
+            .setListener(object : AnimatorListenerAdapter() {})
+            .rotation(if (rotate) 180f else 0f)
+        return rotate
+    }
+
+    private fun accountManagement() {
+        if (authorized) {
+            managementShown = rotateFab(mainBinding.sideBar.accountSelectAction, !managementShown)
+            mainBinding.sideBar.managementGroup.visibility = when {
+                managementShown -> View.GONE
+                else -> View.VISIBLE
+            }
+        } else {
+            //авторизация -- войти
+        }
+    }
+
+
+    private fun setAccountButton() {
+        if(authorized){
+            //TODO: получить имя пользователя
+            val accountName = null
+            mainBinding.sideBar.googleAccount.text = accountName
+        } else {
+            mainBinding.sideBar.accountSelectAction.visibility = View.GONE
+            mainBinding.sideBar.managementGroup.visibility = View.GONE
+            mainBinding.sideBar.accountImage.setImageResource(R.drawable.google)
+            mainBinding.sideBar.googleAccount.setText(R.string.continue_with_google)
+        }
     }
 
 
