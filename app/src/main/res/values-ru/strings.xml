@@ -30,6 +30,8 @@
     <string name="sort_by_importance">по важности</string>
 
     <string name="google_account">Google аккаунт</string>
+    <string name="account_managenet">Управление аккаунтом</string>
+    <string name="synchronize">Синхронизировать</string>
     <string name="en">EN</string>
     <string name="ru">RU</string>
     <string name="switch_languages">переключение языков</string>
@@ -50,4 +52,6 @@
     <string name="subtask_description">описание подзадачи</string>
     <string name="parent_task_name">название задачи</string>
     <string name="subtask_name">название подзадачи</string>
+    <string name="account_icon">аватарка аккаунта</string>
+    <string name="account_select_action">аккаунт выберете действие</string>
 </resources>

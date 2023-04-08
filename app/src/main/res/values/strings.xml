@@ -30,6 +30,8 @@
     <string name="sort_by_importance">by importance</string>
 
     <string name="google_account">Google account</string>
+    <string name="account_managenet">Account management</string>
+    <string name="synchronize">Synchronize</string>
     <string name="en">EN</string>
     <string name="ru">RU</string>
     <string name="switch_languages">switch language</string>
@@ -50,4 +52,6 @@
     <string name="subtask_description">subtask description</string>
     <string name="parent_task_name">task name</string>
     <string name="subtask_name">subtask name</string>
+    <string name="account_icon">account icon</string>
+    <string name="account_select_action">account select action</string>
 </resources>
