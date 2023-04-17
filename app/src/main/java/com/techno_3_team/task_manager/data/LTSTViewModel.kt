@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class LTSTViewModel(application: Application) : AndroidViewModel(application) {
 
     val readTasks: LiveData<ListWithTasks>
-     val readSubtasks: LiveData<TaskWithSubtasks>
+    val readSubtasks: LiveData<TaskWithSubtasks>
     private val repository: LTSTRepository
 
     init {

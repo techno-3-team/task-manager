@@ -19,11 +19,12 @@ import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.structures.ListOfTasks
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
-import com.techno_3_team.task_manager.support.SimpleItemTouchHelperCallback
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
+import com.techno_3_team.task_manager.support.SwipeHelper
 
 
 class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
+    private var toast: Toast? = null
     private var binding: FragmentListsSettingsBinding? = null
     private val _binding: FragmentListsSettingsBinding
         get() = binding!!
@@ -53,8 +54,15 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
             lists.layoutManager = GridLayoutManager(lists.context, 1)
             lists.addItemDecoration(SpacingItemDecorator(20))
 
-            val callback = SimpleItemTouchHelperCallback(listSettingsAdapter)
-            val touchHelper = ItemTouchHelper(callback)
+            val touchHelper = ItemTouchHelper(object : SwipeHelper(lists) {
+                override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
+                    var buttons = listOf<UnderlayButton>()
+                    val deleteButton = deleteButton(position)
+                    val markAsUnreadButton =editButton(position, view)
+                    buttons = listOf(deleteButton, markAsUnreadButton)
+                    return buttons
+                }
+            })
             touchHelper.attachToRecyclerView(lists)
 
             FABls.setOnClickListener {
@@ -73,14 +81,70 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
         layoutName.addView(text)
         builder.setView(layoutName)
         builder.setPositiveButton("Add") { _, _ ->
-            Toast.makeText(view.context, "Added new list ${text.text}", Toast.LENGTH_SHORT).show()
+            toast("Added new list ${text.text}")
             val adapter = _binding.lists.adapter as ListsSettingsAdapter
-            adapter.addMovie(
+            adapter.addList(
                 ListOfTasks(
                     text.text.toString(),
                     ArrayList(), 0, 0
                 )
             )
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+        builder.show()
+    }
+
+    private fun toast(text: String) {
+        toast?.cancel()
+        toast = Toast.makeText(_binding.lists.context, text, Toast.LENGTH_SHORT)
+        toast?.show()
+    }
+
+
+    private fun deleteButton(position: Int) : SwipeHelper.UnderlayButton {
+        return SwipeHelper.UnderlayButton(
+            _binding.lists.context,
+            "Delete",
+            14.0f,
+            android.R.color.holo_red_light,
+            object : SwipeHelper.UnderlayButtonClickListener {
+                override fun onClick() {
+                    val adapter = _binding.lists.adapter as ListsSettingsAdapter
+                    val name = adapter.getNameOfList(position);
+                    adapter.deleteList(position);
+                    toast("Deleted list $name")
+                }
+            })
+    }
+
+    private fun editButton(position: Int, view: View) : SwipeHelper.UnderlayButton {
+        return SwipeHelper.UnderlayButton(
+            _binding.lists.context,
+            "Edit",
+            14.0f,
+            android.R.color.holo_green_light,
+            object : SwipeHelper.UnderlayButtonClickListener {
+                override fun onClick() {
+                    onEditDialog(view, position)
+                    toast("Marked as unread item $position")
+                }
+            })
+    }
+
+    private fun onEditDialog(view: View, position: Int) {
+        val builder = AlertDialog.Builder(view.context)
+        builder.setTitle("Edit")
+        builder.setMessage("Edit name of new list")
+        val layoutName = LinearLayout(view.context)
+        layoutName.orientation = LinearLayout.VERTICAL
+        val text = EditText(view.context)
+        text.setText((_binding.lists.adapter as ListsSettingsAdapter).getNameOfList(position))
+        layoutName.addView(text)
+        builder.setView(layoutName)
+        builder.setPositiveButton("Edit") { _, _ ->
+            toast("Edited name of to ${text.text}")
+            val adapter = _binding.lists.adapter as ListsSettingsAdapter
+            adapter.changeNameOfList(position, text.text.toString())
         }
         builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
         builder.show()
