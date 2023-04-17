@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.structures.ListOfTasks
 import com.techno_3_team.task_manager.support.ItemTouchHelperAdapter
@@ -46,9 +45,23 @@ class ListsSettingsAdapter(
 
     }
 
-    fun addMovie(list: ListOfTasks) {
+    fun addList(list: ListOfTasks) {
         lists.add(list)
         notifyItemInserted(lists.size - 1)
+    }
+
+    fun deleteList(position: Int) {
+        lists.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun getNameOfList(position: Int): String {
+        return lists[position].name
+    }
+
+    fun changeNameOfList(position: Int, name: String) {
+        lists[position].name = name
+        notifyItemChanged(position)
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
