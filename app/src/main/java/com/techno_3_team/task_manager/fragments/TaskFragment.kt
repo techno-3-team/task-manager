@@ -66,10 +66,6 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             lvTasksList.adapter = subTaskAdapter
             lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
 
-            editText.setOnClickListener {
-                editText.setHintTextColor(resources.getColor(R.color.focused_hint_color))
-            }
-
             editText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                     editText.clearFocus()
@@ -77,10 +73,6 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 }
                 false
             })
-
-            taDesc.setOnClickListener {
-                taDesc.setHintTextColor(resources.getColor(R.color.focused_hint_color))
-            }
 
             taskCheck.setOnClickListener {
                 if (taskCheck.isChecked) {
