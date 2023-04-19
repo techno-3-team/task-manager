@@ -3,15 +3,20 @@ package com.techno_3_team.task_manager.fragments
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.TimePicker
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
@@ -61,8 +66,28 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             lvTasksList.adapter = subTaskAdapter
             lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
 
+            editText.setOnClickListener {
+                editText.setHintTextColor(resources.getColor(R.color.focused_hint_color))
+            }
+
+            editText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                    editText.clearFocus()
+                    return@OnKeyListener true
+                }
+                false
+            })
+
+            taDesc.setOnClickListener {
+                taDesc.setHintTextColor(resources.getColor(R.color.focused_hint_color))
+            }
+
             taskCheck.setOnClickListener {
                 if (taskCheck.isChecked) {
+                    editText.isEnabled = false
+                    listSpin.isEnabled = false
+                    llDateTime.isEnabled = false
+                    taDesc.isEnabled = false
                     editText.alpha = 0.5f
                     taskCheck.alpha = 0.5f
                     listSpin.alpha = 0.5f
@@ -70,6 +95,10 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     linearLayout.alpha = 0.5f
                     lvTasksList.alpha = 0.5f
                 } else {
+                    editText.isEnabled = true
+                    listSpin.isEnabled = true
+                    llDateTime.isEnabled = true
+                    taDesc.isEnabled = true
                     editText.alpha = 1f
                     taskCheck.alpha = 1f
                     listSpin.alpha = 1f
@@ -84,7 +113,6 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 navigator().showSubtaskScreen()
             }
         }
-
     }
 
 
@@ -100,7 +128,7 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     fun pickDate() {
         binding.llDateTime.setOnClickListener {
             getDateTimeCalendar()
-            this.context?.let { it1 -> DatePickerDialog(it1, this, year, month, day).show() }
+            this.context?.let { it1 -> DatePickerDialog(it1, R.style.TimePickerTheme, this, year, month, day).show() }
         }
     }
 
@@ -111,7 +139,7 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         getDateTimeCalendar()
 
-        TimePickerDialog(this.context, this, hour, minute, true).show()
+        TimePickerDialog(this.context, R.style.TimePickerTheme, this, hour, minute, true).show()
     }
 
     @SuppressLint("SetTextI18n")

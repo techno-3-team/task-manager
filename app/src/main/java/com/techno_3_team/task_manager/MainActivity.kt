@@ -2,11 +2,13 @@ package com.techno_3_team.task_manager
 
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
+import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -82,6 +84,19 @@ class MainActivity : AppCompatActivity(), Navigator {
         } else {
             initMainFragment(savedInstanceState)
         }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (ev.action == MotionEvent.ACTION_DOWN) {
+            hideKeyboard()
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun hideKeyboard() {
+        val imm: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
     }
 
     private fun initTheme() {
