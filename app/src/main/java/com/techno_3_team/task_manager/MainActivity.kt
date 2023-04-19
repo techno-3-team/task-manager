@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.*
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity(), Navigator {
             updateUi()
         }
     }
-    private var managementShown = false
+    private var managementHidden = false
 
     //временная переменная до создания логики авторизированного пользователя
     //TODO: инициализировать переменную в правильных местах
@@ -137,6 +138,7 @@ class MainActivity : AppCompatActivity(), Navigator {
         }
 
         setAccountButton()
+        accountManagement()
         mainBinding.sideBar.btGoogleSideBAr.setOnClickListener {
             accountManagement()
         }
@@ -327,17 +329,19 @@ class MainActivity : AppCompatActivity(), Navigator {
     fun rotateFab(view: View, rotate: Boolean): Boolean {
         view.animate().setDuration(200)
             .setListener(object : AnimatorListenerAdapter() {})
-            .rotation(if (rotate) 180f else 0f)
+            .rotation(if (!rotate) 180f else 0f)
         return rotate
     }
 
     private fun accountManagement() {
+        Log.e("accountManagement", "managementHidden $managementHidden")
         if (authorized) {
-            managementShown = rotateFab(mainBinding.sideBar.accountSelectAction, !managementShown)
+            managementHidden = rotateFab(mainBinding.sideBar.accountSelectAction, !managementHidden)
             mainBinding.sideBar.managementGroup.visibility = when {
-                managementShown -> View.GONE
+                managementHidden -> View.GONE
                 else -> View.VISIBLE
             }
+            Log.e("accountManagement", "managementHidden $managementHidden")
         } else {
             //авторизация -- войти
         }
