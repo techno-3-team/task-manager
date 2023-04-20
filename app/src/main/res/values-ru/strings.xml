@@ -54,5 +54,6 @@
     <string name="subtask_name">название подзадачи</string>
     <string name="account_icon">аватарка аккаунта</string>
     <string name="account_select_action">аккаунт выберете действие</string>
-    <string name="add_name_hint">Введите название задачи</string>
+    <string name="task_name_hint">название задачи</string>
+    <string name="subtask_name_hint">название подзадачи</string>
 </resources>

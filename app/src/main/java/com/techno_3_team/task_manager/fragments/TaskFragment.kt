@@ -3,24 +3,21 @@ package com.techno_3_team.task_manager.fragments
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.TimePicker
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import com.techno_3_team.task_manager.structures.Subtask
+import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY
 import java.util.*
 
@@ -65,6 +62,7 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             val subTaskAdapter = SubtaskAdapter(subtaskList, navigator())
             lvTasksList.adapter = subTaskAdapter
             lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
+            lvTasksList.addItemDecoration(SpacingItemDecorator(20))
 
             editText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
@@ -80,8 +78,6 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     listSpin.isEnabled = false
                     llDateTime.isEnabled = false
                     taDesc.isEnabled = false
-                    editText.alpha = 0.5f
-                    taskCheck.alpha = 0.5f
                     listSpin.alpha = 0.5f
                     llDateTime.alpha = 0.5f
                     linearLayout.alpha = 0.5f
@@ -91,8 +87,6 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     listSpin.isEnabled = true
                     llDateTime.isEnabled = true
                     taDesc.isEnabled = true
-                    editText.alpha = 1f
-                    taskCheck.alpha = 1f
                     listSpin.alpha = 1f
                     llDateTime.alpha = 1f
                     linearLayout.alpha = 1f
