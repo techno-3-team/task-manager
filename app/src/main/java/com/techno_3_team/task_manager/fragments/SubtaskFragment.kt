@@ -51,12 +51,14 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     taDesc.isEnabled = false
                     editText.isEnabled = false
                     llDateTime.isEnabled = false
+                    editText.alpha = 0.5f
                     llDateTime.alpha = 0.5f
                     linearLayout.alpha = 0.5f
                 } else {
                     taDesc.isEnabled = true
                     editText.isEnabled = true
                     llDateTime.isEnabled = true
+                    editText.alpha = 1f
                     llDateTime.alpha = 1f
                     linearLayout.alpha = 1f
                 }

@@ -3,6 +3,7 @@ package com.techno_3_team.task_manager.fragments
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -19,7 +20,8 @@ import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY
-import java.util.*
+import kotlin.collections.ArrayList
+import java.util.Calendar
 
 
 class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
@@ -78,6 +80,7 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     listSpin.isEnabled = false
                     llDateTime.isEnabled = false
                     taDesc.isEnabled = false
+                    editText.alpha = 0.5f
                     listSpin.alpha = 0.5f
                     llDateTime.alpha = 0.5f
                     linearLayout.alpha = 0.5f
@@ -87,6 +90,7 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     listSpin.isEnabled = true
                     llDateTime.isEnabled = true
                     taDesc.isEnabled = true
+                    editText.alpha = 1f
                     listSpin.alpha = 1f
                     llDateTime.alpha = 1f
                     linearLayout.alpha = 1f
