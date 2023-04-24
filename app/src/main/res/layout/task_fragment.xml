@@ -137,7 +137,6 @@
         android:ems="10"
         android:hint="@string/add_name_hint"
         android:inputType="textPersonName"
-        android:text="@string/parent_task_name"
         android:textColor="@color/task_header_color"
         android:textColorHighlight="@color/task_done_text_color"
         android:textColorHint="@color/task_done_text_color"

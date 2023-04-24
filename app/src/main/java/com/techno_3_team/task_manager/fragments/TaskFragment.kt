@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.core.content.ContextCompat.getSystemService
@@ -73,6 +75,12 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 }
                 false
             })
+
+            if (editText.text.isEmpty()) {
+                editText.isFocusableInTouchMode = true;
+                editText.requestFocus()
+                (context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(editText, SHOW_IMPLICIT)
+            }
 
             taskCheck.setOnClickListener {
                 if (taskCheck.isChecked) {
