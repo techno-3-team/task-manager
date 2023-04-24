@@ -80,7 +80,7 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     fun pickDate() {
         binding.llDateTime.setOnClickListener {
             getDateTimeCalendar()
-            this.context?.let { it1 -> DatePickerDialog(it1, this, year, month, day).show() }
+            this.context?.let { it1 -> DatePickerDialog(it1, R.style.TimePickerTheme,  this, year, month, day).show() }
         }
     }
 
@@ -91,7 +91,7 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         getDateTimeCalendar()
 
-        TimePickerDialog(this.context, this, hour, minute, true).show()
+        TimePickerDialog(this.context, R.style.TimePickerTheme,  this, hour, minute, true).show()
     }
 
     @SuppressLint("SetTextI18n")
