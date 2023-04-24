@@ -44,6 +44,18 @@ class TaskView @JvmOverloads constructor(
         date = binding.date
         subtasksProgress = binding.subtasksProgress
 
+        checkbox.setOnClickListener {
+            if (checkbox.isChecked) {
+                header.alpha = 0.4f
+                date.alpha = 0.4f
+                subtasksProgress.alpha = 0.40f
+            } else {
+                header.alpha = 1f
+                date.alpha = 1f
+                subtasksProgress.alpha = 1f
+            }
+        }
+
         PRIMARY_SPACE = dp(4, this)
         SECONDARY_SPACE = dp(2, this)
         MARGIN_BETWEEN_TASKS = dp(8, this)
@@ -140,9 +152,9 @@ class TaskView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas?) {
-        val margins = MarginLayoutParams::class.java.cast(layoutParams)
-        margins?.bottomMargin = MARGIN_BETWEEN_TASKS
-        layoutParams = margins
+//        val margins = MarginLayoutParams::class.java.cast(layoutParams)
+//        margins?.bottomMargin = MARGIN_BETWEEN_TASKS
+//        layoutParams = margins
         super.onDraw(canvas)
     }
 

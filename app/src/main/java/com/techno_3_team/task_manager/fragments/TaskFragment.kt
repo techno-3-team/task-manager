@@ -3,8 +3,6 @@ package com.techno_3_team.task_manager.fragments
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -23,6 +21,7 @@ import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import com.techno_3_team.task_manager.structures.Subtask
+import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY
 import java.util.*
 
@@ -75,12 +74,6 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 }
                 false
             })
-
-            if (editText.text.isEmpty()) {
-                editText.isFocusableInTouchMode = true;
-                editText.requestFocus()
-                (context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(editText, SHOW_IMPLICIT)
-            }
 
             taskCheck.setOnClickListener {
                 if (taskCheck.isChecked) {

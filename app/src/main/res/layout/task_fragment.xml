@@ -95,7 +95,6 @@
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
-            android:text="@string/task_description"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/task_header_color"
             android:textColorHint="@color/task_done_text_color"
@@ -135,7 +134,7 @@
         android:layout_marginStart="5dp"
         android:background="@null"
         android:ems="10"
-        android:hint="@string/add_name_hint"
+        android:hint="@string/task_name_hint"
         android:inputType="textPersonName"
         android:textColor="@color/task_header_color"
         android:textColorHighlight="@color/task_done_text_color"
@@ -146,5 +145,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/taskCheck"
-        app:layout_constraintTop_toTopOf="@+id/taskCheck" />
+        app:layout_constraintTop_toTopOf="@+id/taskCheck"
+        android:ellipsize="end"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

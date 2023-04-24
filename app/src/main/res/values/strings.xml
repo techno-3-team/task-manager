@@ -54,5 +54,6 @@
     <string name="subtask_name">subtask name</string>
     <string name="account_icon">account icon</string>
     <string name="account_select_action">account select action</string>
-    <string name="add_name_hint">Enter task name</string>
+    <string name="task_name_hint">task name</string>
+    <string name="subtask_name_hint">subtask name</string>
 </resources>
