@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.TimePicker
 import com.techno_3_team.task_manager.HasCustomTitle
@@ -63,6 +65,14 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     linearLayout.alpha = 1f
                 }
             }
+        }
+
+        if (binding.editText.text.isEmpty()) {
+            binding.editText.isFocusableInTouchMode = true;
+            binding.editText.requestFocus()
+            (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(binding.editText,
+                InputMethodManager.SHOW_IMPLICIT
+            )
         }
 
         pickDate()
