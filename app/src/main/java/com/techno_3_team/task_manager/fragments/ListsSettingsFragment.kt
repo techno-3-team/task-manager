@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.techno_3_team.task_manager.HasCustomTitle
 import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
 import com.techno_3_team.task_manager.structures.ListOfLists
@@ -56,11 +58,9 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
 
             val touchHelper = ItemTouchHelper(object : SwipeHelper(lists) {
                 override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
-                    var buttons = listOf<UnderlayButton>()
                     val deleteButton = deleteButton(position)
-                    val markAsUnreadButton =editButton(position, view)
-                    buttons = listOf(deleteButton, markAsUnreadButton)
-                    return buttons
+                    val markAsUnreadButton = editButton(position, view)
+                    return listOf(deleteButton, markAsUnreadButton)
                 }
             })
             touchHelper.attachToRecyclerView(lists)
@@ -91,7 +91,11 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
             )
         }
         builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
-        builder.show()
+        val dialog = builder.create();
+        dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        dialog.show()
+        text.requestFocus()
     }
 
     private fun toast(text: String) {
@@ -101,12 +105,12 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
     }
 
 
-    private fun deleteButton(position: Int) : SwipeHelper.UnderlayButton {
+    private fun deleteButton(position: Int): SwipeHelper.UnderlayButton {
         return SwipeHelper.UnderlayButton(
             _binding.lists.context,
             "Delete",
             14.0f,
-            android.R.color.holo_red_light,
+            R.color.red,
             object : SwipeHelper.UnderlayButtonClickListener {
                 override fun onClick() {
                     val adapter = _binding.lists.adapter as ListsSettingsAdapter
@@ -117,16 +121,15 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
             })
     }
 
-    private fun editButton(position: Int, view: View) : SwipeHelper.UnderlayButton {
+    private fun editButton(position: Int, view: View): SwipeHelper.UnderlayButton {
         return SwipeHelper.UnderlayButton(
             _binding.lists.context,
             "Edit",
             14.0f,
-            android.R.color.holo_green_light,
+            R.color.green,
             object : SwipeHelper.UnderlayButtonClickListener {
                 override fun onClick() {
                     onEditDialog(view, position)
-                    toast("Marked as unread item $position")
                 }
             })
     }
@@ -147,7 +150,11 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
             adapter.changeNameOfList(position, text.text.toString())
         }
         builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
-        builder.show()
+        val dialog = builder.create();
+        dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        dialog.show()
+        text.requestFocus()
     }
 
 

@@ -20,4 +20,6 @@
     <color name="task_text_sub_color">#49454F</color>
     <color name="task_done_text_color">#808080</color>
     <color name="focused_hint_color">#939393</color>
+    <color name="red">#E63946</color>
+    <color name="green">#389279</color>
 </resources>
