@@ -1,11 +1,13 @@
 package com.techno_3_team.task_manager.fragments
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -56,22 +58,22 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
 
             val touchHelper = ItemTouchHelper(object : SwipeHelper(lists) {
                 override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
-                    var buttons = listOf<UnderlayButton>()
                     val deleteButton = deleteButton(position)
-                    val markAsUnreadButton =editButton(position, view)
-                    buttons = listOf(deleteButton, markAsUnreadButton)
-                    return buttons
+                    val markAsUnreadButton = editButton(position, view)
+                    return listOf(deleteButton, markAsUnreadButton)
                 }
             })
             touchHelper.attachToRecyclerView(lists)
 
             FABls.setOnClickListener {
-                onAddDialog(view)
+                val dialog: Dialog = onAddDialog(view)
+                dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+                dialog.show()
             }
         }
     }
 
-    private fun onAddDialog(view: View) {
+    private fun onAddDialog(view: View): Dialog {
         val builder = AlertDialog.Builder(view.context)
         builder.setTitle("Add")
         builder.setMessage("Enter name of new list")
@@ -91,7 +93,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
             )
         }
         builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
-        builder.show()
+        return builder.create()
     }
 
     private fun toast(text: String) {
