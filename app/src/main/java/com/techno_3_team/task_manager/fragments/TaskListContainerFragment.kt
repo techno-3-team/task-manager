@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.techno_3_team.task_manager.HasMainScreenActions
 import com.techno_3_team.task_manager.adapters.TabPagerAdapter
-import com.techno_3_team.task_manager.data.LTSTViewModel
-import com.techno_3_team.task_manager.data.entities.Task
 import com.techno_3_team.task_manager.databinding.TaskListContainerFragmentBinding
 import com.techno_3_team.task_manager.navigator
 import com.techno_3_team.task_manager.structures.ListOfLists
@@ -74,7 +71,7 @@ class TaskListContainerFragment : Fragment(), HasMainScreenActions {
 
 
         _binding.FAB.setOnClickListener {
-            navigator().showMainTaskScreen(0)
+            navigator().showTaskScreen(0)
         }
     }
 

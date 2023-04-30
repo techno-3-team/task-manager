@@ -61,7 +61,7 @@ class TaskListAdapter(
             }
 
             itemView.setOnClickListener {
-                navigator.showMainTaskScreen(5)
+                navigator.showTaskScreen(5)
             }
         }
     }

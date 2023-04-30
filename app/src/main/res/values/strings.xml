@@ -56,4 +56,7 @@
     <string name="account_select_action">account select action</string>
     <string name="task_name_hint">task name</string>
     <string name="subtask_name_hint">subtask name</string>
+
+    <string name="android_client_id">1047851853870-vmcuf6f5rpafonuq96om2pnefac136k1.apps.googleusercontent.com</string>
+    <string name="web_client_id">1047851853870-ha0mpeklnnds6lq9iti1ljojv0vh8c4v.apps.googleusercontent.com</string>
 </resources>
