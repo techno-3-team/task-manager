@@ -173,7 +173,8 @@ abstract class SwipeHelper(
 
             // Draw background
             paint.color = ContextCompat.getColor(context, colorRes)
-            canvas.drawRect(rect, paint)
+//            canvas.drawRect(rect, paint)
+            canvas.drawRoundRect(rect, 10F, 10F, paint)
 
             // Draw title
             paint.color = ContextCompat.getColor(context, android.R.color.white)
