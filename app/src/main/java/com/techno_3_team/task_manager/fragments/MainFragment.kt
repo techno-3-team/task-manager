@@ -6,46 +6,41 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.*
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
+import com.google.android.material.appbar.MaterialToolbar
 import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.databinding.MainFragmentBinding
+import com.techno_3_team.task_manager.navigators.navigator
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
 import com.techno_3_team.task_manager.support.LANGUAGE_KEY
-import com.techno_3_team.task_manager.support.RESULT_KEY
 import com.techno_3_team.task_manager.support.RandomData
 import java.util.*
 
 
-class MainFragment : Fragment(), Navigator {
-
-    private var mainBinding: MainFragmentBinding? = null
-    private val _mainBinding: MainFragmentBinding
-        get() = mainBinding!!
+class MainFragment(private val mainBinding: MainFragmentBinding) : Fragment() {
 
     private lateinit var supportFM: FragmentManager
-    private lateinit var listOfLists: ListOfLists
-    private lateinit var randomData: RandomData
     private var sortOrder = SortOrder.BY_DATE
     private var isDay: Boolean = true
 
+    // временные
+    private lateinit var listOfLists: ListOfLists
+    private lateinit var randomData: RandomData
+
     private val currentFragment: Fragment?
-        get() = requireActivity().supportFragmentManager.findFragmentById(_mainBinding.mainContainer.id)
+        get() = requireActivity().supportFragmentManager.findFragmentById(mainBinding.mainContainer.id)
 
     private val preference: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(requireActivity().baseContext)
@@ -74,15 +69,18 @@ class MainFragment : Fragment(), Navigator {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mainBinding = MainFragmentBinding.inflate(layoutInflater)
+        return mainBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         supportFM = requireActivity().supportFragmentManager
 
-        val toolbar: Toolbar = requireActivity().findViewById(_mainBinding.appBar.id)
+        val toolbar: MaterialToolbar = requireActivity().findViewById(mainBinding.toolbar.id)
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
-        (requireActivity() as AppCompatActivity).supportActionBar?.title =
-            getString(R.string.app_name)
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.app_name)
 
         initData()
 
@@ -90,13 +88,13 @@ class MainFragment : Fragment(), Navigator {
         if (savedInstanceState == null) {
             requireActivity().supportFragmentManager
                 .beginTransaction()
-                .add(_mainBinding.mainContainer.id, taskListContainerFragment, "MF")
+                .add(mainBinding.mainContainer.id, taskListContainerFragment, "MF")
                 .commit()
         }
 
-        with(_mainBinding) {
+        with(mainBinding) {
             sideBar.btListsSideBar.setOnClickListener {
-                showListSettingsScreen()
+                navigator().showListSettingsScreen()
             }
             sideBar.radioButtonEn.setOnClickListener {
                 setLocaleLanguage(requireActivity(), "en")
@@ -155,7 +153,7 @@ class MainFragment : Fragment(), Navigator {
                         sortOrder = SortOrder.BY_IMPORTANCE
                     }
                     item.itemId == android.R.id.home && currentFragment is TaskListContainerFragment -> {
-                        _mainBinding.drawer.openDrawer(GravityCompat.START)
+                        mainBinding.drawer.openDrawer(GravityCompat.START)
                     }
                     else -> return false
                 }
@@ -167,13 +165,17 @@ class MainFragment : Fragment(), Navigator {
         setLanguageRadioButton()
 
         supportFM.registerFragmentLifecycleCallbacks(fragmentListener, false)
-
-        return _mainBinding.root
     }
 
     override fun onDestroy() {
         super.onDestroy()
         supportFM.unregisterFragmentLifecycleCallbacks(fragmentListener)
+    }
+
+    // потом удалим
+    private fun initData() {
+        randomData = RandomData((4..12).random(), 20, 12)
+        listOfLists = randomData.getRandomData()
     }
 
     private fun clearCheckedTasks() {
@@ -182,11 +184,6 @@ class MainFragment : Fragment(), Navigator {
 
     private fun updateTasksOrder() {
         // TODO()
-    }
-
-    private fun initData() {
-        randomData = RandomData((4..12).random(), 20, 12)
-        listOfLists = randomData.getRandomData()
     }
 
     private fun updateUi() {
@@ -198,47 +195,6 @@ class MainFragment : Fragment(), Navigator {
         }
 //        onCreateOptionsMenu(_mainBinding.toolbar.menu)
     }
-
-    override fun showTaskScreen(subtasksCount: Int) {
-        val randomSubtaskList = randomData.getRandomSubtasks(subtasksCount)
-        launchFragment(TaskFragment.newInstance(randomSubtaskList))
-    }
-
-    override fun showSubtaskScreen() {
-        launchFragment(SubtaskFragment.newInstance(RandomData.getRandomSubtask()))
-    }
-
-    override fun showListSettingsScreen() {
-        launchFragment(ListsSettingsFragment.newInstance(listOfLists))
-        _mainBinding.drawer.closeDrawer(Gravity.LEFT)
-    }
-
-    override fun goToMainScreen() {
-        requireActivity().supportFragmentManager.popBackStack(
-            null,
-            FragmentManager.POP_BACK_STACK_INCLUSIVE
-        )
-    }
-
-    override fun goBack() {
-        requireActivity().onBackPressedDispatcher.onBackPressed()
-    }
-
-    override fun <T : Parcelable> publishResult(result: T) {
-        requireActivity().supportFragmentManager.setFragmentResult(
-            result.javaClass.name,
-            bundleOf(RESULT_KEY to result)
-        )
-    }
-
-    private fun launchFragment(fragment: Fragment) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .addToBackStack(null)
-            .replace(_mainBinding.mainContainer.id, fragment, "")
-            .commit()
-    }
-
 
     fun onClickListenerButtonDayNight(view: View) {
         toggleButtonImageDayNight()
@@ -257,7 +213,7 @@ class MainFragment : Fragment(), Navigator {
     }
 
     private fun setCurrentThemeIcon() {
-        val imgBt = requireActivity().findViewById<ImageButton>(R.id.btSwitcherTheme)
+        val imgBt = requireActivity().findViewById<ImageButton>(mainBinding.sideBar.btSwitcherTheme.id)
         if (isDay) {
             imgBt.setImageResource(R.drawable.baseline_wb_sunny_32)
         } else {
@@ -270,7 +226,7 @@ class MainFragment : Fragment(), Navigator {
 
         val currLang = Locale.getDefault().language
         if (languageCode < 1 && currLang == "en" || languageCode == 0 && currLang == "ru") {
-            _mainBinding.sideBar.radioButtonEn.isChecked = true
+            mainBinding.sideBar.radioButtonEn.isChecked = true
         }
 
         if (languageCode == 0 && currLang == "ru") {
@@ -312,8 +268,8 @@ class MainFragment : Fragment(), Navigator {
         Log.e("accountManagement", "managementHidden $managementHidden")
         if (authorized) {
             managementHidden =
-                rotateFab(_mainBinding.sideBar.accountSelectAction, !managementHidden)
-            _mainBinding.sideBar.managementGroup.visibility = when {
+                rotateFab(mainBinding.sideBar.accountSelectAction, !managementHidden)
+            mainBinding.sideBar.managementGroup.visibility = when {
                 managementHidden -> View.GONE
                 else -> View.VISIBLE
             }
@@ -327,12 +283,12 @@ class MainFragment : Fragment(), Navigator {
         if (authorized) {
             //TODO: получить имя пользователя
             val accountName = null
-            _mainBinding.sideBar.googleAccount.text = accountName
+            mainBinding.sideBar.googleAccount.text = accountName
         } else {
-            _mainBinding.sideBar.accountSelectAction.visibility = View.GONE
-            _mainBinding.sideBar.managementGroup.visibility = View.GONE
-            _mainBinding.sideBar.accountImage.setImageResource(R.drawable.google)
-            _mainBinding.sideBar.googleAccount.setText(R.string.continue_with_google)
+            mainBinding.sideBar.accountSelectAction.visibility = View.GONE
+            mainBinding.sideBar.managementGroup.visibility = View.GONE
+            mainBinding.sideBar.accountImage.setImageResource(R.drawable.google)
+            mainBinding.sideBar.googleAccount.setText(R.string.continue_with_google)
         }
     }
 }

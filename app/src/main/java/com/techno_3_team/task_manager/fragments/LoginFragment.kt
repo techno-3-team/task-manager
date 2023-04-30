@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.snackbar.Snackbar
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.databinding.LoginFragmentBinding
+import com.techno_3_team.task_manager.navigators.navigator
 import com.techno_3_team.task_manager.support.AUTH_KEY
 
 class LoginFragment : Fragment() {
@@ -38,8 +39,8 @@ class LoginFragment : Fragment() {
         PreferenceManager.getDefaultSharedPreferences(requireActivity().baseContext)
     }
 
-    //временная переменная до создания логики авторизированного пользователя
-    //TODO: инициализировать переменную в правильных местах
+//    временная переменная до создания логики авторизированного пользователя
+//    TODO: инициализировать переменную в правильных местах
     private var authorized = true
 //    private var authorized = false
 
@@ -48,21 +49,27 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         loginBinding = LoginFragmentBinding.inflate(inflater)
+        return _loginBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         _loginBinding.continueWithoutAutorization.setOnClickListener {
             Log.e("tag", "clicked on continue without authorization")
             preference.edit()
                 .putBoolean(AUTH_KEY, false)
                 .apply()
-            requireActivity().recreate()
+            navigator().showMainFragment()
         }
         loginBinding!!.continueWithGoogle.setOnClickListener {
             Log.e("tag", "clicked on google authorization")
             startAuthorization()
             displaySignIn()
+//            navigator().showMainFragment()
         }
 
-        return _loginBinding.root
+        Log.println(Log.INFO, "tag", "login fragment was created")
     }
 
     override fun onDestroyView() {
@@ -113,15 +120,16 @@ class LoginFragment : Fragment() {
 
     //вынести в отдельный класс
     private fun displaySignIn() {
-        oneTapClient?.beginSignIn(signInRequest!!)?.addOnSuccessListener(requireActivity()) { result ->
-            try {
-                Log.e("displaySignIn", "siginig in")
-                val ib = IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
-                oneTapResult.launch(ib)
-            } catch (e: IntentSender.SendIntentException) {
-                Log.e("displaySignIn", "Couldn't start One Tap UI: ${e.localizedMessage}")
-            }
-        }?.addOnFailureListener(requireActivity()) { e ->
+        oneTapClient?.beginSignIn(signInRequest!!)
+            ?.addOnSuccessListener(requireActivity()) { result ->
+                try {
+                    Log.e("displaySignIn", "siginig in")
+                    val ib = IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
+                    oneTapResult.launch(ib)
+                } catch (e: IntentSender.SendIntentException) {
+                    Log.e("displaySignIn", "Couldn't start One Tap UI: ${e.localizedMessage}")
+                }
+            }?.addOnFailureListener(requireActivity()) { e ->
             // No Google Accounts found. Just continue presenting the signed-out UI.
             displaySignUp()
             Log.e("displaySignIn", e.localizedMessage!!)
@@ -130,7 +138,8 @@ class LoginFragment : Fragment() {
 
     //вынести в отдельный класс
     private fun displaySignUp() {
-        oneTapClient?.beginSignIn(signUpRequest!!)?.addOnSuccessListener(requireActivity()) { result ->
+        oneTapClient?.beginSignIn(signUpRequest!!)
+            ?.addOnSuccessListener(requireActivity()) { result ->
                 try {
                     Log.e("displaySignUp", "siginig up")
                     val ib = IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()

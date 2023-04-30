@@ -3,20 +3,30 @@ package com.techno_3_team.task_manager
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Parcelable
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
-import com.techno_3_team.task_manager.fragments.LoginFragment
-import com.techno_3_team.task_manager.fragments.MainFragment
+import com.techno_3_team.task_manager.databinding.MainFragmentBinding
+import com.techno_3_team.task_manager.fragments.*
+import com.techno_3_team.task_manager.navigators.Navigator
 import com.techno_3_team.task_manager.support.AUTH_KEY
 import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
+import com.techno_3_team.task_manager.support.RESULT_KEY
+import com.techno_3_team.task_manager.support.RandomData
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Navigator {
 
     private lateinit var mainActivityBinding: ActivityMainBinding
+    private lateinit var mainFragmentBinding: MainFragmentBinding
 
     private val preference: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -39,10 +49,7 @@ class MainActivity : AppCompatActivity() {
                     .replace(mainActivityBinding.container.id, LoginFragment(), "login")
                     .commit()
             } else {
-                supportFragmentManager.beginTransaction()
-                    .addToBackStack(null)
-                    .replace(mainActivityBinding.container.id, MainFragment(), "main")
-                    .commit()
+                showMainFragment()
             }
         }
     }
@@ -57,10 +64,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressedDispatcher.onBackPressed()
-        return super.onSupportNavigateUp()
-    }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (ev.action == MotionEvent.ACTION_DOWN) {
@@ -69,5 +72,69 @@ class MainActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    /**
+     * navigation
+     */
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return super.onSupportNavigateUp()
+    }
+
+    override fun showMainFragment() {
+        mainFragmentBinding = MainFragmentBinding.inflate(layoutInflater)
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(mainActivityBinding.container.id, MainFragment(mainFragmentBinding), "main")
+            .commit()
+    }
+
+    override fun showTaskScreen(subtasksCount: Int) {
+        launchFragment(
+            TaskFragment.newInstance(
+                RandomData((4..12).random(), 20, 12)
+                    .getRandomSubtasks(subtasksCount)
+            )
+        )
+    }
+
+    override fun showSubtaskScreen() {
+        launchFragment(SubtaskFragment.newInstance(RandomData.getRandomSubtask()))
+    }
+
+    override fun showListSettingsScreen() {
+        launchFragment(
+            ListsSettingsFragment.newInstance(
+                RandomData((4..12).random(), 20, 12).getRandomData()
+            )
+        )
+        mainFragmentBinding.drawer.closeDrawer(Gravity.LEFT)
+    }
+
+    override fun goToMainScreen() {
+        supportFragmentManager.popBackStack(
+            null,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
+    }
+
+    override fun goBack() {
+        onBackPressedDispatcher.onBackPressed()
+    }
+
+    override fun <T : Parcelable> publishResult(result: T) {
+        supportFragmentManager.setFragmentResult(
+            result.javaClass.name,
+            bundleOf(RESULT_KEY to result)
+        )
+    }
+
+    private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .addToBackStack(null)
+            .replace(mainFragmentBinding.mainContainer.id, fragment, "")
+            .commit()
     }
 }

@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.adapters.TaskListAdapter
 import com.techno_3_team.task_manager.databinding.TaskListFragmentBinding
-import com.techno_3_team.task_manager.navigator
+import com.techno_3_team.task_manager.navigators.navigator
 import com.techno_3_team.task_manager.structures.ListOfTasks
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY

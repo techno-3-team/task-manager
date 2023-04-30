@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
+import com.techno_3_team.task_manager.navigators.navigator
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY
@@ -46,7 +47,7 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = TaskFragmentBinding.inflate(inflater)
         return binding.root
     }

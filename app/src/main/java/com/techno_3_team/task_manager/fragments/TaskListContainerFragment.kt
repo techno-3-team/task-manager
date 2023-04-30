@@ -10,7 +10,7 @@ import com.google.android.material.tabs.TabLayout
 import com.techno_3_team.task_manager.HasMainScreenActions
 import com.techno_3_team.task_manager.adapters.TabPagerAdapter
 import com.techno_3_team.task_manager.databinding.TaskListContainerFragmentBinding
-import com.techno_3_team.task_manager.navigator
+import com.techno_3_team.task_manager.navigators.navigator
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 

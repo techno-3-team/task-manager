@@ -8,16 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.techno_3_team.task_manager.Navigator
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.custom_views.TaskView
+import com.techno_3_team.task_manager.navigators.Navigator
 import com.techno_3_team.task_manager.structures.Subtask
 import java.util.*
 import kotlin.collections.ArrayList
 
 class SubtaskAdapter(
     private val tasks: ArrayList<Subtask>,
-    private val navigator: Navigator
+    private val mainFragmentNavigator: Navigator
 ) : ListAdapter<Subtask, SubtaskAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder(TaskView(parent.context))
@@ -33,7 +33,7 @@ class SubtaskAdapter(
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(tasks[position], navigator)
+        holder.bind(tasks[position], mainFragmentNavigator)
     }
 
     class TaskItemDiffCallback : DiffUtil.ItemCallback<Subtask>() {
@@ -50,7 +50,7 @@ class SubtaskAdapter(
         private val date: TextView = itemView.findViewById(R.id.date)
 
         @SuppressLint("SetTextI18n")
-        fun bind(task: Subtask, navigator: Navigator) {
+        fun bind(task: Subtask, mainFragmentNavigator: Navigator) {
             header.text = task.header
 
             if (task.date == null) {
@@ -60,7 +60,7 @@ class SubtaskAdapter(
                 date.text = "${dateArr[2]} ${dateArr[1]}  ${dateArr[3]}".lowercase()
             }
             itemView.setOnClickListener {
-                navigator.showSubtaskScreen()
+                mainFragmentNavigator.showSubtaskScreen()
             }
         }
     }
