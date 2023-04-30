@@ -2,6 +2,7 @@ package com.techno_3_team.task_manager
 
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
@@ -264,12 +265,54 @@ class MainActivity : AppCompatActivity(), Navigator {
                 updateTasksOrder()
                 sortOrder = SortOrder.BY_IMPORTANCE
             }
+            item.itemId == R.id.delete_task -> {
+                setDeleteDialog()
+            }
             item.itemId == android.R.id.home && currentFragment is TaskListContainerFragment -> {
                 mainBinding.drawer.openDrawer(GravityCompat.START)
             }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    private fun setDeleteDialog() {
+        val message: String
+        val deleteBut: String
+        val cancelBut: String
+        val title: String
+        if (mainBinding.sideBar.radioButtonRus.isChecked) {
+            message = "Вы уверены, что хотите удалить задачу?"
+            deleteBut = "УДАЛИТЬ"
+            cancelBut = "ОТМЕНИТЬ"
+            title = "Вы уверены?"
+        } else {
+            message = "Do you want to delete this task?"
+            deleteBut = "DELETE"
+            cancelBut = "CANCEL"
+            title = "Are you sure?"
+        }
+
+        val builder = AlertDialog.Builder(this)
+
+        builder.setMessage(message)
+
+        builder.setTitle(title)
+        builder.setCancelable(false)
+        builder.setPositiveButton(deleteBut) {
+                dialog, which -> deleteTask()
+        }
+
+        builder.setNegativeButton(cancelBut) {
+                dialog, which -> dialog.cancel()
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    private fun deleteTask() {
+        // TODO()
     }
 
     private fun clearCheckedTasks() {

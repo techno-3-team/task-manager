@@ -80,7 +80,8 @@
             android:scrollHorizontally="false"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColorHint="@color/task_done_text_color"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold|italic" />
     </LinearLayout>
 
     <EditText
