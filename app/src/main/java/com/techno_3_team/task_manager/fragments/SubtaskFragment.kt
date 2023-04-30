@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.TimePicker
 import com.techno_3_team.task_manager.HasCustomTitle
@@ -48,15 +50,27 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         with (binding) {
             taskCheck.setOnClickListener {
                 if (taskCheck.isChecked) {
-                    taskCheck.alpha = 0.5f
+                    taDesc.isEnabled = false
+                    editText.isEnabled = false
+                    llDateTime.isEnabled = false
                     llDateTime.alpha = 0.5f
                     linearLayout.alpha = 0.5f
                 } else {
-                    taskCheck.alpha = 1f
+                    taDesc.isEnabled = true
+                    editText.isEnabled = true
+                    llDateTime.isEnabled = true
                     llDateTime.alpha = 1f
                     linearLayout.alpha = 1f
                 }
             }
+        }
+
+        if (binding.editText.text.isEmpty()) {
+            binding.editText.isFocusableInTouchMode = true;
+            binding.editText.requestFocus()
+            (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(binding.editText,
+                InputMethodManager.SHOW_IMPLICIT
+            )
         }
 
         pickDate()
@@ -74,7 +88,7 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     fun pickDate() {
         binding.llDateTime.setOnClickListener {
             getDateTimeCalendar()
-            this.context?.let { it1 -> DatePickerDialog(it1, this, year, month, day).show() }
+            this.context?.let { it1 -> DatePickerDialog(it1, R.style.TimePickerTheme,  this, year, month, day).show() }
         }
     }
 
@@ -85,7 +99,7 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         getDateTimeCalendar()
 
-        TimePickerDialog(this.context, this, hour, minute, true).show()
+        TimePickerDialog(this.context, R.style.TimePickerTheme,  this, hour, minute, true).show()
     }
 
     @SuppressLint("SetTextI18n")

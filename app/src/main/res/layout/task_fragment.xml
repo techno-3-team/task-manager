@@ -9,12 +9,12 @@
 
     <CheckBox
         android:id="@+id/taskCheck"
+        style="@style/custom_checkbox_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:layout_marginTop="16dp"
         android:checked="false"
-        style="@style/custom_checkbox_style"
         android:textColor="#001018"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,12 +96,13 @@
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColorHint="@color/task_header_color"
+            android:textColor="@color/task_header_color"
+            android:textColorHint="@color/task_done_text_color"
             android:textSize="14sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lv_tasks_list"
+        android:id="@+id/lvTasksList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -130,14 +131,20 @@
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginStart="5dp"
         android:background="@null"
         android:ems="10"
+        android:hint="@string/task_name_hint"
         android:inputType="textPersonName"
-        android:text="@string/parent_task_name"
         android:textColor="@color/task_header_color"
+        android:textColorHighlight="@color/task_done_text_color"
+        android:textColorHint="@color/task_done_text_color"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/taskCheck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/taskCheck"
-        app:layout_constraintTop_toTopOf="@+id/taskCheck" />
+        app:layout_constraintTop_toTopOf="@+id/taskCheck"
+        android:ellipsize="end"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

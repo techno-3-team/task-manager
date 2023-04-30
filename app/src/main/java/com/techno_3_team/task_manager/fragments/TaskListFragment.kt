@@ -11,6 +11,7 @@ import com.techno_3_team.task_manager.adapters.TaskListAdapter
 import com.techno_3_team.task_manager.databinding.TaskListFragmentBinding
 import com.techno_3_team.task_manager.navigator
 import com.techno_3_team.task_manager.structures.ListOfTasks
+import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY
 
 
@@ -42,6 +43,7 @@ class TaskListFragment : Fragment() {
             taskListAdapter = TaskListAdapter(tasks, navigator())
             lvTasksList.adapter = taskListAdapter
             lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
+            lvTasksList.addItemDecoration(SpacingItemDecorator(20))
         }
     }
 
