@@ -4,12 +4,10 @@ import android.os.Parcelable
 import androidx.fragment.app.Fragment
 
 fun Fragment.navigator() : Navigator {
-    return requireActivity() as Navigator
+    return requireActivity().supportFragmentManager.fragments[0] as Navigator
 }
 
 interface Navigator {
-
-    fun showMainFragment()
 
     fun showTaskScreen(subtasksCount : Int)
 

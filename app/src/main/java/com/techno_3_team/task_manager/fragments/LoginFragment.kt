@@ -18,8 +18,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.snackbar.Snackbar
 import com.techno_3_team.task_manager.R
+import com.techno_3_team.task_manager.PrimaryNavigator
 import com.techno_3_team.task_manager.databinding.LoginFragmentBinding
-import com.techno_3_team.task_manager.navigators.navigator
 import com.techno_3_team.task_manager.support.AUTH_KEY
 
 class LoginFragment : Fragment() {
@@ -60,7 +60,7 @@ class LoginFragment : Fragment() {
             preference.edit()
                 .putBoolean(AUTH_KEY, false)
                 .apply()
-            navigator().showMainFragment()
+            (requireActivity() as PrimaryNavigator).showMainFragment()
         }
         loginBinding!!.continueWithGoogle.setOnClickListener {
             Log.e("tag", "clicked on google authorization")

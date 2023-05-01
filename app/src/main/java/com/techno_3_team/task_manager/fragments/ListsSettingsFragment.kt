@@ -25,7 +25,7 @@ import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.SwipeHelper
 
 
-class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
+class ListsSettingsFragment : Fragment(), HasCustomTitle {
     private var toast: Toast? = null
     private var binding: FragmentListsSettingsBinding? = null
     private val _binding: FragmentListsSettingsBinding
@@ -157,13 +157,12 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
         text.requestFocus()
     }
 
-
     override fun onDestroyView() {
         binding = null
         super.onDestroyView()
     }
 
-    override fun getCustomTitle() = "списки"
+    override fun getCustomTitle() = getString(R.string.list_toolbar_name)
 
     companion object {
         @JvmStatic
@@ -178,9 +177,5 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, HasDeleteAction {
             fragment.arguments = bundle
             return fragment
         }
-    }
-
-    override fun deleteElement() {
-//        TODO("Not yet implemented")
     }
 }

@@ -173,7 +173,6 @@
         android:contentDescription="@string/switch_theme"
         android:minWidth="48dp"
         android:minHeight="48dp"
-        android:onClick="onClickListenerButtonDayNight"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

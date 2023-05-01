@@ -41,7 +41,6 @@ class TaskListContainerFragment : Fragment(), HasMainScreenActions {
         }
 
         initTabs()
-
     }
 
     private fun initTabs() {

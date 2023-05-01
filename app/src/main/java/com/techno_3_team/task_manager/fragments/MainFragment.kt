@@ -6,38 +6,40 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.*
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
 import com.google.android.material.appbar.MaterialToolbar
-import com.techno_3_team.task_manager.*
+import com.techno_3_team.task_manager.HasCustomTitle
+import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.HasMainScreenActions
+import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.databinding.MainFragmentBinding
+import com.techno_3_team.task_manager.navigators.Navigator
 import com.techno_3_team.task_manager.navigators.navigator
-import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
 import com.techno_3_team.task_manager.support.LANGUAGE_KEY
+import com.techno_3_team.task_manager.support.RESULT_KEY
 import com.techno_3_team.task_manager.support.RandomData
 import java.util.*
 
 
-class MainFragment(private val mainBinding: MainFragmentBinding) : Fragment() {
+class MainFragment : Fragment(), Navigator {
 
+    private lateinit var mainBinding: MainFragmentBinding
     private lateinit var supportFM: FragmentManager
-    private var sortOrder = SortOrder.BY_DATE
     private var isDay: Boolean = true
-
-    // временные
-    private lateinit var listOfLists: ListOfLists
-    private lateinit var randomData: RandomData
 
     private val currentFragment: Fragment?
         get() = requireActivity().supportFragmentManager.findFragmentById(mainBinding.mainContainer.id)
@@ -69,6 +71,7 @@ class MainFragment(private val mainBinding: MainFragmentBinding) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        mainBinding = MainFragmentBinding.inflate(layoutInflater)
         return mainBinding.root
     }
 
@@ -80,11 +83,12 @@ class MainFragment(private val mainBinding: MainFragmentBinding) : Fragment() {
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.app_name)
+        (requireActivity() as AppCompatActivity).supportActionBar?.title =
+            getString(R.string.app_name)
 
-        initData()
-
-        val taskListContainerFragment = TaskListContainerFragment.newInstance(listOfLists)
+        val taskListContainerFragment = TaskListContainerFragment.newInstance(
+            RandomData((4..12).random(), 20, 12).getRandomData()
+        )
         if (savedInstanceState == null) {
             requireActivity().supportFragmentManager
                 .beginTransaction()
@@ -101,6 +105,9 @@ class MainFragment(private val mainBinding: MainFragmentBinding) : Fragment() {
             }
             sideBar.radioButtonRus.setOnClickListener {
                 setLocaleLanguage(requireActivity(), "ru")
+            }
+            sideBar.btSwitcherTheme.setOnClickListener {
+                updateTheme()
             }
             setAccountButton()
             accountManagement()
@@ -119,20 +126,7 @@ class MainFragment(private val mainBinding: MainFragmentBinding) : Fragment() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
-                val currInflater: MenuInflater = inflater
-                val fragment = currentFragment
-
-                menu.clear()
-                if (fragment is HasMainScreenActions) {
-                    currInflater.inflate(R.menu.main_menu, menu)
-                    requireActivity().actionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
-                } else if (fragment is HasDeleteAction) {
-                    currInflater.inflate(R.menu.menu_trashbox, menu)
-                    if (currentFragment is ListsSettingsFragment) {
-                        menu[0].isVisible = false
-                    }
-                    requireActivity().actionBar?.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24)
-                }
+                updateMenu(menu, inflater)
             }
 
             override fun onMenuItemSelected(item: MenuItem): Boolean {
@@ -140,17 +134,10 @@ class MainFragment(private val mainBinding: MainFragmentBinding) : Fragment() {
                     item.itemId == R.id.clear_checked -> {
                         clearCheckedTasks()
                     }
-                    item.itemId == R.id.sort_by_date -> {
-                        updateTasksOrder()
-                        sortOrder = SortOrder.BY_DATE
-                    }
-                    item.itemId == R.id.sort_by_name -> {
-                        updateTasksOrder()
-                        sortOrder = SortOrder.BY_NAME
-                    }
-                    item.itemId == R.id.sort_by_importance -> {
-                        updateTasksOrder()
-                        sortOrder = SortOrder.BY_IMPORTANCE
+                    item.itemId == R.id.sort_by_date ||
+                            item.itemId == R.id.sort_by_name ||
+                            item.itemId == R.id.sort_by_importance -> {
+                        updateTasksOrder(item.itemId)
                     }
                     item.itemId == android.R.id.home && currentFragment is TaskListContainerFragment -> {
                         mainBinding.drawer.openDrawer(GravityCompat.START)
@@ -172,40 +159,41 @@ class MainFragment(private val mainBinding: MainFragmentBinding) : Fragment() {
         supportFM.unregisterFragmentLifecycleCallbacks(fragmentListener)
     }
 
-    // потом удалим
-    private fun initData() {
-        randomData = RandomData((4..12).random(), 20, 12)
-        listOfLists = randomData.getRandomData()
-    }
-
     private fun clearCheckedTasks() {
         // TODO()
     }
 
-    private fun updateTasksOrder() {
+    private fun updateTasksOrder(itemId: Int) {
         // TODO()
     }
 
     private fun updateUi() {
         val fragment = currentFragment
+        val bar = (requireActivity() as AppCompatActivity).supportActionBar
         if (fragment is HasCustomTitle) {
-            requireActivity().actionBar?.title = (fragment as HasCustomTitle).getCustomTitle()
+            bar?.title = (fragment as HasCustomTitle).getCustomTitle()
         } else {
-            requireActivity().actionBar?.title = getString(R.string.app_name)
+            bar?.title = getString(R.string.app_name)
         }
-//        onCreateOptionsMenu(_mainBinding.toolbar.menu)
+        updateMenu(mainBinding.toolbar.menu, requireActivity().menuInflater)
     }
 
-    fun onClickListenerButtonDayNight(view: View) {
-        toggleButtonImageDayNight()
+    private fun updateMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        val bar = (requireActivity() as AppCompatActivity).supportActionBar
+        if (currentFragment is HasMainScreenActions) {
+            inflater.inflate(R.menu.main_menu, menu)
+            bar?.setHomeAsUpIndicator(R.drawable.baseline_menu)
+        } else {
+            if (currentFragment is HasDeleteAction) {
+                inflater.inflate(R.menu.menu_trashbox, menu)
+            }
+            bar?.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24)
+        }
     }
 
-    private fun toggleButtonImageDayNight() {
+    private fun updateTheme() {
         isDay = !isDay
-        updateButtonImageDayNight()
-    }
-
-    private fun updateButtonImageDayNight() {
         preference.edit()
             .putBoolean(IS_DEFAULT_THEME_KEY, isDay)
             .apply()
@@ -213,7 +201,8 @@ class MainFragment(private val mainBinding: MainFragmentBinding) : Fragment() {
     }
 
     private fun setCurrentThemeIcon() {
-        val imgBt = requireActivity().findViewById<ImageButton>(mainBinding.sideBar.btSwitcherTheme.id)
+        val imgBt =
+            requireActivity().findViewById<ImageButton>(mainBinding.sideBar.btSwitcherTheme.id)
         if (isDay) {
             imgBt.setImageResource(R.drawable.baseline_wb_sunny_32)
         } else {
@@ -290,5 +279,54 @@ class MainFragment(private val mainBinding: MainFragmentBinding) : Fragment() {
             mainBinding.sideBar.accountImage.setImageResource(R.drawable.google)
             mainBinding.sideBar.googleAccount.setText(R.string.continue_with_google)
         }
+    }
+
+
+    override fun showTaskScreen(subtasksCount: Int) {
+        launchFragment(
+            TaskFragment.newInstance(
+                RandomData((4..12).random(), 20, 12)
+                    .getRandomSubtasks(subtasksCount)
+            )
+        )
+    }
+
+    override fun showSubtaskScreen() {
+        launchFragment(SubtaskFragment.newInstance(RandomData.getRandomSubtask()))
+    }
+
+    override fun showListSettingsScreen() {
+        launchFragment(
+            ListsSettingsFragment.newInstance(
+                RandomData((4..12).random(), 20, 12).getRandomData()
+            )
+        )
+        mainBinding.drawer.closeDrawer(Gravity.LEFT)
+    }
+
+    override fun goToMainScreen() {
+        requireActivity().supportFragmentManager.popBackStack(
+            null,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
+    }
+
+    override fun goBack() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
+    }
+
+    override fun <T : Parcelable> publishResult(result: T) {
+        requireActivity().supportFragmentManager.setFragmentResult(
+            result.javaClass.name,
+            bundleOf(RESULT_KEY to result)
+        )
+    }
+
+    private fun launchFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .addToBackStack(null)
+            .replace(mainBinding.mainContainer.id, fragment, "")
+            .commit()
     }
 }
