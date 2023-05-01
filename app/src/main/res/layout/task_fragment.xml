@@ -98,7 +98,8 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/task_header_color"
             android:textColorHint="@color/task_done_text_color"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold|italic" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
