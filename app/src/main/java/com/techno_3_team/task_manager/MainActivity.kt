@@ -17,7 +17,6 @@ import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
 class MainActivity : AppCompatActivity(), PrimaryNavigator {
 
     private lateinit var mainActivityBinding: ActivityMainBinding
-    private lateinit var mainFragmentBinding: MainFragmentBinding
 
     private val preference: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(this)

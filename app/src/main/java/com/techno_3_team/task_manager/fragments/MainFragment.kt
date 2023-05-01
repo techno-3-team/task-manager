@@ -39,7 +39,7 @@ class MainFragment : Fragment(), Navigator {
 
     private lateinit var mainBinding: MainFragmentBinding
     private lateinit var supportFM: FragmentManager
-    private var isDay: Boolean = true
+    private var isDay: Boolean = false
 
     private val currentFragment: Fragment?
         get() = requireActivity().supportFragmentManager.findFragmentById(mainBinding.mainContainer.id)
@@ -201,6 +201,7 @@ class MainFragment : Fragment(), Navigator {
     }
 
     private fun setCurrentThemeIcon() {
+        isDay = preference.getBoolean(IS_DEFAULT_THEME_KEY, isDay)
         val imgBt =
             requireActivity().findViewById<ImageButton>(mainBinding.sideBar.btSwitcherTheme.id)
         if (isDay) {
