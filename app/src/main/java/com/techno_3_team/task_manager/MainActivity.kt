@@ -8,8 +8,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
-import com.techno_3_team.task_manager.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager.fragments.*
+import com.techno_3_team.task_manager.navigators.PrimaryNavigator
 import com.techno_3_team.task_manager.support.AUTH_KEY
 import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
 
@@ -63,9 +63,6 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
         return super.dispatchTouchEvent(ev)
     }
 
-    /**
-     * navigation
-     */
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return super.onSupportNavigateUp()

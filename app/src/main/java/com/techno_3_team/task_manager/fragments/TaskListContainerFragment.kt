@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
-import com.techno_3_team.task_manager.HasMainScreenActions
+import com.techno_3_team.task_manager.fragment_features.HasMainScreenActions
 import com.techno_3_team.task_manager.adapters.TabPagerAdapter
 import com.techno_3_team.task_manager.databinding.TaskListContainerFragmentBinding
 import com.techno_3_team.task_manager.navigators.navigator

@@ -18,7 +18,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.snackbar.Snackbar
 import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.PrimaryNavigator
+import com.techno_3_team.task_manager.navigators.PrimaryNavigator
 import com.techno_3_team.task_manager.databinding.LoginFragmentBinding
 import com.techno_3_team.task_manager.support.AUTH_KEY
 
@@ -66,7 +66,7 @@ class LoginFragment : Fragment() {
             Log.e("tag", "clicked on google authorization")
             startAuthorization()
             displaySignIn()
-//            navigator().showMainFragment()
+//            (requireActivity() as PrimaryNavigator).showMainFragment()
         }
 
         Log.println(Log.INFO, "tag", "login fragment was created")

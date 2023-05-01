@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.techno_3_team.task_manager.HasCustomTitle
+import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding

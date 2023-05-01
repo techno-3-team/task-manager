@@ -11,8 +11,8 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.TimePicker
-import com.techno_3_team.task_manager.HasCustomTitle
-import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
+import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.databinding.SubtaskFragmentBinding
 import com.techno_3_team.task_manager.structures.Subtask

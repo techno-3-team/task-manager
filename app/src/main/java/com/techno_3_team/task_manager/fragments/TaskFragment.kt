@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
+import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
+import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager.navigators.navigator
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
@@ -89,21 +91,25 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     listSpin.isEnabled = false
                     llDateTime.isEnabled = false
                     taDesc.isEnabled = false
+                    FAB.isEnabled = false
                     editText.alpha = 0.5f
                     listSpin.alpha = 0.5f
                     llDateTime.alpha = 0.5f
                     linearLayout.alpha = 0.5f
                     lvTasksList.alpha = 0.5f
+                    FAB.alpha = 0.5f
                 } else {
                     editText.isEnabled = true
                     listSpin.isEnabled = true
                     llDateTime.isEnabled = true
                     taDesc.isEnabled = true
+                    FAB.isEnabled = true
                     editText.alpha = 1f
                     listSpin.alpha = 1f
                     llDateTime.alpha = 1f
                     linearLayout.alpha = 1f
                     lvTasksList.alpha = 1f
+                    FAB.alpha = 1f
                 }
             }
             pickDate()
