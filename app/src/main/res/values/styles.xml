@@ -10,7 +10,7 @@
         <item name="taskDoneTextColor">@color/task_done_text_color</item>
         <item name="checkboxColor">@color/task_text_sub_color</item>
         <item name="taskBackground">@drawable/task_back_default</item>
-        <item name="fabBackgroundColor">@color/main_teal</item>
+        <item name="fabBackgroundColor">@color/navy_blue</item>
         <item name="sidebarButtonBackground">@drawable/style_button_light_blue</item>
         <item name="sidebarLangButtonTextColor">@drawable/sidebar_lang_buttons_text_color</item>
         <item name="leftRadioSelectorBackground">@drawable/radio_selector_left</item>
@@ -27,7 +27,7 @@
         <item name="taskDoneTextColor">@color/task_done_text_color</item>
         <item name="checkboxColor">@color/task_header_color</item>
         <item name="taskBackground">@drawable/task_back_light</item>
-        <item name="fabBackgroundColor">@color/main_teal_tint</item>
+        <item name="fabBackgroundColor">@color/navy_blue</item>
         <item name="sidebarButtonBackground">@drawable/ripple_side_buttons_light</item>
         <item name="sidebarLangButtonTextColor">@drawable/sidebar_lang_buttons_text_color_light</item>
         <item name="leftRadioSelectorBackground">@drawable/radio_selector_left_light</item>
@@ -141,5 +141,13 @@
         <item name="colorAccent">#5D8385</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="spinnerItemStyle">
+        <item name="android:spinnerItemStyle">@style/mySpinnerItemSelectedStyle</item>
+    </style>
+
+    <style name="mySpinnerItemSelectedStyle">
+        <item name="android:textColor">@color/dark_blue</item>
     </style>
 </resources>

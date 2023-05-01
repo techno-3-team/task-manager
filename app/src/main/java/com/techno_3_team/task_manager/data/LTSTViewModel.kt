@@ -60,3 +60,48 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
         return result
     }
 }
+
+
+
+//    private fun insertExample() {
+//        ltstViewModel.addList(
+//            com.techno_3_team.task_manager.data.entities.List(
+//                1,
+//                "list_1"
+//            )
+//        )
+//        ltstViewModel.addList(
+//            com.techno_3_team.task_manager.data.entities.List(
+//                2,
+//                "list_2"
+//            )
+//        )
+//        ltstViewModel.addList(
+//            com.techno_3_team.task_manager.data.entities.List(
+//                3,
+//                "list_3"
+//            )
+//        )
+//        ltstViewModel.addTask(
+//            Task(
+//                1,
+//                2,
+//                "first",
+//                false,
+//                null,
+//                "komafdsg",
+//                null, null
+//            )
+//        )
+//        ltstViewModel.addTask(
+//            Task(
+//                2,
+//                2,
+//                "second",
+//                true,
+//                null,
+//                "dsafnjkasdf",
+//                null, null
+//            )
+//        )
+//    }

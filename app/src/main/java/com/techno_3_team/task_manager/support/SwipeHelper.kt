@@ -112,7 +112,7 @@ abstract class SwipeHelper(
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
+        val swipeFlags = ItemTouchHelper.START
         return makeMovementFlags(dragFlags, swipeFlags)
     }
 
@@ -173,7 +173,8 @@ abstract class SwipeHelper(
 
             // Draw background
             paint.color = ContextCompat.getColor(context, colorRes)
-            canvas.drawRect(rect, paint)
+//            canvas.drawRect(rect, paint)
+            canvas.drawRoundRect(rect, 10F, 10F, paint)
 
             // Draw title
             paint.color = ContextCompat.getColor(context, android.R.color.white)

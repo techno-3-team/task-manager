@@ -11,16 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import android.widget.DatePicker
 import android.widget.TimePicker
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
+import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
+import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
+import com.techno_3_team.task_manager.navigators.navigator
 import com.techno_3_team.task_manager.structures.Subtask
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.TASK_LIST_KEY
@@ -49,7 +49,7 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = TaskFragmentBinding.inflate(inflater)
         return binding.root
     }
@@ -67,6 +67,7 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             val subTaskAdapter = SubtaskAdapter(subtaskList, navigator())
             lvTasksList.adapter = subTaskAdapter
             lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
+            lvTasksList.addItemDecoration(SpacingItemDecorator(20))
 
             editText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
@@ -90,23 +91,25 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     listSpin.isEnabled = false
                     llDateTime.isEnabled = false
                     taDesc.isEnabled = false
+                    FAB.isEnabled = false
                     editText.alpha = 0.5f
-                    taskCheck.alpha = 0.5f
                     listSpin.alpha = 0.5f
                     llDateTime.alpha = 0.5f
                     linearLayout.alpha = 0.5f
                     lvTasksList.alpha = 0.5f
+                    FAB.alpha = 0.5f
                 } else {
                     editText.isEnabled = true
                     listSpin.isEnabled = true
                     llDateTime.isEnabled = true
                     taDesc.isEnabled = true
+                    FAB.isEnabled = true
                     editText.alpha = 1f
-                    taskCheck.alpha = 1f
                     listSpin.alpha = 1f
                     llDateTime.alpha = 1f
                     linearLayout.alpha = 1f
                     lvTasksList.alpha = 1f
+                    FAB.alpha = 1f
                 }
             }
             pickDate()

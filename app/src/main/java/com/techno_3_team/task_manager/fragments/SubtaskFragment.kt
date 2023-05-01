@@ -11,8 +11,8 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.TimePicker
-import com.techno_3_team.task_manager.HasCustomTitle
-import com.techno_3_team.task_manager.HasDeleteAction
+import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
+import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.databinding.SubtaskFragmentBinding
 import com.techno_3_team.task_manager.structures.Subtask
@@ -53,12 +53,14 @@ open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     taDesc.isEnabled = false
                     editText.isEnabled = false
                     llDateTime.isEnabled = false
+                    editText.alpha = 0.5f
                     llDateTime.alpha = 0.5f
                     linearLayout.alpha = 0.5f
                 } else {
                     taDesc.isEnabled = true
                     editText.isEnabled = true
                     llDateTime.isEnabled = true
+                    editText.alpha = 1f
                     llDateTime.alpha = 1f
                     linearLayout.alpha = 1f
                 }
