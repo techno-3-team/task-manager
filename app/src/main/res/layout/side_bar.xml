@@ -41,25 +41,6 @@
             android:textAlignment="center" />
     </RadioGroup>
 
-    <!--    <Button-->
-    <!--        android:id="@+id/btGoogleSideBAr"-->
-    <!--        style="@style/sidebar_button_style"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginLeft="16dp"-->
-    <!--        android:layout_marginTop="124dp"-->
-    <!--        android:layout_marginRight="16dp"-->
-    <!--        android:drawableStart="@drawable/baseline_account_circle_24"-->
-    <!--        android:drawableEnd="@drawable/keyboard_arrow_up"-->
-    <!--        android:paddingStart="16dp"-->
-    <!--        android:paddingTop="18dp"-->
-    <!--        android:paddingEnd="16dp"-->
-    <!--        android:paddingBottom="18dp"-->
-    <!--        android:text="@string/google_account"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
     <RelativeLayout
         android:id="@+id/btGoogleSideBAr"
         style="@style/style_button_light_blue"

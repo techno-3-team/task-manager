@@ -11,6 +11,8 @@ import android.os.Parcelable
 import android.util.Log
 import android.view.*
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
@@ -21,22 +23,21 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.appbar.MaterialToolbar
+import com.techno_3_team.task_manager.R
+import com.techno_3_team.task_manager.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager.fragment_features.HasMainScreenActions
-import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager.navigators.Navigator
 import com.techno_3_team.task_manager.navigators.navigator
-import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
-import com.techno_3_team.task_manager.support.LANGUAGE_KEY
-import com.techno_3_team.task_manager.support.RESULT_KEY
-import com.techno_3_team.task_manager.support.RandomData
+import com.techno_3_team.task_manager.support.*
 import java.util.*
 
 
-class MainFragment : Fragment(), Navigator {
+class MainFragment : Authorized(), Navigator {
 
     private lateinit var mainBinding: MainFragmentBinding
     private lateinit var supportFM: FragmentManager
@@ -65,9 +66,9 @@ class MainFragment : Fragment(), Navigator {
 
     //временная переменная до создания логики авторизированного пользователя
     //TODO: инициализировать переменную в правильных местах
-    private var authorized = true
-
+//    private var authorized = true
     //    private var authorized = false
+    private var authorized = preference.getBoolean("authorized", false)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -111,9 +112,13 @@ class MainFragment : Fragment(), Navigator {
                 updateTheme()
             }
             setAccountButton()
+            //TODO нужно ли?
             accountManagement()
             sideBar.btGoogleSideBAr.setOnClickListener {
                 accountManagement()
+//                if (!successfullyAuthorized)
+                if(!authorized)
+                    displaySignIn()
             }
             sideBar.btGoogleSideBAr2AccountManagement.setOnClickListener {
                 //TODO: управление аккаунтами гугл
@@ -184,12 +189,12 @@ class MainFragment : Fragment(), Navigator {
         builder.setMessage(message)
 
         builder.setCancelable(false)
-        builder.setPositiveButton(deleteBut) {
-                dialog, which -> deleteTask()
+        builder.setPositiveButton(deleteBut) { dialog, which ->
+            deleteTask()
         }
 
-        builder.setNegativeButton(cancelBut) {
-                dialog, which -> dialog.cancel()
+        builder.setNegativeButton(cancelBut) { dialog, which ->
+            dialog.cancel()
         }
 
         val alertDialog = builder.create()
@@ -288,7 +293,7 @@ class MainFragment : Fragment(), Navigator {
         requireActivity().recreate()
     }
 
-    fun rotateFab(view: View, rotate: Boolean): Boolean {
+    private fun rotateFab(view: View, rotate: Boolean): Boolean {
         view.animate().setDuration(200)
             .setListener(object : AnimatorListenerAdapter() {})
             .rotation(if (!rotate) 180f else 0f)
@@ -297,7 +302,11 @@ class MainFragment : Fragment(), Navigator {
 
     private fun accountManagement() {
         Log.e("accountManagement", "managementHidden $managementHidden")
+        Log.e("accountManagement", "successfully Authorized $successfullyAuthorized")
+        Log.e("accountManagement", "authorized $authorized")
+        Log.e("accountManagement", "username $username")
         if (authorized) {
+//        if (successfullyAuthorized) {
             managementHidden =
                 rotateFab(mainBinding.sideBar.accountSelectAction, !managementHidden)
             mainBinding.sideBar.managementGroup.visibility = when {
@@ -306,15 +315,16 @@ class MainFragment : Fragment(), Navigator {
             }
             Log.e("accountManagement", "managementHidden $managementHidden")
         } else {
-            //авторизация -- войти
+            Log.e("accountManagement", "starting authorization")
+            setAuthorizationVariables()
         }
     }
 
     private fun setAccountButton() {
         if (authorized) {
-            //TODO: получить имя пользователя
-            val accountName = null
-            mainBinding.sideBar.googleAccount.text = accountName
+//        if (successfullyAuthorized) {
+            mainBinding.sideBar.googleAccount.text = username
+            accountManagement()
         } else {
             mainBinding.sideBar.accountSelectAction.visibility = View.GONE
             mainBinding.sideBar.managementGroup.visibility = View.GONE
@@ -322,6 +332,73 @@ class MainFragment : Fragment(), Navigator {
             mainBinding.sideBar.googleAccount.setText(R.string.continue_with_google)
         }
     }
+
+    override val oneTapResult =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            val tag = "val oneTapResult"
+            try {
+                if (result.resultCode == Activity.RESULT_OK) {
+//                    oneTapClient = Identity.getSignInClient(requireActivity())
+                    val credential =
+                        oneTapClient?.getSignInCredentialFromIntent(result.data)
+                    val idToken = credential?.googleIdToken
+                    username = credential?.displayName
+                    when {
+                        idToken != null -> {
+                            // Got an ID token from Google. Use it to authenticate with your backend.
+                            preference.edit().putString("idToken", idToken).apply()
+                            preference.edit().putString("username", username).apply()
+                            Log.e(tag, "idToken $idToken")
+                            successfullyAuthorized = true
+                            authorized = true
+                            preference.edit().putBoolean("authorized", authorized).apply()
+                            preference.edit().putBoolean(AUTH_KEY, true).apply()
+                            val welcomeMsg = getString(R.string.welcome) + " $username!"
+                            val toast = Toast.makeText(context, welcomeMsg, Toast.LENGTH_LONG)
+                            toast.show()
+
+                            Log.e(tag, "refresh")
+
+//                            requireActivity().recreate()
+                        }
+                        else -> {
+                            // Shouldn't happen.
+                            Log.e(tag, "No ID token or password!")
+                        }
+                    }
+                }
+            } catch (exception: ApiException) {
+                when (exception.statusCode) {
+                    CommonStatusCodes.CANCELED -> {
+                        Log.e(tag, "One-tap dialog was closed.")
+                        // Don't re-prompt the user.
+//                        showOneTapUI = false
+                        val toast =
+                            Toast.makeText(context, getString(R.string.cancel), Toast.LENGTH_LONG)
+                        toast.show()
+                    }
+                    CommonStatusCodes.NETWORK_ERROR -> {
+                        Log.e(tag, "One-tap encountered a network error.")
+                        // Try again or just ignore.
+                        val toast = Toast.makeText(
+                            context,
+                            getString(R.string.network_error),
+                            Toast.LENGTH_LONG
+                        )
+                        toast.show()
+                    }
+                    else -> {
+                        Log.e(
+                            tag, "Couldn't get credential from result." +
+                                    " (${exception.localizedMessage})"
+                        )
+                        val toast =
+                            Toast.makeText(context, getString(R.string.cancel), Toast.LENGTH_LONG)
+                        toast.show()
+                    }
+                }
+            }
+        }
 
     override fun showTaskScreen(subtasksCount: Int) {
         launchFragment(
