@@ -69,4 +69,6 @@
     <string name="added_new_list_toast">Добавлен новый список</string>
     <string name="deleted_list_toast">Удален список</string>
     <string name="edited_list_toast">Изменено название списка</string>
+
+    <string name="delete_task_dialog_msg">Вы уверены, что хотите удалить задачу?</string>
 </resources>
