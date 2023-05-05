@@ -13,7 +13,7 @@ import com.techno_3_team.task_manager.databinding.ActivityMainBinding
 import com.techno_3_team.task_manager.fragments.LoginFragment
 import com.techno_3_team.task_manager.fragments.MainFragment
 import com.techno_3_team.task_manager.navigators.PrimaryNavigator
-import com.techno_3_team.task_manager.support.AUTH_KEY
+import com.techno_3_team.task_manager.support.AUTHORIZED
 import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
 
 
@@ -34,14 +34,13 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
         if (savedInstanceState == null) {
             ltstViewModel = ViewModelProvider(this)[LTSTViewModel::class.java]
             mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
-            val showAuthScreen = preference.getBoolean(AUTH_KEY, true)
-            if (showAuthScreen) {
+            val authorized = preference.getBoolean(AUTHORIZED, false)
+            if (authorized) {
+                showMainFragment()
+            } else {
                 supportFragmentManager.beginTransaction()
-                    .addToBackStack(null)
                     .replace(mainActivityBinding.container.id, LoginFragment(), "login")
                     .commit()
-            } else {
-                showMainFragment()
             }
         }
     }
@@ -72,7 +71,7 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
 
     override fun showMainFragment() {
         supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
+//            .addToBackStack(null)
             .replace(mainActivityBinding.container.id, MainFragment(), "main")
             .commit()
     }

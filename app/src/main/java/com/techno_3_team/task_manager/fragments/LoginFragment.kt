@@ -22,7 +22,6 @@ import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.databinding.LoginFragmentBinding
 import com.techno_3_team.task_manager.navigators.PrimaryNavigator
 import com.techno_3_team.task_manager.support.AUTHORIZED
-import com.techno_3_team.task_manager.support.AUTH_KEY
 import com.techno_3_team.task_manager.support.ID_TOKEN
 import com.techno_3_team.task_manager.support.USERNAME
 
@@ -66,7 +65,6 @@ class LoginFragment : Fragment() {
                             authorized = true
                             preference.edit().putBoolean(AUTHORIZED, authorized).apply()
                             Log.e(tag, "authorized $authorized")
-                            preference.edit().putBoolean(AUTH_KEY, true).apply()
                             val welcomeMsg = getString(R.string.welcome) + " $username!"
                             val toast = Toast.makeText(context, welcomeMsg, Toast.LENGTH_LONG)
                             toast.show()
@@ -126,7 +124,7 @@ class LoginFragment : Fragment() {
         _loginBinding.continueWithoutAutorization.setOnClickListener {
             Log.e("onViewCreated", "clicked on continue without authorization")
             preference.edit()
-                .putBoolean(AUTH_KEY, false)
+                .putBoolean(AUTHORIZED, false)
                 .apply()
             (requireActivity() as PrimaryNavigator).showMainFragment()
         }

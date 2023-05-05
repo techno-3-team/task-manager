@@ -94,7 +94,6 @@ class MainFragment : Fragment(), Navigator {
                             Log.e(tag, "idToken $idToken")
                             authorized = true
                             preference.edit().putBoolean(AUTHORIZED, authorized).apply()
-                            preference.edit().putBoolean(AUTH_KEY, true).apply()
                             val welcomeMsg = getString(R.string.welcome) + " $username!"
                             val toast = Toast.makeText(context, welcomeMsg, Toast.LENGTH_LONG)
                             toast.show()
@@ -166,6 +165,7 @@ class MainFragment : Fragment(), Navigator {
             requireActivity().supportFragmentManager
                 .beginTransaction()
                 .add(mainBinding.mainContainer.id, taskListContainerFragment, "MF")
+//                .addToBackStack(null)
                 .commit()
         }
 
