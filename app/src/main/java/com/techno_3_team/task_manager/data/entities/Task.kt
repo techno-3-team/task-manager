@@ -10,8 +10,8 @@ import java.util.*
 @TypeConverters(Converters::class)
 @Parcelize
 data class Task(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val listId: Int,
     val header: String,
     val isCompleted: Boolean,

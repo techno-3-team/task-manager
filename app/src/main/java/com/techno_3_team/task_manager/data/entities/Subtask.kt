@@ -12,8 +12,8 @@ import java.util.*
 @TypeConverters(Converters::class)
 @Parcelize
 data class Subtask(
-    @PrimaryKey
-    var id: Int,
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
     var taskId: Int,
     var header: String,
     var isCompleted: Boolean,

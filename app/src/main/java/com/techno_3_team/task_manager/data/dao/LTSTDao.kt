@@ -1,11 +1,7 @@
 package com.techno_3_team.task_manager.data.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Transaction
-import androidx.room.Query
+import androidx.room.*
 import com.techno_3_team.task_manager.data.entities.List
 import com.techno_3_team.task_manager.data.entities.Subtask
 import com.techno_3_team.task_manager.data.entities.Task
@@ -25,8 +21,24 @@ interface LTSTDao {
     suspend fun addList(list: List)
 
     @Transaction
-    @Query("SELECT * FROM list_table WHERE listName = :listName")
-    fun readTasks(listName: String): LiveData<ListWithTasks>
+    @Query("SELECT * FROM list_table")
+    fun getLists(): kotlin.collections.List<List>
+
+    @Transaction
+    @Query("SELECT * FROM list_table")
+    fun readLists(): LiveData<kotlin.collections.List<List>>
+
+    @Transaction
+    @Query("delete FROM list_table where listId = :listId")
+    suspend fun deleteList(listId: Int)
+
+    @Transaction
+    @Update
+    suspend fun updateListName(list: List)
+
+    @Transaction
+    @Query("SELECT * FROM list_table WHERE listId = :listId")
+    fun readTasks(listId: Int): LiveData<ListWithTasks>
 
     @Transaction
     @Query("SELECT * FROM task_table WHERE header = :taskName")

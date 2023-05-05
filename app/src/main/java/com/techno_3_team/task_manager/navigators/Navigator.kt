@@ -4,7 +4,7 @@ import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import com.techno_3_team.task_manager.fragments.MainFragment
 
-fun Fragment.navigator() : Navigator {
+fun Fragment.navigator(): Navigator {
     var mainFragment: MainFragment? = null
     requireActivity().supportFragmentManager.fragments.forEach {
         if (it is MainFragment) {
@@ -16,7 +16,7 @@ fun Fragment.navigator() : Navigator {
 
 interface Navigator {
 
-    fun showTaskScreen(subtasksCount : Int)
+    fun showTaskScreen(subtasksCount: Int)
 
     fun showSubtaskScreen()
 

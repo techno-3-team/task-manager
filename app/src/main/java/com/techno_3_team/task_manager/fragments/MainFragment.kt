@@ -41,7 +41,6 @@ class MainFragment : Authorized(), Navigator {
 
     private lateinit var mainBinding: MainFragmentBinding
     private lateinit var supportFM: FragmentManager
-    private var isDay: Boolean = false
 
     private val currentFragment: Fragment?
         get() = requireActivity().supportFragmentManager.findFragmentById(mainBinding.mainContainer.id)
@@ -169,20 +168,9 @@ class MainFragment : Authorized(), Navigator {
     }
 
     private fun setDeleteDialog() {
-        val message: String
-        val deleteBut: String
-        val cancelBut: String
-        val title: String
-        if (mainBinding.sideBar.radioButtonRus.isChecked) {
-            message = "Вы уверены, что хотите удалить задачу?"
-            deleteBut = "УДАЛИТЬ"
-            cancelBut = "ОТМЕНИТЬ"
-        } else {
-            message = "Do you want to delete this task?"
-            deleteBut = "DELETE"
-            cancelBut = "CANCEL"
-            title = "Are you sure?"
-        }
+        val message =  getString(R.string.delete_task_dialog_msg)
+        val deleteBut = getString(R.string.delete_button_name)
+        val cancelBut = getString(R.string.cancel_button_name)
 
         val builder = AlertDialog.Builder(requireContext())
 
@@ -239,15 +227,17 @@ class MainFragment : Authorized(), Navigator {
     }
 
     private fun updateTheme() {
-        isDay = !isDay
+        val isDay = preference.getBoolean(IS_DEFAULT_THEME_KEY, true)
+        Log.println(Log.INFO, "tag", "update $isDay")
         preference.edit()
-            .putBoolean(IS_DEFAULT_THEME_KEY, isDay)
+            .putBoolean(IS_DEFAULT_THEME_KEY, !isDay)
             .apply()
         requireActivity().recreate()
     }
 
     private fun setCurrentThemeIcon() {
-        isDay = preference.getBoolean(IS_DEFAULT_THEME_KEY, isDay)
+        val isDay = preference.getBoolean(IS_DEFAULT_THEME_KEY, true)
+        Log.println(Log.INFO, "tag", "set $isDay")
         val imgBt =
             requireActivity().findViewById<ImageButton>(mainBinding.sideBar.btSwitcherTheme.id)
         if (isDay) {

@@ -1,7 +1,6 @@
 package com.techno_3_team.task_manager.fragments
 
 import android.app.AlertDialog
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +10,15 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
+import com.techno_3_team.task_manager.data.LTSTViewModel
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
+import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager.structures.ListOfLists
-import com.techno_3_team.task_manager.structures.ListOfTasks
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.SwipeHelper
@@ -30,6 +30,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
     private val _binding: FragmentListsSettingsBinding
         get() = binding!!
 
+    private lateinit var ltstViewModel: LTSTViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,13 +43,10 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ltstViewModel = ViewModelProvider(requireActivity())[LTSTViewModel::class.java]
+
         with(_binding) {
-            val listOfLists = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                arguments?.getParcelable(LIST_LISTS_KEY, ListOfLists::class.java)!!
-            } else {
-                arguments?.getParcelable(LIST_LISTS_KEY)!!
-            }
-            val listNames = listOfLists.list
+            val listNames = ltstViewModel.getLists() as ArrayList<com.techno_3_team.task_manager.data.entities.List>
             val listSettingsAdapter = ListsSettingsAdapter(listNames)
             lists.adapter = listSettingsAdapter
 
@@ -82,9 +80,15 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
             toast("${getString(R.string.added_new_list_toast)} \"${text.text}\"")
             val adapter = _binding.lists.adapter as ListsSettingsAdapter
             adapter.addList(
-                ListOfTasks(
-                    text.text.toString(),
-                    ArrayList(), 0, 0
+                com.techno_3_team.task_manager.data.entities.List(
+                    0,
+                    text.text.toString()
+                )
+            )
+            ltstViewModel.addList(
+                com.techno_3_team.task_manager.data.entities.List(
+                    0,
+                    text.text.toString()
                 )
             )
         }
@@ -102,7 +106,6 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
         toast?.show()
     }
 
-
     private fun deleteButton(position: Int): SwipeHelper.UnderlayButton {
         return SwipeHelper.UnderlayButton(
             _binding.lists.context,
@@ -112,9 +115,10 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
             object : SwipeHelper.UnderlayButtonClickListener {
                 override fun onClick() {
                     val adapter = _binding.lists.adapter as ListsSettingsAdapter
-                    val name = adapter.getNameOfList(position)
+                    val list = adapter.getList(position)
                     adapter.deleteList(position)
-                    toast("${getString(R.string.deleted_list_toast)} \"$name\"")
+                    ltstViewModel.deleteList(list.listId)
+                    toast("${getString(R.string.deleted_list_toast)} \"${list.listName}\"")
                 }
             })
     }
@@ -124,7 +128,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
             _binding.lists.context,
             getString(R.string.edit_button_name),
             14.0f,
-            R.color.green,
+            R.color.edit,
             object : SwipeHelper.UnderlayButtonClickListener {
                 override fun onClick() {
                     onEditDialog(view, position)
@@ -138,13 +142,21 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
         val layoutName = LinearLayout(view.context)
         layoutName.orientation = LinearLayout.VERTICAL
         val text = EditText(view.context)
-        text.setText((_binding.lists.adapter as ListsSettingsAdapter).getNameOfList(position))
+        text.setText((_binding.lists.adapter as ListsSettingsAdapter).getList(position).listName)
         layoutName.addView(text)
         builder.setView(layoutName)
         builder.setPositiveButton(getString(R.string.edit_button_name)) { _, _ ->
             toast("${getString(R.string.edited_list_toast)} \"${text.text}\"")
             val adapter = _binding.lists.adapter as ListsSettingsAdapter
             adapter.changeNameOfList(position, text.text.toString())
+
+            val list = adapter.getList(position)
+            ltstViewModel.updateListName(
+                com.techno_3_team.task_manager.data.entities.List(
+                    list.listId,
+                    text.text.toString()
+                )
+            )
         }
         builder.setNegativeButton(getString(R.string.cancel_button_name)) { dialog, _ -> dialog.cancel() }
         val dialog = builder.create();

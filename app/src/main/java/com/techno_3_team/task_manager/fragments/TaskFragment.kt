@@ -14,9 +14,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
+import com.techno_3_team.task_manager.data.LTSTViewModel
+import com.techno_3_team.task_manager.data.entities.Task
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
@@ -32,6 +35,8 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
 
     private lateinit var binding: TaskFragmentBinding
+
+    private lateinit var ltstViewModel: LTSTViewModel
 
     private var day = 0
     private var month = 0
@@ -57,6 +62,8 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ltstViewModel = ViewModelProvider(requireActivity())[LTSTViewModel::class.java]
+
         with(binding) {
             val subtaskList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 arguments?.getParcelableArrayList(TASK_LIST_KEY, Subtask::class.java)!!
@@ -80,7 +87,8 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             if (editText.text.isEmpty()) {
                 editText.isFocusableInTouchMode = true;
                 editText.requestFocus()
-                (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(editText,
+                (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(
+                    editText,
                     InputMethodManager.SHOW_IMPLICIT
                 )
             }
@@ -133,7 +141,16 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     fun pickDate() {
         binding.llDateTime.setOnClickListener {
             getDateTimeCalendar()
-            this.context?.let { it1 -> DatePickerDialog(it1, R.style.TimePickerTheme, this, year, month, day).show() }
+            this.context?.let { it1 ->
+                DatePickerDialog(
+                    it1,
+                    R.style.TimePickerTheme,
+                    this,
+                    year,
+                    month,
+                    day
+                ).show()
+            }
         }
     }
 

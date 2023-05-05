@@ -68,8 +68,10 @@
     <string name="edit_button_name">Edit</string>
     <string name="delete_button_name">Delete</string>
     <string name="add_button_name">add</string>
-    <string name="cancel_button_name">cancel</string>
+    <string name="cancel_button_name">Cancel</string>
     <string name="added_new_list_toast">Added new list</string>
     <string name="deleted_list_toast">Deleted list</string>
     <string name="edited_list_toast">Edited list name of to</string>
+
+    <string name="delete_task_dialog_msg">Do you want to delete this task?</string>
 </resources>
