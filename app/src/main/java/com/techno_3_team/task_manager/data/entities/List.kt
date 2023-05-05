@@ -10,5 +10,6 @@ import kotlinx.parcelize.Parcelize
 data class List(
     @PrimaryKey(autoGenerate = true)
     val listId: Int = 0,
-    var listName: String
+    var listName: String,
+    var listOrderPos: Int
 ) : Parcelable

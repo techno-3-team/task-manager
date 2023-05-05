@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.techno_3_team.task_manager.data.LTSTViewModel
-import com.techno_3_team.task_manager.data.entities.Task
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
 import com.techno_3_team.task_manager.fragments.LoginFragment
 import com.techno_3_team.task_manager.fragments.MainFragment
@@ -51,27 +50,27 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
     private fun insertExample() {
 //        ltstViewModel.addList(
 //            com.techno_3_team.task_manager.data.entities.List(
-//                0, "list_1"
+//                0, "list_1", 0
 //            )
 //        )
 //        ltstViewModel.addList(
 //            com.techno_3_team.task_manager.data.entities.List(
-//                0, "list_2"
+//                0, "list_2", 1
 //            )
 //        )
 //        ltstViewModel.addList(
 //            com.techno_3_team.task_manager.data.entities.List(
-//                0, "list_3"
+//                0, "list_3", 2
 //            )
 //        )
 //        ltstViewModel.addList(
 //            com.techno_3_team.task_manager.data.entities.List(
-//                0, "list_4"
+//                0, "list_4", 3
 //            )
 //        )
 //        ltstViewModel.addList(
 //            com.techno_3_team.task_manager.data.entities.List(
-//                0, "list_5"
+//                0, "list_5", 4
 //            )
 //        )
 //        ltstViewModel.addTask(Task(0, 45, "sbv", true, null, "", null, null))
@@ -83,7 +82,6 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
 //        ltstViewModel.addTask(Task(0, 41, "weaq", false, null, "", null, null))
 //        ltstViewModel.addTask(Task(0, 44, "wer", true, null, "", null, null))
 //        ltstViewModel.addTask(Task(0, 44, "asd", true, null, "", null, null))
-
     }
 
     private fun initTheme() {

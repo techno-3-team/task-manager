@@ -9,7 +9,7 @@ class LTSTRepository(private val ltstDao: LTSTDao) {
     var readLists: LiveData<List<com.techno_3_team.task_manager.data.entities.List>> = ltstDao.readLists()
     var readTasks: LiveData<ListWithTasks> = ltstDao.readTasks(0)
     var readSubtasks: LiveData<TaskWithSubtasks> = ltstDao.readSubtasks("")
-    var readTaskCompletion: LiveData<List<TaskCompletion>> = ltstDao.selectListWithTaskCompletionInfo()
+    var readListInfo: LiveData<List<ListInfo>> = ltstDao.selectListWithTaskCompletionInfo()
 
     suspend fun addList(list: com.techno_3_team.task_manager.data.entities.List) {
         ltstDao.addList(list)
@@ -27,11 +27,7 @@ class LTSTRepository(private val ltstDao: LTSTDao) {
         ltstDao.deleteList(listId)
     }
 
-    suspend fun updateListName(list: com.techno_3_team.task_manager.data.entities.List) {
-        ltstDao.updateListName(list)
-    }
-
-    suspend fun selectListWithTaskCompletionInfo() {
-        ltstDao.selectListWithTaskCompletionInfo()
+    suspend fun updateList(list: com.techno_3_team.task_manager.data.entities.List) {
+        ltstDao.updateList(list)
     }
 }

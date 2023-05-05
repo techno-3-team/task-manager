@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.data.entities.List
-import com.techno_3_team.task_manager.data.entities.TaskCompletion
+import com.techno_3_team.task_manager.data.entities.ListInfo
 import com.techno_3_team.task_manager.support.ItemTouchHelperAdapter
 import java.util.*
 
 class ListsSettingsAdapter(
-    private val lists: ArrayList<TaskCompletion>
+    private val lists: ArrayList<ListInfo>
 ) : RecyclerView.Adapter<ListsSettingsAdapter.ListsSettingsViewHolder>(), ItemTouchHelperAdapter {
 
     override fun onCreateViewHolder(
@@ -41,13 +40,13 @@ class ListsSettingsAdapter(
         private val listSubName: TextView = itemView.findViewById(R.id.list_subname)
 
         @SuppressLint("SetTextI18n")
-        fun bind(list: TaskCompletion) {
+        fun bind(list: ListInfo) {
             listName.text = list.listName
             listSubName.text = "${list.completedTasksCount} из ${list.tasksCount}"
         }
     }
 
-    fun addList(list: TaskCompletion) {
+    fun addList(list: ListInfo) {
         lists.add(list)
         notifyItemInserted(lists.size - 1)
     }
@@ -57,7 +56,7 @@ class ListsSettingsAdapter(
         notifyItemRemoved(position)
     }
 
-    fun getList(position: Int): TaskCompletion {
+    fun getList(position: Int): ListInfo {
         return lists[position]
     }
 
@@ -65,6 +64,9 @@ class ListsSettingsAdapter(
         lists[position].listName = name
         notifyItemChanged(position)
     }
+
+    fun getOrderPosForNewList(): Int =
+        if (lists.isEmpty()) 0 else lists[lists.size - 1].listOrderPos + 1
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {

@@ -21,14 +21,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.data.LTSTViewModel
-import com.techno_3_team.task_manager.data.entities.TaskCompletion
+import com.techno_3_team.task_manager.data.entities.ListInfo
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
 import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.SwipeHelper
-import java.util.ArrayList
 
 
 class ListsSettingsFragment : Fragment(), HasCustomTitle {
@@ -52,11 +51,12 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(_binding) {
-            val listNames: List<TaskCompletion> = arrayListOf()
-            val listSettingsAdapter = ListsSettingsAdapter(listNames as ArrayList<TaskCompletion>)
+            val listNames: List<ListInfo> = arrayListOf()
+            val listSettingsAdapter = ListsSettingsAdapter(listNames as ArrayList<ListInfo>)
             lists.adapter = listSettingsAdapter
 
-            ltstViewModel.readTaskCompletion.observeOnce(viewLifecycleOwner) {
+            ltstViewModel.readListInfo.observe(viewLifecycleOwner) {
+                listNames.clear()
                 listNames.addAll(it)
                 Log.println(Log.INFO, "observed", it.toString())
                 listSettingsAdapter.notifyDataSetChanged()
@@ -65,13 +65,14 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
             lists.layoutManager = GridLayoutManager(lists.context, 1)
             lists.addItemDecoration(SpacingItemDecorator(20))
 
-            val touchHelper = ItemTouchHelper(object : SwipeHelper(lists) {
-                override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
-                    val deleteButton = deleteButton(position)
-                    val markAsUnreadButton = editButton(position, view)
-                    return listOf(deleteButton, markAsUnreadButton)
-                }
-            })
+            val touchHelper =
+                ItemTouchHelper(object : SwipeHelper(this@ListsSettingsFragment, lists) {
+                    override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
+                        val deleteButton = deleteButton(position)
+                        val markAsUnreadButton = editButton(position, view)
+                        return listOf(deleteButton, markAsUnreadButton)
+                    }
+                })
             touchHelper.attachToRecyclerView(lists)
 
             FABls.setOnClickListener {
@@ -80,7 +81,26 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
         }
     }
 
-    fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    fun changeListsOrder(firstPos: Int, secondPos: Int) {
+        val firstList = (_binding.lists.adapter as ListsSettingsAdapter).getList(firstPos)
+        val secondList = (_binding.lists.adapter as ListsSettingsAdapter).getList(secondPos)
+        ltstViewModel.updateList(
+            com.techno_3_team.task_manager.data.entities.List(
+                firstList.listId,
+                firstList.listName,
+                secondList.listOrderPos
+            )
+        )
+        ltstViewModel.updateList(
+            com.techno_3_team.task_manager.data.entities.List(
+                secondList.listId,
+                secondList.listName,
+                firstList.listOrderPos
+            )
+        )
+    }
+
+    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
         observe(lifecycleOwner, object : Observer<T> {
             override fun onChanged(value: T) {
                 observer.onChanged(value)
@@ -88,13 +108,6 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
 
             }
         })
-
-//        observeForever(object : Observer<T> {
-//            override fun onChanged(t: T?) {
-//                observer.onChanged(t)
-//                removeObserver(this)
-//            }
-//        })
     }
 
     private fun onAddDialog(view: View) {
@@ -110,18 +123,19 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
         builder.setPositiveButton(getString(R.string.add_button_name)) { _, _ ->
             toast("${getString(R.string.added_new_list_toast)} \"${text.text}\"")
             val adapter = _binding.lists.adapter as ListsSettingsAdapter
-            adapter.addList(
-                TaskCompletion(
-                    0,
-                    text.text.toString(),
-                    0,
-                    0
-                )
-            )
+//            adapter.addList(
+//                ListInfo(
+//                    0,
+//                    text.text.toString(),
+//                    0,
+//                    0
+//                )
+//            )
             ltstViewModel.addList(
                 com.techno_3_team.task_manager.data.entities.List(
                     0,
-                    text.text.toString()
+                    text.text.toString(),
+                    adapter.getOrderPosForNewList()
                 )
             )
         }
@@ -151,7 +165,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
                 override fun onClick() {
                     val adapter = _binding.lists.adapter as ListsSettingsAdapter
                     val list = adapter.getList(position)
-                    adapter.deleteList(position)
+//                    adapter.deleteList(position)
                     ltstViewModel.deleteList(list.listId)
                     toast("${getString(R.string.deleted_list_toast)} \"${list.listName}\"")
                 }
@@ -185,13 +199,14 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
         builder.setPositiveButton(getString(R.string.edit_button_name)) { _, _ ->
             toast("${getString(R.string.edited_list_toast)} \"${text.text}\"")
             val adapter = _binding.lists.adapter as ListsSettingsAdapter
-            adapter.changeNameOfList(position, text.text.toString())
+//            adapter.changeNameOfList(position, text.text.toString())
 
             val list = adapter.getList(position)
-            ltstViewModel.updateListName(
+            ltstViewModel.updateList(
                 com.techno_3_team.task_manager.data.entities.List(
                     list.listId,
-                    text.text.toString()
+                    text.text.toString(),
+                    list.listOrderPos
                 )
             )
         }

@@ -13,7 +13,7 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
     val readLists: LiveData<List<com.techno_3_team.task_manager.data.entities.List>>
     val readTasks: LiveData<ListWithTasks>
     val readSubtasks: LiveData<TaskWithSubtasks>
-    val readTaskCompletion: LiveData<List<TaskCompletion>>
+    val readListInfo: LiveData<List<ListInfo>>
     private val repository: LTSTRepository
 
     init {
@@ -22,7 +22,7 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
         readLists = repository.readLists
         readTasks = repository.readTasks
         readSubtasks = repository.readSubtasks
-        readTaskCompletion = repository.readTaskCompletion
+        readListInfo = repository.readListInfo
     }
 
     fun addList(list: com.techno_3_team.task_manager.data.entities.List) {
@@ -49,9 +49,9 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun updateListName(list: com.techno_3_team.task_manager.data.entities.List) {
+    fun updateList(list: com.techno_3_team.task_manager.data.entities.List) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateListName(list)
+            repository.updateList(list)
         }
     }
 }

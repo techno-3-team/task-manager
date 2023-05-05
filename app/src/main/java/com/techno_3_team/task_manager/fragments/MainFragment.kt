@@ -170,13 +170,11 @@ class MainFragment : Fragment(), Navigator {
         val builder = AlertDialog.Builder(requireContext())
 
         builder.setMessage(message)
-
         builder.setCancelable(false)
-        builder.setPositiveButton(deleteBut) { dialog, which ->
+        builder.setPositiveButton(deleteBut) { _, _ ->
             deleteTask()
         }
-
-        builder.setNegativeButton(cancelBut) { dialog, which ->
+        builder.setNegativeButton(cancelBut) { dialog, _ ->
             dialog.cancel()
         }
 

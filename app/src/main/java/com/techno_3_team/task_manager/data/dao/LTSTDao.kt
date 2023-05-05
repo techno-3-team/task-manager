@@ -2,7 +2,6 @@ package com.techno_3_team.task_manager.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.techno_3_team.task_manager.data.SingleLiveEvent
 import com.techno_3_team.task_manager.data.entities.*
 import com.techno_3_team.task_manager.data.entities.List
 
@@ -32,7 +31,7 @@ interface LTSTDao {
 
     @Transaction
     @Update
-    suspend fun updateListName(list: List)
+    suspend fun updateList(list: List)
 
     @Transaction
     @Query("SELECT * FROM list_table WHERE listId = :listId")
@@ -43,13 +42,13 @@ interface LTSTDao {
     fun readSubtasks(taskName: String): LiveData<TaskWithSubtasks>
 
     @Transaction
-    @Query("select listId, listName, " +
+    @Query("select listId, listName, listOrderPos, " +
             "coalesce(sum(case when isCompleted then 1 else 0 end), 0) as completedTasksCount, " +
             "coalesce(sum(case when header is null then 0 else 1 end), 0) as tasksCount " +
             "from list_table as l " +
             "left join task_table as t " +
             "using (listId) " +
             "group by listId " +
-            "order by listName")
-    fun selectListWithTaskCompletionInfo(): LiveData<kotlin.collections.List<TaskCompletion>>
+            "order by listOrderPos")
+    fun selectListWithTaskCompletionInfo(): LiveData<kotlin.collections.List<ListInfo>>
 }

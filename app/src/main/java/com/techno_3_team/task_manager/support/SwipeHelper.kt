@@ -10,11 +10,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
+import com.techno_3_team.task_manager.fragments.ListsSettingsFragment
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.max
 
 abstract class SwipeHelper(
+    private val parentFragment: ListsSettingsFragment,
     private val recyclerView: RecyclerView
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.ACTION_STATE_IDLE,
@@ -117,9 +119,11 @@ abstract class SwipeHelper(
     }
 
     override fun onMove(
-        recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
+        parentFragment.changeListsOrder(viewHolder.adapterPosition, target.adapterPosition)
         (recyclerView.adapter as ListsSettingsAdapter).onItemMove(viewHolder.adapterPosition, target.adapterPosition)
         return true
     }
