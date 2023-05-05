@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.techno_3_team.task_manager.data.LTSTViewModel
+import com.techno_3_team.task_manager.data.entities.Task
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
 import com.techno_3_team.task_manager.fragments.LoginFragment
 import com.techno_3_team.task_manager.fragments.MainFragment
@@ -41,9 +42,48 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
                     .replace(mainActivityBinding.container.id, LoginFragment(), "login")
                     .commit()
             } else {
+                insertExample()
                 showMainFragment()
             }
         }
+    }
+
+    private fun insertExample() {
+//        ltstViewModel.addList(
+//            com.techno_3_team.task_manager.data.entities.List(
+//                0, "list_1"
+//            )
+//        )
+//        ltstViewModel.addList(
+//            com.techno_3_team.task_manager.data.entities.List(
+//                0, "list_2"
+//            )
+//        )
+//        ltstViewModel.addList(
+//            com.techno_3_team.task_manager.data.entities.List(
+//                0, "list_3"
+//            )
+//        )
+//        ltstViewModel.addList(
+//            com.techno_3_team.task_manager.data.entities.List(
+//                0, "list_4"
+//            )
+//        )
+//        ltstViewModel.addList(
+//            com.techno_3_team.task_manager.data.entities.List(
+//                0, "list_5"
+//            )
+//        )
+//        ltstViewModel.addTask(Task(0, 45, "sbv", true, null, "", null, null))
+//        ltstViewModel.addTask(Task(0, 45, "asfd", false, null, "", null, null))
+//        ltstViewModel.addTask(Task(0, 45, "gfd", true, null, "", null, null))
+//        ltstViewModel.addTask(Task(0, 43, "gh", false, null, "", null, null))
+//        ltstViewModel.addTask(Task(0, 42, "gsadh", true, null, "", null, null))
+//        ltstViewModel.addTask(Task(0, 41, "we", true, null, "", null, null))
+//        ltstViewModel.addTask(Task(0, 41, "weaq", false, null, "", null, null))
+//        ltstViewModel.addTask(Task(0, 44, "wer", true, null, "", null, null))
+//        ltstViewModel.addTask(Task(0, 44, "asd", true, null, "", null, null))
+
     }
 
     private fun initTheme() {

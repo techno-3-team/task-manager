@@ -2,20 +2,14 @@ package com.techno_3_team.task_manager.data
 
 import androidx.lifecycle.LiveData
 import com.techno_3_team.task_manager.data.dao.LTSTDao
-import com.techno_3_team.task_manager.data.entities.ListWithTasks
-import com.techno_3_team.task_manager.data.entities.Subtask
-import com.techno_3_team.task_manager.data.entities.Task
-import com.techno_3_team.task_manager.data.entities.TaskWithSubtasks
+import com.techno_3_team.task_manager.data.entities.*
 
 class LTSTRepository(private val ltstDao: LTSTDao) {
 
     var readLists: LiveData<List<com.techno_3_team.task_manager.data.entities.List>> = ltstDao.readLists()
-    var readTasks: LiveData<ListWithTasks> = ltstDao.readTasks(2)
+    var readTasks: LiveData<ListWithTasks> = ltstDao.readTasks(0)
     var readSubtasks: LiveData<TaskWithSubtasks> = ltstDao.readSubtasks("")
-
-    fun getLists(): List<com.techno_3_team.task_manager.data.entities.List>{
-        return ltstDao.getLists()
-    }
+    var readTaskCompletion: LiveData<List<TaskCompletion>> = ltstDao.selectListWithTaskCompletionInfo()
 
     suspend fun addList(list: com.techno_3_team.task_manager.data.entities.List) {
         ltstDao.addList(list)
@@ -35,5 +29,9 @@ class LTSTRepository(private val ltstDao: LTSTDao) {
 
     suspend fun updateListName(list: com.techno_3_team.task_manager.data.entities.List) {
         ltstDao.updateListName(list)
+    }
+
+    suspend fun selectListWithTaskCompletionInfo() {
+        ltstDao.selectListWithTaskCompletionInfo()
     }
 }

@@ -1,5 +1,6 @@
 package com.techno_3_team.task_manager.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,11 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.data.entities.List
+import com.techno_3_team.task_manager.data.entities.TaskCompletion
 import com.techno_3_team.task_manager.support.ItemTouchHelperAdapter
 import java.util.*
 
 class ListsSettingsAdapter(
-    private val lists: ArrayList<List>
+    private val lists: ArrayList<TaskCompletion>
 ) : RecyclerView.Adapter<ListsSettingsAdapter.ListsSettingsViewHolder>(), ItemTouchHelperAdapter {
 
     override fun onCreateViewHolder(
@@ -38,13 +40,14 @@ class ListsSettingsAdapter(
         private val listName: TextView = itemView.findViewById(R.id.list_name)
         private val listSubName: TextView = itemView.findViewById(R.id.list_subname)
 
-        fun bind(list: List) {
+        @SuppressLint("SetTextI18n")
+        fun bind(list: TaskCompletion) {
             listName.text = list.listName
-            listSubName.text = "0 из 0"
+            listSubName.text = "${list.completedTasksCount} из ${list.tasksCount}"
         }
     }
 
-    fun addList(list: List) {
+    fun addList(list: TaskCompletion) {
         lists.add(list)
         notifyItemInserted(lists.size - 1)
     }
@@ -54,7 +57,7 @@ class ListsSettingsAdapter(
         notifyItemRemoved(position)
     }
 
-    fun getList(position: Int): List {
+    fun getList(position: Int): TaskCompletion {
         return lists[position]
     }
 

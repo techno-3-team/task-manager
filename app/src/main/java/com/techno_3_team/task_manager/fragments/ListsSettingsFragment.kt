@@ -2,6 +2,7 @@ package com.techno_3_team.task_manager.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +17,14 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
 import com.techno_3_team.task_manager.data.LTSTViewModel
+import com.techno_3_team.task_manager.data.entities.TaskCompletion
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
 import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager.structures.ListOfLists
 import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.SwipeHelper
+import java.util.ArrayList
 
 
 class ListsSettingsFragment : Fragment(), HasCustomTitle {
@@ -35,20 +38,24 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentListsSettingsBinding.inflate(inflater)
+        ltstViewModel = ViewModelProvider(requireActivity())[LTSTViewModel::class.java]
         return _binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        ltstViewModel = ViewModelProvider(requireActivity())[LTSTViewModel::class.java]
-
         with(_binding) {
-            val listNames = ltstViewModel.getLists() as ArrayList<com.techno_3_team.task_manager.data.entities.List>
-            val listSettingsAdapter = ListsSettingsAdapter(listNames)
+            val listNames: List<TaskCompletion> = arrayListOf()
+            val listSettingsAdapter = ListsSettingsAdapter(listNames as ArrayList<TaskCompletion>)
             lists.adapter = listSettingsAdapter
+
+            ltstViewModel.readTaskCompletion.observe(viewLifecycleOwner) {
+                listNames.addAll(it)
+                Log.println(Log.INFO, "observed", it.toString())
+                listSettingsAdapter.notifyDataSetChanged()
+            }
 
             lists.layoutManager = GridLayoutManager(lists.context, 1)
             lists.addItemDecoration(SpacingItemDecorator(20))
@@ -70,19 +77,23 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
 
     private fun onAddDialog(view: View) {
         val builder = AlertDialog.Builder(view.context)
-        builder.setTitle(getString(R.string.add_new_list_header))
         val layoutName = LinearLayout(view.context)
-        layoutName.orientation = LinearLayout.VERTICAL
         val text = EditText(view.context)
+
+        builder.setTitle(getString(R.string.add_new_list_header))
+        layoutName.orientation = LinearLayout.VERTICAL
         layoutName.addView(text)
+
         builder.setView(layoutName)
         builder.setPositiveButton(getString(R.string.add_button_name)) { _, _ ->
             toast("${getString(R.string.added_new_list_toast)} \"${text.text}\"")
             val adapter = _binding.lists.adapter as ListsSettingsAdapter
             adapter.addList(
-                com.techno_3_team.task_manager.data.entities.List(
+                TaskCompletion(
                     0,
-                    text.text.toString()
+                    text.text.toString(),
+                    0,
+                    0
                 )
             )
             ltstViewModel.addList(
@@ -93,10 +104,12 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
             )
         }
         builder.setNegativeButton(getString(R.string.cancel_button_name)) { dialog, _ -> dialog.cancel() }
+
         val dialog = builder.create();
         dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
         dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         dialog.show()
+
         text.requestFocus()
     }
 
@@ -138,12 +151,14 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
 
     private fun onEditDialog(view: View, position: Int) {
         val builder = AlertDialog.Builder(view.context)
-        builder.setTitle(getString(R.string.edit_list_name_header))
         val layoutName = LinearLayout(view.context)
-        layoutName.orientation = LinearLayout.VERTICAL
         val text = EditText(view.context)
+
+        builder.setTitle(getString(R.string.edit_list_name_header))
+        layoutName.orientation = LinearLayout.VERTICAL
         text.setText((_binding.lists.adapter as ListsSettingsAdapter).getList(position).listName)
         layoutName.addView(text)
+
         builder.setView(layoutName)
         builder.setPositiveButton(getString(R.string.edit_button_name)) { _, _ ->
             toast("${getString(R.string.edited_list_toast)} \"${text.text}\"")
@@ -159,10 +174,12 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
             )
         }
         builder.setNegativeButton(getString(R.string.cancel_button_name)) { dialog, _ -> dialog.cancel() }
+
         val dialog = builder.create();
         dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
         dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         dialog.show()
+
         text.requestFocus()
     }
 
