@@ -25,6 +25,10 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
         readListInfo = repository.readListInfo
     }
 
+    fun getTaskInfoByListId(taskId: Int): LiveData<List<TaskInfo>> {
+        return repository.getTaskInfoByListId(taskId)
+    }
+
     fun addList(list: com.techno_3_team.task_manager.data.entities.List) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addList(list)

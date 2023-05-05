@@ -9,14 +9,12 @@ import java.util.*
 @Entity(tableName = "task_table")
 @TypeConverters(Converters::class)
 @Parcelize
-data class Task(
+open class Task(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val taskId: Int = 0,
     val listId: Int,
     val header: String,
     val isCompleted: Boolean,
     val date: Date?,
-    val description: String,
-    var doneSubtasksCount: Int?,
-    var allSubtasksCount: Int?
+    val description: String
 ) : Parcelable

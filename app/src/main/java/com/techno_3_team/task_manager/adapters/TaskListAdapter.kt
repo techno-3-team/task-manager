@@ -15,7 +15,7 @@ import com.techno_3_team.task_manager.navigators.Navigator
 import com.techno_3_team.task_manager.structures.Task
 
 class TaskListAdapter(
-    private var tasks: ArrayList<Task>,
+    private var tasks: ArrayList<com.techno_3_team.task_manager.data.entities.TaskInfo>,
     private val mainFragmentNavigator: Navigator
 ) : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -42,26 +42,24 @@ class TaskListAdapter(
         private val subProgress: TextView = itemView.findViewById(R.id.subtasks_progress)
 
         @SuppressLint("SetTextI18n")
-        fun bind(task: Task, mainFragmentNavigator: Navigator) {
-            header.text = task.header
+        fun bind(
+            taskInfo: com.techno_3_team.task_manager.data.entities.TaskInfo,
+            mainFragmentNavigator: Navigator
+        ) {
+            header.text = taskInfo.header
 
-            if (task.date == null) {
+            if (taskInfo.date == null) {
                 date.visibility = INVISIBLE
             } else {
                 date.visibility = VISIBLE
-                val dateArr = task.date.toString().split(" ")
+                val dateArr = taskInfo.date.toString().split(" ")
                 date.text = "${dateArr[2]} ${dateArr[1]}  ${dateArr[3]}".lowercase()
             }
 
-            if (task.doneSubtasksCount == null) {
-                subProgress.visibility = INVISIBLE
-            } else {
-                subProgress.visibility = VISIBLE
-                subProgress.text = "${task.doneSubtasksCount} из ${task.allSubtasksCount}"
-            }
+            subProgress.text = "${taskInfo.completedSubtaskCount} из ${taskInfo.subtaskCount}"
 
             itemView.setOnClickListener {
-                mainFragmentNavigator.showTaskScreen(5)
+                mainFragmentNavigator.showTaskScreen()
             }
         }
     }

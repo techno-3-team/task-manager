@@ -86,9 +86,7 @@ class MainFragment : Fragment(), Navigator {
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
             getString(R.string.app_name)
 
-        val taskListContainerFragment = TaskListContainerFragment.newInstance(
-            RandomData((4..12).random(), 20, 12).getRandomData()
-        )
+        val taskListContainerFragment = TaskListContainerFragment()
         if (savedInstanceState == null) {
             requireActivity().supportFragmentManager
                 .beginTransaction()
@@ -311,13 +309,8 @@ class MainFragment : Fragment(), Navigator {
         }
     }
 
-    override fun showTaskScreen(subtasksCount: Int) {
-        launchFragment(
-            TaskFragment.newInstance(
-                RandomData((4..12).random(), 20, 12)
-                    .getRandomSubtasks(subtasksCount)
-            )
-        )
+    override fun showTaskScreen() {
+        launchFragment(TaskFragment())
     }
 
     override fun showSubtaskScreen() {
@@ -325,11 +318,7 @@ class MainFragment : Fragment(), Navigator {
     }
 
     override fun showListSettingsScreen() {
-        launchFragment(
-            ListsSettingsFragment.newInstance(
-                RandomData((4..12).random(), 20, 12).getRandomData()
-            )
-        )
+        launchFragment(ListsSettingsFragment())
         mainBinding.drawer.closeDrawer(Gravity.LEFT)
     }
 

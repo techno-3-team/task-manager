@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.techno_3_team.task_manager.data.LTSTViewModel
+import com.techno_3_team.task_manager.data.entities.Subtask
+import com.techno_3_team.task_manager.data.entities.Task
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
 import com.techno_3_team.task_manager.fragments.LoginFragment
 import com.techno_3_team.task_manager.fragments.MainFragment
@@ -41,47 +43,60 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
                     .replace(mainActivityBinding.container.id, LoginFragment(), "login")
                     .commit()
             } else {
-                insertExample()
+//                insertExample()
                 showMainFragment()
             }
         }
     }
 
     private fun insertExample() {
-//        ltstViewModel.addList(
-//            com.techno_3_team.task_manager.data.entities.List(
-//                0, "list_1", 0
-//            )
-//        )
-//        ltstViewModel.addList(
-//            com.techno_3_team.task_manager.data.entities.List(
-//                0, "list_2", 1
-//            )
-//        )
-//        ltstViewModel.addList(
-//            com.techno_3_team.task_manager.data.entities.List(
-//                0, "list_3", 2
-//            )
-//        )
-//        ltstViewModel.addList(
-//            com.techno_3_team.task_manager.data.entities.List(
-//                0, "list_4", 3
-//            )
-//        )
-//        ltstViewModel.addList(
-//            com.techno_3_team.task_manager.data.entities.List(
-//                0, "list_5", 4
-//            )
-//        )
-//        ltstViewModel.addTask(Task(0, 45, "sbv", true, null, "", null, null))
-//        ltstViewModel.addTask(Task(0, 45, "asfd", false, null, "", null, null))
-//        ltstViewModel.addTask(Task(0, 45, "gfd", true, null, "", null, null))
-//        ltstViewModel.addTask(Task(0, 43, "gh", false, null, "", null, null))
-//        ltstViewModel.addTask(Task(0, 42, "gsadh", true, null, "", null, null))
-//        ltstViewModel.addTask(Task(0, 41, "we", true, null, "", null, null))
-//        ltstViewModel.addTask(Task(0, 41, "weaq", false, null, "", null, null))
-//        ltstViewModel.addTask(Task(0, 44, "wer", true, null, "", null, null))
-//        ltstViewModel.addTask(Task(0, 44, "asd", true, null, "", null, null))
+        ltstViewModel.addList(
+            com.techno_3_team.task_manager.data.entities.List(
+                0, "list_1", 0
+            )
+        )
+        ltstViewModel.addList(
+            com.techno_3_team.task_manager.data.entities.List(
+                0, "list_2", 1
+            )
+        )
+        ltstViewModel.addList(
+            com.techno_3_team.task_manager.data.entities.List(
+                0, "list_3", 2
+            )
+        )
+        ltstViewModel.addList(
+            com.techno_3_team.task_manager.data.entities.List(
+                0, "list_4", 3
+            )
+        )
+        ltstViewModel.addList(
+            com.techno_3_team.task_manager.data.entities.List(
+                0, "list_5", 4
+            )
+        )
+        ltstViewModel.addTask(Task(0, 10, "sbv", true, null, ""))
+        ltstViewModel.addTask(Task(0, 10, "asfd", false, null, ""))
+        ltstViewModel.addTask(Task(0, 10, "gfd", true, null, ""))
+        ltstViewModel.addTask(Task(0, 7, "gh", false, null, ""))
+        ltstViewModel.addTask(Task(0, 6, "gsadh", true, null, ""))
+        ltstViewModel.addTask(Task(0, 8, "we", true, null, ""))
+        ltstViewModel.addTask(Task(0, 8, "weaq", false, null, ""))
+        ltstViewModel.addTask(Task(0, 9, "wer", true, null, ""))
+        ltstViewModel.addTask(Task(0, 9, "asd", true, null, ""))
+
+        ltstViewModel.addSubtask(Subtask(0, 29, "asdf", false, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 29, "fas", false, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 29, "w", true, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 29, "a", false, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 29, "vfd", true, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 28, "af", false, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 28, "qq", false, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 28, "qerf", false, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 35, "kj", true, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 35, "ddfg", true, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 30, "asdfqerwf", true, null, ""))
+        ltstViewModel.addSubtask(Subtask(0, 36, "jdk", false, null, ""))
     }
 
     private fun initTheme() {

@@ -16,7 +16,7 @@ fun Fragment.navigator(): Navigator {
 
 interface Navigator {
 
-    fun showTaskScreen(subtasksCount: Int)
+    fun showTaskScreen()
 
     fun showSubtaskScreen()
 

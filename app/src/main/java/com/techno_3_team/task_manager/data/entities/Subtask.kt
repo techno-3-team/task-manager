@@ -13,10 +13,10 @@ import java.util.*
 @Parcelize
 data class Subtask(
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
-    var taskId: Int,
-    var header: String,
-    var isCompleted: Boolean,
-    var date: Date?,
-    var description: String?
+    val subtaskId: Int = 0,
+    val taskId: Int,
+    val header: String,
+    val isCompleted: Boolean,
+    val date: Date?,
+    val description: String?
 ) : Parcelable

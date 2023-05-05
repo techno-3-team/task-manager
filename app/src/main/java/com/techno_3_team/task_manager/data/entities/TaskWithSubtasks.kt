@@ -7,7 +7,7 @@ import kotlin.collections.List
 class TaskWithSubtasks(
     @Embedded val task: Task,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "taskId",
         entityColumn = "taskId"
     )
     val subtasks : List<Subtask>

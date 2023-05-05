@@ -172,21 +172,6 @@ class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         binding.tvDateTime.text = "$savedHour:$savedMinute, $savedDay-${savedMonth + 1}-$savedYear"
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(subtaskList: ArrayList<Subtask>): TaskFragment {
-            val fragment = TaskFragment()
-            val bundle = Bundle().apply {
-                putParcelableArrayList(
-                    TASK_LIST_KEY,
-                    subtaskList
-                )
-            }
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
-
     override fun getCustomTitle() = getString(R.string.task_toolbar_name)
 
     override fun deleteElement() {

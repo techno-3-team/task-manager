@@ -55,6 +55,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
             val listSettingsAdapter = ListsSettingsAdapter(listNames as ArrayList<ListInfo>)
             lists.adapter = listSettingsAdapter
 
+            // для простой инициализации следует использовать observeOnce
             ltstViewModel.readListInfo.observe(viewLifecycleOwner) {
                 listNames.clear()
                 listNames.addAll(it)
@@ -98,16 +99,6 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
                 firstList.listOrderPos
             )
         )
-    }
-
-    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
-        observe(lifecycleOwner, object : Observer<T> {
-            override fun onChanged(value: T) {
-                observer.onChanged(value)
-                removeObserver(this)
-
-            }
-        })
     }
 
     private fun onAddDialog(view: View) {
@@ -226,19 +217,4 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
     }
 
     override fun getCustomTitle() = getString(R.string.list_toolbar_name)
-
-    companion object {
-        @JvmStatic
-        fun newInstance(listOfLists: ListOfLists): ListsSettingsFragment {
-            val bundle = Bundle().apply {
-                putParcelable(
-                    LIST_LISTS_KEY,
-                    listOfLists
-                )
-            }
-            val fragment = ListsSettingsFragment()
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
 }

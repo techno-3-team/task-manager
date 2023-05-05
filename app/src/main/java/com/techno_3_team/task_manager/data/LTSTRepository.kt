@@ -11,6 +11,10 @@ class LTSTRepository(private val ltstDao: LTSTDao) {
     var readSubtasks: LiveData<TaskWithSubtasks> = ltstDao.readSubtasks("")
     var readListInfo: LiveData<List<ListInfo>> = ltstDao.selectListWithTaskCompletionInfo()
 
+    fun getTaskInfoByListId(listId: Int): LiveData<List<TaskInfo>>{
+        return ltstDao.selectTaskWithSubtaskCompletionInfo(listId)
+    }
+
     suspend fun addList(list: com.techno_3_team.task_manager.data.entities.List) {
         ltstDao.addList(list)
     }
