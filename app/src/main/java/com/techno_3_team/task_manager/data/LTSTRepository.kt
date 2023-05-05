@@ -9,15 +9,12 @@ import com.techno_3_team.task_manager.data.entities.TaskWithSubtasks
 
 class LTSTRepository(private val ltstDao: LTSTDao) {
 
-    var readTasks: LiveData<ListWithTasks> = ltstDao.readTasks("")
+    var readLists: LiveData<List<com.techno_3_team.task_manager.data.entities.List>> = ltstDao.readLists()
+    var readTasks: LiveData<ListWithTasks> = ltstDao.readTasks(2)
     var readSubtasks: LiveData<TaskWithSubtasks> = ltstDao.readSubtasks("")
 
-    fun readTasks(listName: String) {
-        readTasks = ltstDao.readTasks(listName)
-    }
-
-    fun readSubtasks(taskName: String) {
-        readSubtasks = ltstDao.readSubtasks(taskName)
+    fun getLists(): List<com.techno_3_team.task_manager.data.entities.List>{
+        return ltstDao.getLists()
     }
 
     suspend fun addList(list: com.techno_3_team.task_manager.data.entities.List) {
@@ -32,4 +29,11 @@ class LTSTRepository(private val ltstDao: LTSTDao) {
         ltstDao.addSubtask(subtask)
     }
 
+    suspend fun deleteList(listId: Int) {
+        ltstDao.deleteList(listId)
+    }
+
+    suspend fun updateListName(list: com.techno_3_team.task_manager.data.entities.List) {
+        ltstDao.updateListName(list)
+    }
 }

@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
+import com.techno_3_team.task_manager.data.LTSTViewModel
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
 import com.techno_3_team.task_manager.fragments.LoginFragment
 import com.techno_3_team.task_manager.fragments.MainFragment
@@ -23,15 +25,14 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
         PreferenceManager.getDefaultSharedPreferences(this)
     }
 
-//    private lateinit var ltstViewModel: LTSTViewModel
-//        ltstViewModel = ViewModelProvider(this)[LTSTViewModel::class.java]
-//        ltstViewModel.readTasks.observe(viewLifecycleOwner) { }
+    private lateinit var ltstViewModel: LTSTViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initTheme()
         setContentView(R.layout.activity_main)
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
+            ltstViewModel = ViewModelProvider(this)[LTSTViewModel::class.java]
             mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
             val showAuthScreen = preference.getBoolean(AUTH_KEY, true)
             if (showAuthScreen) {

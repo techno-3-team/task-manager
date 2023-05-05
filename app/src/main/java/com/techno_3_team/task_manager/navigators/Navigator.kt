@@ -2,14 +2,21 @@ package com.techno_3_team.task_manager.navigators
 
 import android.os.Parcelable
 import androidx.fragment.app.Fragment
+import com.techno_3_team.task_manager.fragments.MainFragment
 
-fun Fragment.navigator() : Navigator {
-    return requireActivity().supportFragmentManager.fragments[0] as Navigator
+fun Fragment.navigator(): Navigator {
+    var mainFragment: MainFragment? = null
+    requireActivity().supportFragmentManager.fragments.forEach {
+        if (it is MainFragment) {
+            mainFragment = it
+        }
+    }
+    return mainFragment!!
 }
 
 interface Navigator {
 
-    fun showTaskScreen(subtasksCount : Int)
+    fun showTaskScreen(subtasksCount: Int)
 
     fun showSubtaskScreen()
 

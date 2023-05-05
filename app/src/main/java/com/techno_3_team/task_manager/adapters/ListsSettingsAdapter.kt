@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.structures.ListOfTasks
+import com.techno_3_team.task_manager.data.entities.List
 import com.techno_3_team.task_manager.support.ItemTouchHelperAdapter
 import java.util.*
 
 class ListsSettingsAdapter(
-    private val lists: ArrayList<ListOfTasks>
+    private val lists: ArrayList<List>
 ) : RecyclerView.Adapter<ListsSettingsAdapter.ListsSettingsViewHolder>(), ItemTouchHelperAdapter {
 
     override fun onCreateViewHolder(
@@ -38,14 +38,13 @@ class ListsSettingsAdapter(
         private val listName: TextView = itemView.findViewById(R.id.list_name)
         private val listSubName: TextView = itemView.findViewById(R.id.list_subname)
 
-        fun bind(list: ListOfTasks) {
-            listName.text = list.name
-            listSubName.text = "${list.completed} из ${list.total}"
+        fun bind(list: List) {
+            listName.text = list.listName
+            listSubName.text = "0 из 0"
         }
-
     }
 
-    fun addList(list: ListOfTasks) {
+    fun addList(list: List) {
         lists.add(list)
         notifyItemInserted(lists.size - 1)
     }
@@ -55,12 +54,12 @@ class ListsSettingsAdapter(
         notifyItemRemoved(position)
     }
 
-    fun getNameOfList(position: Int): String {
-        return lists[position].name
+    fun getList(position: Int): List {
+        return lists[position]
     }
 
     fun changeNameOfList(position: Int, name: String) {
-        lists[position].name = name
+        lists[position].listName = name
         notifyItemChanged(position)
     }
 

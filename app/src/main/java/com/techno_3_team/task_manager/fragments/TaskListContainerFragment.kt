@@ -68,7 +68,6 @@ class TaskListContainerFragment : Fragment(), HasMainScreenActions {
             }
         })
 
-
         _binding.FAB.setOnClickListener {
             navigator().showTaskScreen(0)
         }

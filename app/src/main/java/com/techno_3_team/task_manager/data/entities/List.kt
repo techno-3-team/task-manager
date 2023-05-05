@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "list_table")
 @Parcelize
 data class List(
-    @PrimaryKey
-    val listId: Int,
-    val listName: String
+    @PrimaryKey(autoGenerate = true)
+    val listId: Int = 0,
+    var listName: String
 ) : Parcelable
