@@ -16,7 +16,7 @@ fun Fragment.navigator(): Navigator {
 
 interface Navigator {
 
-    fun showTaskScreen()
+    fun showTaskScreen(listId: Int, taskId: Int)
 
     fun showSubtaskScreen()
 

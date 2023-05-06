@@ -16,7 +16,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class SubtaskAdapter(
-    private val tasks: ArrayList<Subtask>,
+    private val subtasks: ArrayList<com.techno_3_team.task_manager.data.entities.Subtask>,
     private val mainFragmentNavigator: Navigator
 ) : ListAdapter<Subtask, SubtaskAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -24,16 +24,16 @@ class SubtaskAdapter(
     }
 
     override fun getItemCount(): Int {
-        return tasks.size
+        return subtasks.size
     }
 
-    fun addTask(subTask: Subtask) {
-        tasks.add(subTask)
-        notifyItemInserted(tasks.size - 1)
+    fun addTask(subTask: com.techno_3_team.task_manager.data.entities.Subtask) {
+        subtasks.add(subTask)
+        notifyItemInserted(subtasks.size - 1)
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(tasks[position], mainFragmentNavigator)
+        holder.bind(subtasks[position], mainFragmentNavigator)
     }
 
     class TaskItemDiffCallback : DiffUtil.ItemCallback<Subtask>() {
@@ -50,13 +50,13 @@ class SubtaskAdapter(
         private val date: TextView = itemView.findViewById(R.id.date)
 
         @SuppressLint("SetTextI18n")
-        fun bind(task: Subtask, mainFragmentNavigator: Navigator) {
-            header.text = task.header
+        fun bind(subtask: com.techno_3_team.task_manager.data.entities.Subtask, mainFragmentNavigator: Navigator) {
+            header.text = subtask.header
 
-            if (task.date == null) {
+            if (subtask.date == null) {
                 date.visibility = INVISIBLE
             } else {
-                val dateArr = task.date.toString().split(" ")
+                val dateArr = subtask.date.toString().split(" ")
                 date.text = "${dateArr[2]} ${dateArr[1]}  ${dateArr[3]}".lowercase()
             }
             itemView.setOnClickListener {

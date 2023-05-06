@@ -309,8 +309,8 @@ class MainFragment : Fragment(), Navigator {
         }
     }
 
-    override fun showTaskScreen() {
-        launchFragment(TaskFragment())
+    override fun showTaskScreen(listId: Int, taskId: Int) {
+        launchFragment(TaskFragment(listId, taskId))
     }
 
     override fun showSubtaskScreen() {

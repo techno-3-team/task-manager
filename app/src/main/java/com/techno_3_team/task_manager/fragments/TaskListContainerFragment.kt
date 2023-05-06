@@ -47,11 +47,11 @@ class TaskListContainerFragment : Fragment(), HasMainScreenActions {
         viewPager.adapter = adapter
 
         ltstViewModel.readLists.observeOnce(viewLifecycleOwner) {
-            lists.addAll(it as ArrayList<List>)
+            lists.addAll(it as ArrayList < List >)
             adapter.notifyDataSetChanged()
             Log.println(Log.INFO, "list names was observed", "$it")
-            lists.forEach {
-                tabLayout.addTab(_binding.tabs.newTab().setText(it.listName));
+            lists.forEach { list ->
+                tabLayout.addTab(_binding.tabs.newTab().setText(list.listName));
             }
 
             viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
@@ -70,7 +70,7 @@ class TaskListContainerFragment : Fragment(), HasMainScreenActions {
         }
 
         _binding.FAB.setOnClickListener {
-            navigator().showTaskScreen()
+            navigator().showTaskScreen(-1, -1)
         }
     }
 

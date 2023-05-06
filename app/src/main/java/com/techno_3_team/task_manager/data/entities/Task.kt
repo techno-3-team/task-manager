@@ -14,7 +14,18 @@ open class Task(
     val taskId: Int = 0,
     val listId: Int,
     val header: String,
-    val isCompleted: Boolean,
+    var isCompleted: Boolean,
     val date: Date?,
     val description: String
-) : Parcelable
+) : Parcelable {
+    override fun toString(): String {
+        val sb = java.lang.StringBuilder()
+        sb.append("taskId = $taskId\n" +
+                "listId = $listId\n" +
+                "header = $header\n" +
+                "isCompleted = $isCompleted\n" +
+                "date = $date\n" +
+                "description = $description")
+        return sb.toString()
+    }
+}
