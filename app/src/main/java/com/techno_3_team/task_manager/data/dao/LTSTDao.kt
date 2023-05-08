@@ -9,25 +9,49 @@ import com.techno_3_team.task_manager.data.entities.List
 interface LTSTDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addSubtask(subtask: Subtask)
+    suspend fun addList(list: List)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addTask(task: Task)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addList(list: List)
+    suspend fun addSubtask(subtask: Subtask)
 
     @Transaction
     @Query("SELECT * FROM list_table")
     fun getLists(): kotlin.collections.List<List>
 
     @Transaction
+    @Query("SELECT * FROM task_table where listId = :listId")
+    fun getTasks(listId: Int): kotlin.collections.List<Task>
+
+    @Transaction
     @Query("SELECT * FROM list_table order by listOrderPos")
     fun readLists(): LiveData<kotlin.collections.List<List>>
 
     @Transaction
+    @Query("SELECT * FROM list_table WHERE listId = :listId")
+    fun readTasks(listId: Int): LiveData<ListWithTasks>
+
+    @Transaction
     @Query("delete FROM list_table where listId = :listId")
     suspend fun deleteList(listId: Int)
+
+    @Transaction
+    @Query("delete FROM task_table where listId = :listId and isCompleted")
+    suspend fun deleteCompletedTasks(listId: Int)
+
+    @Transaction
+    @Query("delete FROM task_table where taskId = :taskId")
+    suspend fun deleteTask(taskId: Int)
+
+    @Transaction
+    @Query("delete FROM subtask_table where taskId = :taskId")
+    suspend fun deleteSubtasks(taskId: Int)
+
+    @Transaction
+    @Query("delete FROM subtask_table where subtaskId = :subtaskId")
+    suspend fun deleteSubtask(subtaskId: Int)
 
     @Transaction
     @Update
@@ -38,8 +62,8 @@ interface LTSTDao {
     suspend fun updateTask(task: Task)
 
     @Transaction
-    @Query("SELECT * FROM list_table WHERE listId = :listId")
-    fun readTasks(listId: Int): LiveData<ListWithTasks>
+    @Update
+    suspend fun updateSubtask(subtask: Subtask)
 
     @Transaction
     @Query("SELECT * FROM subtask_table WHERE taskId = :taskId")
@@ -48,6 +72,10 @@ interface LTSTDao {
     @Transaction
     @Query("SELECT * FROM task_table WHERE taskId = :taskId")
     fun selectTask(taskId: Int): LiveData<kotlin.collections.List<Task>>
+
+    @Transaction
+    @Query("SELECT * FROM subtask_table WHERE subtaskId = :subtaskId")
+    fun selectSubtask(subtaskId: Int): LiveData<kotlin.collections.List<Subtask>>
 
     @Transaction
     @Query(
@@ -71,8 +99,8 @@ interface LTSTDao {
                 "left join subtask_table as st " +
                 "using (taskId) " +
                 "where listId = :listId " +
-                "group by taskId"
+                "group by taskId " +
+                "order by header"
     )
     fun selectTaskWithSubtaskCompletionInfo(listId: Int): LiveData<kotlin.collections.List<TaskInfo>>
-
 }

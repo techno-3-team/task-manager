@@ -71,4 +71,16 @@
     <string name="edited_list_toast">Изменено название списка</string>
 
     <string name="delete_task_dialog_msg">Вы уверены, что хотите удалить задачу?</string>
+
+    <string name="preposition_fot_comleted_subtasks_count">из</string>
+
+    <string name="input_task_name_to_create">Введите название для создания задачи</string>
+    <string name="input_subtask_name_to_create">Введите название для создания подзадачи</string>
+    <string name="task_submit_button_text">Создать задачу</string>
+    <string name="subtask_submit_button_text">Создать подзадачу</string>
+    <string name="create_subtask_error_text">Создайте задачу</string>
+    <string name="the_task_has_been_created">Задача была создана</string>
+    <string name="the_subtask_has_been_created">Подзадача была создана</string>
+    <string name="cant_delete_the_last_list">Нельзя удалить единственный список</string>
+    
 </resources>

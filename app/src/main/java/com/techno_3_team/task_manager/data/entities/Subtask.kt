@@ -19,4 +19,16 @@ data class Subtask(
     val isCompleted: Boolean,
     val date: Date?,
     val description: String?
-) : Parcelable
+) : Parcelable {
+
+    override fun toString(): String {
+        val sb = java.lang.StringBuilder()
+        sb.append("subtaskId = $subtaskId, " +
+                "taskId = $taskId, " +
+                "header = $header, " +
+                "isCompleted = $isCompleted, " +
+                "date = $date, " +
+                "description = $description")
+        return sb.toString()
+    }
+}

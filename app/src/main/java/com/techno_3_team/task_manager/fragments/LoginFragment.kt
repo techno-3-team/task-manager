@@ -1,5 +1,6 @@
 package com.techno_3_team.task_manager.fragments
 
+import android.content.Context
 import android.content.IntentSender
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -10,7 +11,6 @@ import android.view.ViewGroup
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -36,7 +36,7 @@ class LoginFragment : Fragment() {
     private val serverClientId by lazy { getString(R.string.web_client_id) }
 
     private val preference: SharedPreferences by lazy {
-        PreferenceManager.getDefaultSharedPreferences(requireActivity().baseContext)
+        requireActivity().applicationContext.getSharedPreferences("app_base_preference", Context.MODE_PRIVATE)
     }
 
 //    временная переменная до создания логики авторизированного пользователя

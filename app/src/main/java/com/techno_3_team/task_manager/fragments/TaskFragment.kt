@@ -4,43 +4,43 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager.data.LTSTViewModel
+import com.techno_3_team.task_manager.data.entities.Subtask
 import com.techno_3_team.task_manager.data.entities.Task
 import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
 import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager.navigators.navigator
+import com.techno_3_team.task_manager.support.CURRENT_LIST_ID
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.observeOnce
 import java.util.*
 
 
 class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
-    TimePickerDialog.OnTimeSetListener, HasCustomTitle, HasDeleteAction {
+    TimePickerDialog.OnTimeSetListener, HasCustomTitle, HasDeleteAction,
+    SubtaskAdapter.TaskFragmentAdapterCallback {
 
-    private var listId: Int = -1
-    private var taskId: Int = -1
     private lateinit var binding: TaskFragmentBinding
     private lateinit var ltstViewModel: LTSTViewModel
-
-    constructor(listId: Int, taskId: Int) : this() {
-        this.listId = listId
-        this.taskId = taskId
-    }
+    private var taskId: Int = -1
 
     private var day = 0
     private var month = 0
@@ -54,12 +54,23 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
     private var savedHour = 0
     private var savedMinute = 0
 
+    private var toast: Toast? = null
+
+    private val preference: SharedPreferences by lazy {
+        requireActivity().applicationContext.getSharedPreferences("app_base_preference", Context.MODE_PRIVATE)
+    }
+
+    constructor(taskId: Int) : this() {
+        this.taskId = taskId
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = TaskFragmentBinding.inflate(inflater)
+        ltstViewModel = ViewModelProvider(requireActivity())[LTSTViewModel::class.java]
         return binding.root
     }
 
@@ -67,18 +78,19 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ltstViewModel = ViewModelProvider(requireActivity())[LTSTViewModel::class.java]
-
         with(binding) {
-            ltstViewModel.getTask(taskId).observe(viewLifecycleOwner) {
+            ltstViewModel.getTask(taskId).observeOnce(viewLifecycleOwner) {
                 Log.println(Log.INFO, "observe", "task was observed by taskId = $taskId\n$it")
-                val task = (it as kotlin.collections.ArrayList<Task>).first()
-                listId = task.listId
-                taskCheck.isChecked = task.isCompleted
-                editText.setText(task.header)
-                taDesc.setText(task.description)
-                updateIsCheckedState(taskCheck.isChecked)
-
+                if (it.isNotEmpty()) {
+                    submitButton.visibility = INVISIBLE
+                    val task = it.first()
+                    taskCheck.isChecked = task.isCompleted
+                    editText.setText(task.header)
+                    taDesc.setText(task.description)
+                    updateIsCheckedState(taskCheck.isChecked)
+                } else {
+                    FAB.visibility = INVISIBLE
+                }
                 editText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
                     if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                         editText.clearFocus()
@@ -86,7 +98,6 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     }
                     false
                 })
-
                 if (editText.text.isEmpty()) {
                     editText.isFocusableInTouchMode = true;
                     editText.requestFocus()
@@ -96,60 +107,81 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     )
                 }
             }
-            val subtaskList = arrayListOf<com.techno_3_team.task_manager.data.entities.Subtask>()
-            val subtaskAdapter = SubtaskAdapter(subtaskList, navigator())
-            lvTasksList.adapter = subtaskAdapter
 
-            ltstViewModel.getSubtasksByTaskId(taskId).observeOnce(viewLifecycleOwner) {
-                subtaskList.addAll(it as ArrayList<com.techno_3_team.task_manager.data.entities.Subtask>)
+            val subtaskList = arrayListOf<Subtask>()
+            val subtaskAdapter = SubtaskAdapter(subtaskList, this@TaskFragment)
+            rvSubtasks.adapter = subtaskAdapter
+
+            ltstViewModel.getSubtasksByTaskId(taskId).observe(viewLifecycleOwner) {
                 Log.println(Log.INFO, "observe", "subtasks was observed by taskId = $taskId\n$it")
-                subtaskAdapter.notifyDataSetChanged()
+                subtaskAdapter.putSubtasks(it)
             }
 
-            lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
-            lvTasksList.addItemDecoration(SpacingItemDecorator(20))
+            rvSubtasks.layoutManager = LinearLayoutManager(rvSubtasks.context)
+            rvSubtasks.addItemDecoration(SpacingItemDecorator(20))
 
             taskCheck.setOnClickListener {
                 updateIsCheckedState(taskCheck.isChecked)
             }
-            pickDate()
-
+            submitButton.setOnClickListener {
+                createTask()
+            }
             FAB.setOnClickListener {
-                navigator().showSubtaskScreen()
+                showSubtaskFragment(-1)
             }
         }
+
+        pickDate()
     }
 
-
     override fun onPause() {
-        with(binding) {
-            if (taskId == -1) {
-                ltstViewModel.addTask(
-                    Task(
-                        0,
-                        listId,
-                        editText.text.toString(),
-                        taskCheck.isChecked,
-                        null,
-                        taDesc.text.toString()
-                    )
-                )
-            } else {
-                ltstViewModel.updateTask(
-                    Task(
-                        taskId,
-                        listId,
-                        editText.text.toString(),
-                        taskCheck.isChecked,
-                        null,
-                        taDesc.text.toString()
-                    )
-                )
-            }
-        }
+        updateTask()
         super.onPause()
     }
 
+    private fun createTask() {
+        with(binding) {
+            if (editText.text.isEmpty()) {
+                toast(getString(R.string.input_task_name_to_create))
+                return
+            }
+
+            val listId = preference.getInt(CURRENT_LIST_ID, -1)
+            ltstViewModel.addTask(
+                Task(
+                    0,
+                    listId,
+                    editText.text.toString(),
+                    taskCheck.isChecked,
+                    null,
+                    taDesc.text.toString()
+                )
+            )
+        }
+        toast(getString(R.string.the_task_has_been_created))
+        navigator().goBack()
+    }
+
+    private fun updateTask() =
+        with(binding) {
+            val listId = preference.getInt(CURRENT_LIST_ID, -1)
+            ltstViewModel.updateTask(
+                Task(
+                    taskId,
+                    listId,
+                    editText.text.toString(),
+                    taskCheck.isChecked,
+                    null,
+                    taDesc.text.toString()
+                )
+            )
+        }
+
+    private fun toast(text: String) {
+        toast?.cancel()
+        toast = Toast.makeText(binding.rvSubtasks.context, text, Toast.LENGTH_SHORT)
+        toast?.show()
+    }
 
     private fun updateIsCheckedState(isChecked: Boolean) =
         with(binding) {
@@ -163,7 +195,7 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                 listSpin.alpha = 0.5f
                 llDateTime.alpha = 0.5f
                 linearLayout.alpha = 0.5f
-                lvTasksList.alpha = 0.5f
+                rvSubtasks.alpha = 0.5f
                 FAB.alpha = 0.5f
             } else {
                 editText.isEnabled = true
@@ -175,7 +207,7 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                 listSpin.alpha = 1f
                 llDateTime.alpha = 1f
                 linearLayout.alpha = 1f
-                lvTasksList.alpha = 1f
+                rvSubtasks.alpha = 1f
                 FAB.alpha = 1f
             }
         }
@@ -225,7 +257,29 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
 
     override fun getCustomTitle() = getString(R.string.task_toolbar_name)
 
-    override fun deleteElement() {
-//        TODO("Not yet implemented")
+    override fun delete() {
+        ltstViewModel.deleteTask(taskId)
+        navigator().goBack()
+    }
+
+    override fun showSubtaskFragment(subtaskId: Int) {
+        navigator().showSubtaskScreen(taskId, subtaskId)
+    }
+
+    override fun updateCheckboxState(subtaskId: Int) {
+        ltstViewModel.getSubtask(subtaskId).observeOnce(viewLifecycleOwner) {
+            val subtask = it.first()
+            Log.println(Log.INFO, "observed", "update subtask = $subtask")
+            ltstViewModel.updateSubtask(
+                Subtask(
+                    subtask.subtaskId,
+                    subtask.taskId,
+                    subtask.header,
+                    !subtask.isCompleted,
+                    subtask.date,
+                    subtask.description
+                )
+            )
+        }
     }
 }

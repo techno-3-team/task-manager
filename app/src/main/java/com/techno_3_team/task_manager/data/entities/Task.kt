@@ -18,13 +18,14 @@ open class Task(
     val date: Date?,
     val description: String
 ) : Parcelable {
+
     override fun toString(): String {
         val sb = java.lang.StringBuilder()
-        sb.append("taskId = $taskId\n" +
-                "listId = $listId\n" +
-                "header = $header\n" +
-                "isCompleted = $isCompleted\n" +
-                "date = $date\n" +
+        sb.append("taskId = $taskId, " +
+                "listId = $listId, " +
+                "header = $header, " +
+                "isCompleted = $isCompleted, " +
+                "date = $date, " +
                 "description = $description")
         return sb.toString()
     }

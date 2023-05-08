@@ -2,6 +2,8 @@ package com.techno_3_team.task_manager.fragments
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,9 +14,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,8 +23,7 @@ import com.techno_3_team.task_manager.data.LTSTViewModel
 import com.techno_3_team.task_manager.data.entities.ListInfo
 import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
 import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
-import com.techno_3_team.task_manager.structures.ListOfLists
-import com.techno_3_team.task_manager.support.LIST_LISTS_KEY
+import com.techno_3_team.task_manager.support.CURRENT_LIST_ID
 import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.SwipeHelper
 
@@ -37,6 +35,10 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
         get() = binding!!
 
     private lateinit var ltstViewModel: LTSTViewModel
+
+    private val preference: SharedPreferences by lazy {
+        requireActivity().applicationContext.getSharedPreferences("app_base_preference", Context.MODE_PRIVATE)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -155,10 +157,17 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
             object : SwipeHelper.UnderlayButtonClickListener {
                 override fun onClick() {
                     val adapter = _binding.lists.adapter as ListsSettingsAdapter
-                    val list = adapter.getList(position)
+                    if (adapter.itemCount > 1) {
+                        val list = adapter.getList(position)
 //                    adapter.deleteList(position)
-                    ltstViewModel.deleteList(list.listId)
-                    toast("${getString(R.string.deleted_list_toast)} \"${list.listName}\"")
+                        ltstViewModel.deleteList(list.listId)
+                        preference.edit()
+                            .remove(CURRENT_LIST_ID)
+                            .apply()
+                        toast("${getString(R.string.deleted_list_toast)} \"${list.listName}\"")
+                    } else {
+                        toast(getString(R.string.cant_delete_the_last_list))
+                    }
                 }
             })
     }

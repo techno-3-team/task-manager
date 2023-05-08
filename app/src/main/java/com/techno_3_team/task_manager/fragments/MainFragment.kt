@@ -1,8 +1,8 @@
 package com.techno_3_team.task_manager.fragments
 
 import android.animation.AnimatorListenerAdapter
-import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
@@ -20,19 +20,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
-import androidx.preference.PreferenceManager
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
 import com.techno_3_team.task_manager.R
+import com.techno_3_team.task_manager.data.LTSTViewModel
 import com.techno_3_team.task_manager.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager.fragment_features.HasMainScreenActions
 import com.techno_3_team.task_manager.navigators.Navigator
 import com.techno_3_team.task_manager.navigators.navigator
-import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
-import com.techno_3_team.task_manager.support.LANGUAGE_KEY
-import com.techno_3_team.task_manager.support.RESULT_KEY
-import com.techno_3_team.task_manager.support.RandomData
+import com.techno_3_team.task_manager.support.*
 import java.util.*
 
 
@@ -45,8 +43,10 @@ class MainFragment : Fragment(), Navigator {
         get() = requireActivity().supportFragmentManager.findFragmentById(mainBinding.mainContainer.id)
 
     private val preference: SharedPreferences by lazy {
-        PreferenceManager.getDefaultSharedPreferences(requireActivity().baseContext)
+        requireActivity().applicationContext.getSharedPreferences("app_base_preference", Context.MODE_PRIVATE)
     }
+
+    private lateinit var ltstViewModel: LTSTViewModel
 
     private var fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewCreated(
@@ -72,6 +72,7 @@ class MainFragment : Fragment(), Navigator {
         savedInstanceState: Bundle?
     ): View {
         mainBinding = MainFragmentBinding.inflate(layoutInflater)
+        ltstViewModel = ViewModelProvider(requireActivity())[LTSTViewModel::class.java]
         return mainBinding.root
     }
 
@@ -99,10 +100,10 @@ class MainFragment : Fragment(), Navigator {
                 navigator().showListSettingsScreen()
             }
             sideBar.radioButtonEn.setOnClickListener {
-                setLocaleLanguage(requireActivity(), "en")
+                setLocaleLanguage("en")
             }
             sideBar.radioButtonRus.setOnClickListener {
-                setLocaleLanguage(requireActivity(), "ru")
+                setLocaleLanguage("ru")
             }
             sideBar.btSwitcherTheme.setOnClickListener {
                 updateTheme()
@@ -130,7 +131,7 @@ class MainFragment : Fragment(), Navigator {
             override fun onMenuItemSelected(item: MenuItem): Boolean {
                 when {
                     item.itemId == R.id.clear_checked -> {
-                        clearCheckedTasks()
+                        deleteCheckedTasks()
                     }
                     item.itemId == R.id.sort_by_date ||
                             item.itemId == R.id.sort_by_name ||
@@ -161,12 +162,11 @@ class MainFragment : Fragment(), Navigator {
     }
 
     private fun setDeleteDialog() {
-        val message =  getString(R.string.delete_task_dialog_msg)
+        val message = getString(R.string.delete_task_dialog_msg)
         val deleteBut = getString(R.string.delete_button_name)
         val cancelBut = getString(R.string.cancel_button_name)
 
         val builder = AlertDialog.Builder(requireContext())
-
         builder.setMessage(message)
         builder.setCancelable(false)
         builder.setPositiveButton(deleteBut) { _, _ ->
@@ -181,11 +181,12 @@ class MainFragment : Fragment(), Navigator {
     }
 
     private fun deleteTask() {
-        // TODO()
+        (currentFragment as HasDeleteAction).delete()
     }
 
-    private fun clearCheckedTasks() {
-        // TODO()
+    private fun deleteCheckedTasks() {
+        val currListId = preference.getInt(CURRENT_LIST_ID, -1)
+        ltstViewModel.deleteCompletedTasks(currListId)
     }
 
     private fun updateTasksOrder(itemId: Int) {
@@ -247,13 +248,13 @@ class MainFragment : Fragment(), Navigator {
         }
 
         if (languageCode == 0 && currLang == "ru") {
-            setLocaleLanguage(requireActivity(), "en")
+            setLocaleLanguage("en")
         } else if (languageCode > 0 && currLang == "en") {
-            setLocaleLanguage(requireActivity(), "ru")
+            setLocaleLanguage("ru")
         }
     }
 
-    private fun setLocaleLanguage(activity: Activity, languageStringCode: String?) {
+    private fun setLocaleLanguage(languageStringCode: String?) {
         if (Locale.getDefault().language == languageStringCode) {
             return
         }
@@ -267,7 +268,7 @@ class MainFragment : Fragment(), Navigator {
         if (locale != null) {
             Locale.setDefault(locale)
         }
-        val resources: Resources = activity.resources
+        val resources: Resources = requireActivity().resources
         val config: Configuration = resources.configuration
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
@@ -309,12 +310,12 @@ class MainFragment : Fragment(), Navigator {
         }
     }
 
-    override fun showTaskScreen(listId: Int, taskId: Int) {
-        launchFragment(TaskFragment(listId, taskId))
+    override fun showTaskScreen(taskId: Int) {
+        launchFragment(TaskFragment(taskId))
     }
 
-    override fun showSubtaskScreen() {
-        launchFragment(SubtaskFragment.newInstance(RandomData.getRandomSubtask()))
+    override fun showSubtaskScreen(taskId: Int, subtaskId: Int) {
+        launchFragment(SubtaskFragment(taskId, subtaskId))
     }
 
     override fun showListSettingsScreen() {

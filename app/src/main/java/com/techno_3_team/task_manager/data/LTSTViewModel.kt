@@ -31,6 +31,10 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getTask(taskId)
     }
 
+    fun getSubtask(taskId: Int): LiveData<List<Subtask>> {
+        return repository.getSubtask(taskId)
+    }
+
     fun getSubtasksByTaskId(taskId: Int): LiveData<List<Subtask>> {
         return repository.getSubtasksByTaskId(taskId)
     }
@@ -55,7 +59,34 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deleteList(listId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            val tasks = repository.getTasks(listId)
             repository.deleteList(listId)
+            tasks.forEach { task ->
+                deleteTask(task.taskId)
+            }
+        }
+    }
+
+    fun deleteCompletedTasks(listId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val tasks = repository.getTasks(listId)
+            repository.deleteCompletedTasks(listId)
+            tasks.forEach { task ->
+                repository.deleteSubtasks(task.taskId)
+            }
+        }
+    }
+
+    fun deleteTask(taskId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteTask(taskId)
+            repository.deleteSubtasks(taskId)
+        }
+    }
+
+    fun deleteSubtask(subtaskId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteSubtask(subtaskId)
         }
     }
 
@@ -68,6 +99,12 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
     fun updateTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateTask(task)
+        }
+    }
+
+    fun updateSubtask(subtask: Subtask) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateSubtask(subtask)
         }
     }
 }

@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.adapters.TaskListAdapter
-import com.techno_3_team.task_manager.callbacks.TaskListAdapterCallback
 import com.techno_3_team.task_manager.data.LTSTViewModel
 import com.techno_3_team.task_manager.data.entities.Task
 import com.techno_3_team.task_manager.databinding.TaskListFragmentBinding
@@ -19,7 +18,7 @@ import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.observeOnce
 
 
-class TaskListFragment() : Fragment(), TaskListAdapterCallback {
+class TaskListFragment() : Fragment(), TaskListAdapter.TaskListAdapterCallback {
     private var listId: Int = -1
     private lateinit var taskListAdapter: TaskListAdapter
     private var binding: TaskListFragmentBinding? = null
@@ -45,19 +44,19 @@ class TaskListFragment() : Fragment(), TaskListAdapterCallback {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         with(_binding) {
             val tasks = arrayListOf<com.techno_3_team.task_manager.data.entities.TaskInfo>()
             taskListAdapter = TaskListAdapter(tasks, navigator(), this@TaskListFragment)
             lvTasksList.adapter = taskListAdapter
 
-            ltstViewModel.getTaskInfoByListId(listId).observeOnce(viewLifecycleOwner) {
-                tasks.addAll(it)
+            ltstViewModel.getTaskInfoByListId(listId).observe(viewLifecycleOwner) {
                 Log.println(
                     Log.INFO,
                     "tasks by list name with \"$listId\" id was observed",
                     "\n$it"
                 )
-                taskListAdapter.notifyDataSetChanged()
+                taskListAdapter.updateTasks(it)
             }
 
             lvTasksList.layoutManager = LinearLayoutManager(lvTasksList.context)
@@ -70,12 +69,13 @@ class TaskListFragment() : Fragment(), TaskListAdapterCallback {
         super.onDestroyView()
     }
 
-    override fun updateCheckboxState(taskId: Int, position: Int) {
+    override fun updateCheckboxState(taskId: Int) {
         ltstViewModel.getTask(taskId).observeOnce(viewLifecycleOwner) {
             val task = it.first()
+            Log.println(Log.INFO, "observed", "task = $task")
             ltstViewModel.updateTask(
                 Task(
-                    task.listId,
+                    task.taskId,
                     task.listId,
                     task.header,
                     !task.isCompleted,
@@ -84,6 +84,5 @@ class TaskListFragment() : Fragment(), TaskListAdapterCallback {
                 )
             )
         }
-        (_binding.lvTasksList.adapter as TaskListAdapter).changeCheckboxState(position)
     }
 }

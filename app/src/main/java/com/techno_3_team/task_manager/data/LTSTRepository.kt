@@ -23,6 +23,14 @@ class LTSTRepository(private val ltstDao: LTSTDao) {
         return ltstDao.selectTask(taskId)
     }
 
+    fun getSubtask(subtaskId: Int): LiveData<List<Subtask>> {
+        return ltstDao.selectSubtask(subtaskId)
+    }
+
+    fun getTasks(listId: Int): List<Task> {
+        return ltstDao.getTasks(listId)
+    }
+
     suspend fun addList(list: com.techno_3_team.task_manager.data.entities.List) {
         ltstDao.addList(list)
     }
@@ -39,12 +47,30 @@ class LTSTRepository(private val ltstDao: LTSTDao) {
         ltstDao.deleteList(listId)
     }
 
+    suspend fun deleteCompletedTasks(listId: Int) {
+        ltstDao.deleteCompletedTasks(listId)
+    }
+
+    suspend fun deleteTask(taskId: Int) {
+        ltstDao.deleteTask(taskId)
+    }
+
+    suspend fun deleteSubtasks(taskId: Int) {
+        ltstDao.deleteSubtasks(taskId)
+    }
+
+    suspend fun deleteSubtask(subtaskId: Int) {
+        ltstDao.deleteSubtask(subtaskId)
+    }
+
     suspend fun updateList(list: com.techno_3_team.task_manager.data.entities.List) {
         ltstDao.updateList(list)
     }
 
-
     suspend fun updateTask(task: Task) {
         ltstDao.updateTask(task)
+    }
+    suspend fun updateSubtask(subtask: Subtask) {
+        ltstDao.updateSubtask(subtask)
     }
 }

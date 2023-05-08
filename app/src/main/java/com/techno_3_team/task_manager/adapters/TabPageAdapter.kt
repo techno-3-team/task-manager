@@ -17,4 +17,10 @@ class TabPagerAdapter(
     override fun getCount(): Int {
         return lists.size
     }
+
+    fun putLists(lists: List<com.techno_3_team.task_manager.data.entities.List>) {
+        this.lists.clear()
+        this.lists.addAll(lists)
+        notifyDataSetChanged()
+    }
 }
