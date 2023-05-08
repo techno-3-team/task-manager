@@ -28,7 +28,7 @@ import com.techno_3_team.task_manager.support.SpacingItemDecorator
 import com.techno_3_team.task_manager.support.SwipeHelper
 
 
-class ListsSettingsFragment : Fragment(), HasCustomTitle {
+class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.EventListener {
     private var toast: Toast? = null
     private var binding: FragmentListsSettingsBinding? = null
     private val _binding: FragmentListsSettingsBinding
@@ -54,7 +54,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
         super.onViewCreated(view, savedInstanceState)
         with(_binding) {
             val listNames: List<ListInfo> = arrayListOf()
-            val listSettingsAdapter = ListsSettingsAdapter(listNames as ArrayList<ListInfo>)
+            val listSettingsAdapter = ListsSettingsAdapter(listNames as ArrayList<ListInfo>, this@ListsSettingsFragment)
             lists.adapter = listSettingsAdapter
 
             // для простой инициализации следует использовать observeOnce
@@ -69,7 +69,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
             lists.addItemDecoration(SpacingItemDecorator(20))
 
             val touchHelper =
-                ItemTouchHelper(object : SwipeHelper(this@ListsSettingsFragment, lists) {
+                ItemTouchHelper(object : SwipeHelper(lists) {
                     override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
                         val deleteButton = deleteButton(position)
                         val markAsUnreadButton = editButton(position, view)
@@ -84,7 +84,11 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle {
         }
     }
 
-    fun changeListsOrder(firstPos: Int, secondPos: Int) {
+    override fun onMove(from: Int, to: Int) {
+        changeListsOrder(from, to)
+    }
+
+    private fun changeListsOrder(firstPos: Int, secondPos: Int) {
         val firstList = (_binding.lists.adapter as ListsSettingsAdapter).getList(firstPos)
         val secondList = (_binding.lists.adapter as ListsSettingsAdapter).getList(secondPos)
         ltstViewModel.updateList(

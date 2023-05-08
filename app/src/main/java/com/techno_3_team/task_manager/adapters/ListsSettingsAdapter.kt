@@ -8,12 +8,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.data.entities.ListInfo
+import com.techno_3_team.task_manager.fragments.ListsSettingsFragment
 import com.techno_3_team.task_manager.support.ItemTouchHelperAdapter
 import java.util.*
 
 class ListsSettingsAdapter(
-    private val lists: ArrayList<ListInfo>
+    private val lists: ArrayList<ListInfo>,
+    private val listener: EventListener
 ) : RecyclerView.Adapter<ListsSettingsAdapter.ListsSettingsViewHolder>(), ItemTouchHelperAdapter {
+
+    interface EventListener{
+        fun onMove(from: Int, to: Int)
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -78,6 +84,7 @@ class ListsSettingsAdapter(
                 Collections.swap(lists, i, i - 1)
             }
         }
+        listener.onMove(fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
     }
 
