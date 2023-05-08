@@ -46,10 +46,12 @@ class TaskListContainerFragment : Fragment(), HasMainScreenActions {
         val adapter = TabPagerAdapter(lists, childFragmentManager)
         viewPager.adapter = adapter
 
-        ltstViewModel.readLists.observeOnce(viewLifecycleOwner) {
+        ltstViewModel.readLists.observe(viewLifecycleOwner) {
+            lists.clear()
             lists.addAll(it as ArrayList < List >)
             adapter.notifyDataSetChanged()
             Log.println(Log.INFO, "list names was observed", "$it")
+            tabLayout.removeAllTabs()
             lists.forEach { list ->
                 tabLayout.addTab(_binding.tabs.newTab().setText(list.listName));
             }

@@ -16,7 +16,6 @@ import kotlin.math.abs
 import kotlin.math.max
 
 abstract class SwipeHelper(
-    private val parentFragment: ListsSettingsFragment,
     private val recyclerView: RecyclerView
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.ACTION_STATE_IDLE,
@@ -123,18 +122,9 @@ abstract class SwipeHelper(
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        parentFragment.changeListsOrder(viewHolder.adapterPosition, target.adapterPosition)
         (recyclerView.adapter as ListsSettingsAdapter).onItemMove(viewHolder.adapterPosition, target.adapterPosition)
         return true
     }
-
-//    override fun onMove(
-//        recyclerView: RecyclerView,
-//        viewHolder: RecyclerView.ViewHolder,
-//        target: RecyclerView.ViewHolder
-//    ): Boolean {
-//        return false
-//    }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
