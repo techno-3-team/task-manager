@@ -59,6 +59,9 @@
 
     <string name="android_client_id" translatable="false">1047851853870-vmcuf6f5rpafonuq96om2pnefac136k1.apps.googleusercontent.com</string>
     <string name="web_client_id" translatable="false">1047851853870-ha0mpeklnnds6lq9iti1ljojv0vh8c4v.apps.googleusercontent.com</string>
+    <string name="app_id" translatable="false">1047851853870-ha0mpeklnnds6lq9iti1ljojv0vh8c4v</string>
+    <string name="api_key_android" translatable="false">AIzaSyDYRbxhgg_019xLnlu80L52Zk1XErNnXlA</string>
+    <string name="api_key_browser" translatable="false">AIzaSyAqlIuSxelHY0Dk-_b4tyJ7v-z_MJ8e-eM</string>
 
     <string name="cancel">Error occurred, sorry, try again</string>
     <string name="network_error">Network error</string>
