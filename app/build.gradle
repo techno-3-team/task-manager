@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.techno_3_team.task_manager'
+    namespace 'com.techno_3_team.task_manager_two'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.techno_3_team.task_manager"
+        applicationId "com.techno_3_team.task_manager_two"
         minSdk 24
         targetSdk 33
         versionCode 1
