@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "634822883635",
+    "project_id": "task-manager-386213",
+    "storage_bucket": "task-manager-386213.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634822883635:android:d612a128985805e4a06646",
+        "android_client_info": {
+          "package_name": "com.techno_3_team.task_manager_two"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "634822883635-1igrm5k3sbrlf39l0l7q9qjmdfca7psg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techno_3_team.task_manager_two",
+            "certificate_hash": "8c4b5e37766ab53c5144a2fb5d74a4b81d43c4b7"
+          }
+        },
+        {
+          "client_id": "634822883635-qbnkf7so8jako8af8kg6gt5lice7cdlo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXKPO-xXOdal2wMNDHgeLOadamiQBpP4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "634822883635-qbnkf7so8jako8af8kg6gt5lice7cdlo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
