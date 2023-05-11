@@ -61,14 +61,14 @@ class TaskListAdapter(
         private val header: TextView = itemView.findViewById(R.id.header)
         private val date: TextView = itemView.findViewById(R.id.date)
         private val subProgress: TextView = itemView.findViewById(R.id.subtasks_progress)
-        private var isCheckboxChecked = false
+//        private var isCheckboxChecked = false
 
         @SuppressLint("SetTextI18n")
         fun bind(
             taskInfo: TaskInfo,
             mainFragmentNavigator: Navigator
         ) {
-            isCheckboxChecked = taskInfo.isCompleted
+//            isCheckboxChecked = taskInfo.isCompleted
 
             checkbox.isChecked = taskInfo.isCompleted
             header.text = taskInfo.header
@@ -87,16 +87,16 @@ class TaskListAdapter(
                 mainFragmentNavigator.showTaskScreen(taskInfo.taskId)
             }
             checkbox.setOnClickListener {
-                if (isCheckboxChecked) {
-                    header.alpha = 1f
-                    date.alpha = 1f
-                    subProgress.alpha = 1f
-                } else {
-                    header.alpha = 0.4f
-                    date.alpha = 0.4f
-                    subProgress.alpha = 0.40f
-                }
-                isCheckboxChecked = !isCheckboxChecked
+//                if (isCheckboxChecked) {
+//                    header.alpha = 1f
+//                    date.alpha = 1f
+//                    subProgress.alpha = 1f
+//                } else {
+//                    header.alpha = 0.4f
+//                    date.alpha = 0.4f
+//                    subProgress.alpha = 0.40f
+//                }
+//                isCheckboxChecked = !isCheckboxChecked
                 callback.updateCheckboxState(taskInfo.taskId)
             }
         }

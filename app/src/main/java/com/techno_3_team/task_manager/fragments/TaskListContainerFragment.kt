@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.google.android.material.tabs.TabLayout
 import com.techno_3_team.task_manager.adapters.TabPagerAdapter
 import com.techno_3_team.task_manager.data.LTSTViewModel
@@ -28,7 +29,7 @@ class TaskListContainerFragment : Fragment(), HasMainScreenActions {
     private lateinit var ltstViewModel: LTSTViewModel
 
     private val preference: SharedPreferences by lazy {
-        requireActivity().applicationContext.getSharedPreferences("app_base_preference", Context.MODE_PRIVATE)
+        PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
     }
 
     override fun onCreateView(

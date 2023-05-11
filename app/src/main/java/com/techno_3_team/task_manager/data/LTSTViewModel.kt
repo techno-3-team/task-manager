@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 class LTSTViewModel(application: Application) : AndroidViewModel(application) {
 
     val readLists: LiveData<List<com.techno_3_team.task_manager.data.entities.List>>
-    val readTasks: LiveData<ListWithTasks>
     val readListInfo: LiveData<List<ListInfo>>
     private val repository: LTSTRepository
 
@@ -19,7 +18,6 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
         val ltstDao = LTSTDatabase.getDataBase(application).mainDao()
         repository = LTSTRepository(ltstDao)
         readLists = repository.readLists
-        readTasks = repository.readTasks
         readListInfo = repository.readListInfo
     }
 

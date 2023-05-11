@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.techno_3_team.task_manager.R
 import com.techno_3_team.task_manager.data.LTSTViewModel
@@ -43,7 +44,7 @@ class MainFragment : Fragment(), Navigator {
         get() = requireActivity().supportFragmentManager.findFragmentById(mainBinding.mainContainer.id)
 
     private val preference: SharedPreferences by lazy {
-        requireActivity().applicationContext.getSharedPreferences("app_base_preference", Context.MODE_PRIVATE)
+        PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
     }
 
     private lateinit var ltstViewModel: LTSTViewModel
@@ -78,6 +79,7 @@ class MainFragment : Fragment(), Navigator {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("tag", "creating... ${preference.getInt(LANGUAGE_KEY, -1)}")
         supportFM = requireActivity().supportFragmentManager
 
         val toolbar: MaterialToolbar = requireActivity().findViewById(mainBinding.toolbar.id)
@@ -240,6 +242,7 @@ class MainFragment : Fragment(), Navigator {
     }
 
     private fun setLanguageRadioButton() {
+        Log.e("tag", "set lang bttn... ${preference.getInt(LANGUAGE_KEY, -1)}")
         val languageCode = preference.getInt(LANGUAGE_KEY, -1)
 
         val currLang = Locale.getDefault().language
@@ -255,6 +258,7 @@ class MainFragment : Fragment(), Navigator {
     }
 
     private fun setLocaleLanguage(languageStringCode: String?) {
+        Log.e("tag", "set locale lang... ${preference.getInt(LANGUAGE_KEY, -1)}")
         if (Locale.getDefault().language == languageStringCode) {
             return
         }
@@ -263,6 +267,7 @@ class MainFragment : Fragment(), Navigator {
                 LANGUAGE_KEY,
                 if (languageStringCode == "ru") 1 else 0
             ).apply()
+        Log.e("tag", "set locale lang... ${preference.getInt(LANGUAGE_KEY, -1)}")
 
         val locale = languageStringCode?.let { Locale(it) }
         if (locale != null) {

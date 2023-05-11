@@ -8,7 +8,6 @@ class LTSTRepository(private val ltstDao: LTSTDao) {
 
     var readLists: LiveData<List<com.techno_3_team.task_manager.data.entities.List>> =
         ltstDao.readLists()
-    var readTasks: LiveData<ListWithTasks> = ltstDao.readTasks(0)
     var readListInfo: LiveData<List<ListInfo>> = ltstDao.selectListWithTaskCompletionInfo()
 
     fun getTaskInfoByListId(listId: Int): LiveData<List<TaskInfo>> {

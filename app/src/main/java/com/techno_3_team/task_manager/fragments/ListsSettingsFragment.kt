@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.techno_3_team.task_manager.R
@@ -37,7 +38,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.E
     private lateinit var ltstViewModel: LTSTViewModel
 
     private val preference: SharedPreferences by lazy {
-        requireActivity().applicationContext.getSharedPreferences("app_base_preference", Context.MODE_PRIVATE)
+        PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
     }
 
     override fun onCreateView(

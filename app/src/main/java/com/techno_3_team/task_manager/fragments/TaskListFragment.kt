@@ -53,7 +53,7 @@ class TaskListFragment() : Fragment(), TaskListAdapter.TaskListAdapterCallback {
             ltstViewModel.getTaskInfoByListId(listId).observe(viewLifecycleOwner) {
                 Log.println(
                     Log.INFO,
-                    "tasks by list name with \"$listId\" id was observed",
+                    "tasks by list name with id=\"$listId\" was observed",
                     "\n$it"
                 )
                 taskListAdapter.updateTasks(it)

@@ -30,10 +30,6 @@ interface LTSTDao {
     fun readLists(): LiveData<kotlin.collections.List<List>>
 
     @Transaction
-    @Query("SELECT * FROM list_table WHERE listId = :listId")
-    fun readTasks(listId: Int): LiveData<ListWithTasks>
-
-    @Transaction
     @Query("delete FROM list_table where listId = :listId")
     suspend fun deleteList(listId: Int)
 

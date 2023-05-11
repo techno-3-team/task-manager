@@ -2,10 +2,12 @@ package com.techno_3_team.task_manager
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.techno_3_team.task_manager.data.LTSTViewModel
 import com.techno_3_team.task_manager.databinding.ActivityMainBinding
 import com.techno_3_team.task_manager.fragments.LoginFragment
@@ -20,7 +22,7 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
     private lateinit var mainActivityBinding: ActivityMainBinding
 
     private val preference by lazy {
-        applicationContext.getSharedPreferences("app_base_preference", Context.MODE_PRIVATE)
+        PreferenceManager.getDefaultSharedPreferences(this)
     }
 
     private lateinit var ltstViewModel: LTSTViewModel

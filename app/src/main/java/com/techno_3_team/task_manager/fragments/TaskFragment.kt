@@ -18,6 +18,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager.*
 import com.techno_3_team.task_manager.adapters.SubtaskAdapter
@@ -57,7 +58,7 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
     private var toast: Toast? = null
 
     private val preference: SharedPreferences by lazy {
-        requireActivity().applicationContext.getSharedPreferences("app_base_preference", Context.MODE_PRIVATE)
+        PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
     }
 
     constructor(taskId: Int) : this() {
