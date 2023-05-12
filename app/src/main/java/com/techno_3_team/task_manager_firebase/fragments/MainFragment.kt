@@ -32,6 +32,7 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.appbar.MaterialToolbar
+import com.techno_3_team.task_manager_firebase.BuildConfig
 import com.techno_3_team.task_manager_firebase.R
 import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
 import com.techno_3_team.task_manager_firebase.databinding.MainFragmentBinding
@@ -77,7 +78,7 @@ class MainFragment : Fragment(), Navigator {
     private var signInRequest: BeginSignInRequest? = null
     private var oneTapClient: SignInClient? = null
 
-    private val serverClientId by lazy { getString(R.string.web_client_id) }
+    private val serverClientId by lazy { BuildConfig.CLIENT_ID }
 
     private var username: String? = null
 

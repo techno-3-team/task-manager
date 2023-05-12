@@ -30,7 +30,7 @@
     <string name="sort_by_importance">по важности</string>
 
     <string name="google_account">Google аккаунт</string>
-    <string name="account_managenet">Управление аккаунтом</string>
+    <string name="sign_out">Выйти</string>
     <string name="synchronize">Синхронизировать</string>
     <string name="en">EN</string>
     <string name="ru">RU</string>
