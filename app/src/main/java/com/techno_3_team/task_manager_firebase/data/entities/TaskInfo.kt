@@ -10,7 +10,7 @@ class TaskInfo(
     listId: Int,
     header: String,
     isCompleted: Boolean,
-    date: Date?,
+    date: com.techno_3_team.task_manager_firebase.support.Date?,
     description: String,
     val completedSubtaskCount: Int,
     val subtaskCount: Int

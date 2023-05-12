@@ -79,8 +79,7 @@ class TaskListAdapter(
                 date.visibility = INVISIBLE
             } else {
                 date.visibility = VISIBLE
-                val dateArr = taskInfo.date.toString().split(" ")
-                date.text = "${dateArr[2]} ${dateArr[1]}  ${dateArr[3]}".lowercase()
+                date.text = taskInfo.date.toString()
             }
 
             itemView.setOnClickListener {

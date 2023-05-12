@@ -10,16 +10,15 @@ import java.util.*
 
 @Entity(tableName = "subtask_table")
 @TypeConverters(Converters::class)
-@Parcelize
 data class Subtask(
     @PrimaryKey(autoGenerate = true)
     val subtaskId: Int = 0,
     val taskId: Int,
     val header: String,
     val isCompleted: Boolean,
-    val date: Date?,
+    val date: com.techno_3_team.task_manager_firebase.support.Date?,
     val description: String?
-) : Parcelable {
+) {
 
     override fun toString(): String {
         val sb = java.lang.StringBuilder()

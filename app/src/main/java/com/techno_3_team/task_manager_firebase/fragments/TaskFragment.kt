@@ -92,6 +92,8 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     editText.setText(task!!.header)
                     taDesc.setText(task!!.description)
                     updateIsCheckedState(taskCheck.isChecked)
+                    initDate(task!!.date)
+                    binding.tvDateTime.text = getStringDate()
                 } else {
                     FAB.visibility = INVISIBLE
                 }
@@ -192,7 +194,7 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     listId,
                     editText.text.toString(),
                     taskCheck.isChecked,
-                    null,
+                    getDateToSave(),
                     taDesc.text.toString()
                 )
             )
@@ -210,7 +212,13 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     listId,
                     editText.text.toString(),
                     taskCheck.isChecked,
-                    null,
+                    com.techno_3_team.task_manager_firebase.support.Date(
+                        savedYear,
+                        savedMonth,
+                        savedDay,
+                        savedHour,
+                        savedMinute
+                    ),
                     taDesc.text.toString()
                 )
             )
@@ -278,7 +286,7 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         savedDay = dayOfMonth
-        savedMonth = month
+        savedMonth = month + 1
         savedYear = year
 
         getDateTimeCalendar()
@@ -291,8 +299,33 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
         savedHour = hourOfDay
         savedMinute = minute
 
-        binding.tvDateTime.text = "$savedHour:$savedMinute, $savedDay-${savedMonth + 1}-$savedYear"
+        binding.tvDateTime.text = getStringDate()
     }
+
+    private fun getStringDate(): String {
+        return "$savedHour:$savedMinute, $savedDay.${savedMonth}.$savedYear"
+    }
+
+    private fun initDate(date: com.techno_3_team.task_manager_firebase.support.Date?) {
+        if (date == null) {
+            return
+        }
+        savedYear = date.year
+        savedMonth = date.month
+        savedDay = date.day
+        savedHour = date.hour
+        savedMinute = date.minute
+    }
+
+    private fun getDateToSave() = if (savedMonth == 0)
+            null else
+            com.techno_3_team.task_manager_firebase.support.Date(
+                savedYear,
+                savedMonth,
+                savedDay,
+                savedHour,
+                savedMinute
+            )
 
     override fun getCustomTitle() = getString(R.string.task_toolbar_name)
 

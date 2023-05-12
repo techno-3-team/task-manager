@@ -3,6 +3,7 @@ package com.techno_3_team.task_manager_firebase.adapters
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
@@ -74,8 +75,8 @@ class SubtaskAdapter(
             if (subtask.date == null) {
                 date.visibility = INVISIBLE
             } else {
-                val dateArr = subtask.date.toString().split(" ")
-                date.text = "${dateArr[2]} ${dateArr[1]}  ${dateArr[3]}".lowercase()
+                date.visibility = VISIBLE
+                date.text = subtask.date.toString()
             }
 
             itemView.setOnClickListener {

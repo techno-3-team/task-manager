@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.techno_3_team.task_manager_firebase.R
+import com.techno_3_team.task_manager_firebase.data.Converters
 import com.techno_3_team.task_manager_firebase.databinding.SubtaskFragmentBinding
 import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
 import com.techno_3_team.task_manager_firebase.data.entities.Subtask
@@ -77,6 +78,8 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     editText.setText(task.header)
                     taDesc.setText(task.description)
                     updateIsCheckedState(taskCheck.isChecked)
+                    initDate(task.date)
+                    binding.tvDateTime.text = getStringDate()
                 }
                 if (editText.text.isEmpty()) {
                     editText.isFocusableInTouchMode = true;
@@ -122,7 +125,7 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     taskId,
                     editText.text.toString(),
                     taskCheck.isChecked,
-                    null,
+                    getDateToSave(),
                     taDesc.text.toString()
                 )
             )
@@ -139,7 +142,7 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     taskId,
                     editText.text.toString(),
                     taskCheck.isChecked,
-                    null,
+                    getDateToSave(),
                     taDesc.text.toString()
                 )
             )
@@ -164,6 +167,17 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                 linearLayout.alpha = 1f
             }
         }
+    }
+
+    private fun initDate(date: com.techno_3_team.task_manager_firebase.support.Date?) {
+        if (date == null) {
+            return
+        }
+        savedYear = date.year
+        savedMonth = date.month
+        savedDay = date.day
+        savedHour = date.hour
+        savedMinute = date.minute
     }
 
     private fun getDateTimeCalendar() {
@@ -193,7 +207,7 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         savedDay = dayOfMonth
-        savedMonth = month
+        savedMonth = month + 1
         savedYear = year
 
         getDateTimeCalendar()
@@ -205,8 +219,22 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         savedHour = hourOfDay
         savedMinute = minute
-        binding.tvDateTime.text = "$savedHour:$savedMinute, $savedDay-${savedMonth + 1}-$savedYear"
+        binding.tvDateTime.text = getStringDate()
     }
+
+    private fun getStringDate(): String {
+        return "$savedHour:$savedMinute, $savedDay.${savedMonth}.$savedYear"
+    }
+
+    private fun getDateToSave() = if (savedMonth == 0)
+        null else
+        com.techno_3_team.task_manager_firebase.support.Date(
+            savedYear,
+            savedMonth,
+            savedDay,
+            savedHour,
+            savedMinute
+        )
 
     override fun getCustomTitle() = getString(R.string.subtask_toolbar_name)
 

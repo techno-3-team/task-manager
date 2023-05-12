@@ -8,16 +8,15 @@ import java.util.*
 
 @Entity(tableName = "task_table")
 @TypeConverters(Converters::class)
-@Parcelize
 open class Task(
     @PrimaryKey(autoGenerate = true)
     val taskId: Int = 0,
     val listId: Int,
     val header: String,
     var isCompleted: Boolean,
-    val date: Date?,
+    val date: com.techno_3_team.task_manager_firebase.support.Date?,
     val description: String
-) : Parcelable {
+) {
 
     override fun toString(): String {
         val sb = java.lang.StringBuilder()
