@@ -360,7 +360,7 @@ class MainFragment : Fragment(), Navigator {
     private fun rotateFab(view: View, managementHidden: Boolean): Boolean {
         view.animate().setDuration(200)
             .setListener(object : AnimatorListenerAdapter() {})
-            .rotation(if (!managementHidden) 180f else 0f)
+            .rotation(if (!managementHidden) 0f else 180f)
         return managementHidden
     }
 
