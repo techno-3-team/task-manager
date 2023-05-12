@@ -211,7 +211,7 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
     override fun getCustomTitle() = getString(R.string.subtask_toolbar_name)
 
     override fun delete() {
-        ltstViewModel.deleteTask(taskId)
+        ltstViewModel.deleteSubtask(subtaskId)
         navigator().goBack()
     }
 }

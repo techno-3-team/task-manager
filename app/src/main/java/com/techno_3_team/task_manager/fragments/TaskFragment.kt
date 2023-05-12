@@ -13,9 +13,7 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.DatePicker
-import android.widget.TimePicker
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
@@ -37,7 +35,7 @@ import java.util.*
 
 class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener, HasCustomTitle, HasDeleteAction,
-    SubtaskAdapter.TaskFragmentAdapterCallback {
+    SubtaskAdapter.TaskFragmentAdapterCallback, AdapterView.OnItemSelectedListener {
 
     private lateinit var binding: TaskFragmentBinding
     private lateinit var ltstViewModel: LTSTViewModel
@@ -106,6 +104,16 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                         editText,
                         InputMethodManager.SHOW_IMPLICIT
                     )
+                }
+                ltstViewModel.readLists.observeOnce(viewLifecycleOwner) { lists ->
+                    val spinAdapter =
+                        ArrayAdapter(
+                            this@TaskFragment.requireContext(),
+                            android.R.layout.simple_spinner_item,
+                            lists
+                        )
+                    listSpin.adapter = spinAdapter
+                    // ???
                 }
             }
 
@@ -282,5 +290,22 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                 )
             )
         }
+    }
+
+    private fun addTaskToAnotherList(listId: Int) {
+        ltstViewModel.getTask(taskId).observeOnce(viewLifecycleOwner) {
+            val task = it as Task
+            ltstViewModel.updateTask(
+                Task(taskId, listId, task.header, task.isCompleted, task.date, task.description)
+            )
+        }
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val listId = (binding.listSpin.adapter.getItemId(position) as com.techno_3_team.task_manager.data.entities.List).listId
+        addTaskToAnotherList(listId)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 }

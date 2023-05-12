@@ -1,8 +1,8 @@
 package com.techno_3_team.task_manager.fragments
 
 import android.animation.AnimatorListenerAdapter
+import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
@@ -44,7 +44,7 @@ class MainFragment : Fragment(), Navigator {
         get() = requireActivity().supportFragmentManager.findFragmentById(mainBinding.mainContainer.id)
 
     private val preference: SharedPreferences by lazy {
-        PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
+        PreferenceManager.getDefaultSharedPreferences(requireActivity().baseContext)
     }
 
     private lateinit var ltstViewModel: LTSTViewModel
@@ -102,10 +102,10 @@ class MainFragment : Fragment(), Navigator {
                 navigator().showListSettingsScreen()
             }
             sideBar.radioButtonEn.setOnClickListener {
-                setLocaleLanguage("en")
+                setLocaleLanguage(requireActivity(), "en")
             }
             sideBar.radioButtonRus.setOnClickListener {
-                setLocaleLanguage("ru")
+                setLocaleLanguage(requireActivity(), "ru")
             }
             sideBar.btSwitcherTheme.setOnClickListener {
                 updateTheme()
@@ -242,7 +242,6 @@ class MainFragment : Fragment(), Navigator {
     }
 
     private fun setLanguageRadioButton() {
-        Log.e("tag", "set lang bttn... ${preference.getInt(LANGUAGE_KEY, -1)}")
         val languageCode = preference.getInt(LANGUAGE_KEY, -1)
 
         val currLang = Locale.getDefault().language
@@ -251,14 +250,13 @@ class MainFragment : Fragment(), Navigator {
         }
 
         if (languageCode == 0 && currLang == "ru") {
-            setLocaleLanguage("en")
+            setLocaleLanguage(requireActivity(), "en")
         } else if (languageCode > 0 && currLang == "en") {
-            setLocaleLanguage("ru")
+            setLocaleLanguage(requireActivity(), "ru")
         }
     }
 
-    private fun setLocaleLanguage(languageStringCode: String?) {
-        Log.e("tag", "set locale lang... ${preference.getInt(LANGUAGE_KEY, -1)}")
+    private fun setLocaleLanguage(activity: Activity, languageStringCode: String?) {
         if (Locale.getDefault().language == languageStringCode) {
             return
         }
@@ -267,13 +265,12 @@ class MainFragment : Fragment(), Navigator {
                 LANGUAGE_KEY,
                 if (languageStringCode == "ru") 1 else 0
             ).apply()
-        Log.e("tag", "set locale lang... ${preference.getInt(LANGUAGE_KEY, -1)}")
 
         val locale = languageStringCode?.let { Locale(it) }
         if (locale != null) {
             Locale.setDefault(locale)
         }
-        val resources: Resources = requireActivity().resources
+        val resources: Resources = activity.resources
         val config: Configuration = resources.configuration
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
