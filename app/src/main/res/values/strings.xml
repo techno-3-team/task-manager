@@ -30,7 +30,7 @@
     <string name="sort_by_importance">by importance</string>
 
     <string name="google_account">Google account</string>
-    <string name="account_managenet">Account management</string>
+    <string name="sign_out">Sign out</string>
     <string name="synchronize">Synchronize</string>
     <string name="en">EN</string>
     <string name="ru">RU</string>
@@ -57,7 +57,7 @@
     <string name="task_name_hint">task name</string>
     <string name="subtask_name_hint">subtask name</string>
 
-    <string name="web_client_id" translatable="false">199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com</string>
+<!--    <string name="web_client_id" translatable="false">199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com</string>-->
 
     <string name="cancel">Error occurred, sorry, try again</string>
     <string name="network_error">Network error</string>

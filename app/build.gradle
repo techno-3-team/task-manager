@@ -18,14 +18,16 @@ android {
     }
 
     buildTypes {
-//        debug {
-//            applicationIdSuffix ".debug"
-//            debuggable true
-//            versionNameSuffix '-debug'
-//        }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            versionNameSuffix '-debug'
+            buildConfigField "String", "CLIENT_ID", "\"199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "CLIENT_ID", "\"199947240338-6hl8ccqd5deemhgbds2j61u9tm6ua5ma.apps.googleusercontent.com\""
         }
     }
     compileOptions {
@@ -82,6 +84,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.6.0'
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
 }

@@ -44,6 +44,43 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:199947240338:android:7c79ebb00c1f6e965c374b",
+        "android_client_info": {
+          "package_name": "com.techno_3_team.task_manager_firebase.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199947240338-v4tn2lugdqjj2r6p8hdu38mscr0rkup7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techno_3_team.task_manager_firebase.debug",
+            "certificate_hash": "8c4b5e37766ab53c5144a2fb5d74a4b81d43c4b7"
+          }
+        },
+        {
+          "client_id": "199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYgN-76zFIGzMcSOegGQ3ROUWNAULmQh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:199947240338:android:fd1a234d2dca1a6d5c374b",
         "android_client_info": {
           "package_name": "com.techno_3_team.task_manager_two"

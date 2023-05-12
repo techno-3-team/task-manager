@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
+import com.techno_3_team.task_manager_firebase.BuildConfig
 import com.techno_3_team.task_manager_firebase.R
 import com.techno_3_team.task_manager_firebase.databinding.LoginFragmentBinding
 import com.techno_3_team.task_manager_firebase.navigators.PrimaryNavigator
@@ -43,7 +44,7 @@ class LoginFragment : Fragment() {
 
     private var oneTapClient: SignInClient? = null
 
-    private val serverClientId by lazy { getString(R.string.web_client_id) }
+    private val serverClientId by lazy { BuildConfig.CLIENT_ID }
 
     private var username: String? = null
 
