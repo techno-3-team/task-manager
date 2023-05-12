@@ -24,11 +24,6 @@
                     android:orderInCategory="20"
                     android:title="@string/sort_by_date"
                     app:showAsAction="never" />
-                <item
-                    android:id="@+id/sort_by_importance"
-                    android:orderInCategory="30"
-                    android:title="@string/sort_by_importance"
-                    app:showAsAction="never" />
             </group>
         </menu>
     </item>

@@ -19,13 +19,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.techno_3_team.task_manager_firebase.*
-import com.techno_3_team.task_manager_firebase.databinding.TaskFragmentBinding
 import com.techno_3_team.task_manager_firebase.adapters.SpinAdapter
 import com.techno_3_team.task_manager_firebase.adapters.SubtaskAdapter
 import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
 import com.techno_3_team.task_manager_firebase.data.entities.List
 import com.techno_3_team.task_manager_firebase.data.entities.Subtask
 import com.techno_3_team.task_manager_firebase.data.entities.Task
+import com.techno_3_team.task_manager_firebase.databinding.TaskFragmentBinding
 import com.techno_3_team.task_manager_firebase.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager_firebase.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager_firebase.navigators.navigator
@@ -105,7 +105,7 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                 })
 
                 if (editText.text.isEmpty()) {
-                    editText.isFocusableInTouchMode = true;
+                    editText.isFocusableInTouchMode = true
                     editText.requestFocus()
                     (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(
                         editText,
@@ -126,9 +126,9 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                         )
                     spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     listSpin.adapter = spinAdapter
-                    if (task != null) {
-                        listSpin.setSelection(spinAdapter.getPosByListId(task!!.listId))
-                    }
+                    val listId = preference.getInt(CURRENT_LIST_ID, -1)
+                    Log.e("tag", "list id = $listId")
+                    listSpin.setSelection(spinAdapter.getPosByListId(listId))
                     listSpin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(
                             parent: AdapterView<*>,
@@ -142,7 +142,6 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>?) {
-                            // Another interface callback
                         }
                     }
                 }

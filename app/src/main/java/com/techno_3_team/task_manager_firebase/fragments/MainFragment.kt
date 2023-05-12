@@ -217,9 +217,8 @@ class MainFragment : Fragment(), Navigator {
                     item.itemId == R.id.clear_checked -> {
                         deleteCheckedTasks()
                     }
-                    item.itemId == R.id.sort_by_date ||
-                            item.itemId == R.id.sort_by_name ||
-                            item.itemId == R.id.sort_by_importance -> {
+                    item.itemId == R.id.sort_by_name ||
+                            item.itemId == R.id.sort_by_date -> {
                         updateTasksOrder(item.itemId)
                     }
                     item.itemId == android.R.id.home && currentFragment is TaskListContainerFragment -> {
@@ -274,7 +273,11 @@ class MainFragment : Fragment(), Navigator {
     }
 
     private fun updateTasksOrder(itemId: Int) {
-        // TODO()
+        if (itemId == R.id.sort_by_name) {
+
+        } else {
+
+        }
     }
 
     private fun updateUi() {
