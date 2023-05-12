@@ -9,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.techno_3_team.task_manager_firebase.databinding.ActivityMainBinding
-import com.techno_3_team.task_manager_firebase.R
 import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
 import com.techno_3_team.task_manager_firebase.fragments.LoginFragment
 import com.techno_3_team.task_manager_firebase.fragments.MainFragment
 import com.techno_3_team.task_manager_firebase.navigators.PrimaryNavigator
-import com.techno_3_team.task_manager_firebase.support.AUTHORIZED
+import com.techno_3_team.task_manager_firebase.support.IS_AUTHORIZED
 import com.techno_3_team.task_manager_firebase.support.IS_DEFAULT_THEME_KEY
+import com.techno_3_team.task_manager_firebase.support.IS_LOGIN_FRAGMENT_DISPLAYED
 
 
 class MainActivity : AppCompatActivity(), PrimaryNavigator {
@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
         if (savedInstanceState == null) {
             ltstViewModel = ViewModelProvider(this)[LTSTViewModel::class.java]
             mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
-            val authorized = preference.getBoolean(AUTHORIZED, false)
-            if (authorized) {
+            val isAuthorized = preference.getBoolean(IS_LOGIN_FRAGMENT_DISPLAYED, true)
+            if (!isAuthorized) {
                 showMainFragment()
             } else {
                 supportFragmentManager.beginTransaction()

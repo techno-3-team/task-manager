@@ -21,8 +21,9 @@ import com.google.android.gms.common.api.CommonStatusCodes
 import com.techno_3_team.task_manager_firebase.R
 import com.techno_3_team.task_manager_firebase.databinding.LoginFragmentBinding
 import com.techno_3_team.task_manager_firebase.navigators.PrimaryNavigator
-import com.techno_3_team.task_manager_firebase.support.AUTHORIZED
+import com.techno_3_team.task_manager_firebase.support.IS_AUTHORIZED
 import com.techno_3_team.task_manager_firebase.support.ID_TOKEN
+import com.techno_3_team.task_manager_firebase.support.IS_LOGIN_FRAGMENT_DISPLAYED
 import com.techno_3_team.task_manager_firebase.support.USERNAME
 
 class LoginFragment : Fragment() {
@@ -63,7 +64,8 @@ class LoginFragment : Fragment() {
                             preference.edit().putString(USERNAME, username).apply()
                             Log.e(tag, "idToken $idToken")
                             authorized = true
-                            preference.edit().putBoolean(AUTHORIZED, authorized).apply()
+                            preference.edit().putBoolean(IS_AUTHORIZED, authorized).apply()
+                            preference.edit().putBoolean(IS_LOGIN_FRAGMENT_DISPLAYED, false).apply()
                             Log.e(tag, "authorized $authorized")
                             val welcomeMsg = getString(R.string.welcome) + " $username!"
                             val toast = Toast.makeText(context, welcomeMsg, Toast.LENGTH_LONG)
@@ -124,7 +126,10 @@ class LoginFragment : Fragment() {
         _loginBinding.continueWithoutAutorization.setOnClickListener {
             Log.e("onViewCreated", "clicked on continue without authorization")
             preference.edit()
-                .putBoolean(AUTHORIZED, false)
+                .putBoolean(IS_AUTHORIZED, false)
+                .apply()
+            preference.edit()
+                .putBoolean(IS_LOGIN_FRAGMENT_DISPLAYED, false)
                 .apply()
             (requireActivity() as PrimaryNavigator).showMainFragment()
         }

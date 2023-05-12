@@ -97,7 +97,7 @@ class MainFragment : Fragment(), Navigator {
                             preference.edit().putString(USERNAME, username).apply()
                             Log.e(tag, "idToken $idToken")
                             authorized = true
-                            preference.edit().putBoolean(AUTHORIZED, authorized).apply()
+                            preference.edit().putBoolean(IS_AUTHORIZED, authorized).apply()
                             val welcomeMsg = getString(R.string.welcome) + " $username!"
                             val toast = Toast.makeText(context, welcomeMsg, Toast.LENGTH_LONG)
                             toast.show()
@@ -188,7 +188,7 @@ class MainFragment : Fragment(), Navigator {
             }
 
             Log.e("onViewCreated", "authorized $authorized")
-            authorized = preference.getBoolean(AUTHORIZED, false)
+            authorized = preference.getBoolean(IS_AUTHORIZED, false)
             Log.e("onViewCreated", "preference authorized $authorized")
             username = preference.getString(USERNAME, null)
             setAccountButton()

@@ -17,7 +17,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.techno_3_team.task_manager_firebase.R
-import com.techno_3_team.task_manager.databinding.SubtaskFragmentBinding
+import com.techno_3_team.task_manager_firebase.databinding.SubtaskFragmentBinding
 import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
 import com.techno_3_team.task_manager_firebase.data.entities.Subtask
 import com.techno_3_team.task_manager_firebase.fragment_features.HasCustomTitle
