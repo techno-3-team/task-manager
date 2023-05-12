@@ -22,4 +22,5 @@
     <color name="focused_hint_color">#939393</color>
     <color name="red">#E63946</color>
     <color name="green">#389279</color>
+    <color name="edit">#1CCA4F</color>
 </resources>

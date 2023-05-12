@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.techno_3_team.task_manager_firebase"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,7 +14,8 @@
         android:theme="@style/Theme.CustomTheme.Default"
         tools:targetApi="31">
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name="com.techno_3_team.task_manager_firebase.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

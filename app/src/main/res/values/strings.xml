@@ -30,7 +30,7 @@
     <string name="sort_by_importance">by importance</string>
 
     <string name="google_account">Google account</string>
-    <string name="account_managenet">Account management</string>
+    <string name="sign_out">Sign out</string>
     <string name="synchronize">Synchronize</string>
     <string name="en">EN</string>
     <string name="ru">RU</string>
@@ -57,16 +57,32 @@
     <string name="task_name_hint">task name</string>
     <string name="subtask_name_hint">subtask name</string>
 
-    <string name="android_client_id">1047851853870-vmcuf6f5rpafonuq96om2pnefac136k1.apps.googleusercontent.com</string>
-    <string name="web_client_id">1047851853870-ha0mpeklnnds6lq9iti1ljojv0vh8c4v.apps.googleusercontent.com</string>
+<!--    <string name="web_client_id" translatable="false">199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com</string>-->
+
+    <string name="cancel">Error occurred, sorry, try again</string>
+    <string name="network_error">Network error</string>
 
     <string name="edit_list_name_header">Edit list name</string>
     <string name="add_new_list_header">Add new list</string>
     <string name="edit_button_name">Edit</string>
     <string name="delete_button_name">Delete</string>
     <string name="add_button_name">add</string>
-    <string name="cancel_button_name">cancel</string>
+    <string name="cancel_button_name">Cancel</string>
     <string name="added_new_list_toast">Added new list</string>
     <string name="deleted_list_toast">Deleted list</string>
     <string name="edited_list_toast">Edited list name of to</string>
+
+    <string name="delete_task_dialog_msg">Do you want to delete this task?</string>
+
+    <string name="preposition_fot_comleted_subtasks_count">of</string>
+
+    <string name="input_task_name_to_create">Enter the name to create a task</string>
+    <string name="input_subtask_name_to_create">Enter the name to create a subtask</string>
+    <string name="task_submit_button_text">Create task</string>
+    <string name="subtask_submit_button_text">Create subtask</string>
+    <string name="create_subtask_error_text">Create task</string>
+    <string name="the_task_has_been_created">The task has been created</string>
+    <string name="the_subtask_has_been_created">The subtask has been created</string>
+    <string name="cant_delete_the_last_list">You cannot delete the last list</string>
+
 </resources>

@@ -30,7 +30,7 @@
     <string name="sort_by_importance">по важности</string>
 
     <string name="google_account">Google аккаунт</string>
-    <string name="account_managenet">Управление аккаунтом</string>
+    <string name="sign_out">Выйти</string>
     <string name="synchronize">Синхронизировать</string>
     <string name="en">EN</string>
     <string name="ru">RU</string>
@@ -57,8 +57,8 @@
     <string name="task_name_hint">название задачи</string>
     <string name="subtask_name_hint">название подзадачи</string>
 
-    <string name="android_client_id">1047851853870-vmcuf6f5rpafonuq96om2pnefac136k1.apps.googleusercontent.com</string>
-    <string name="web_client_id">1047851853870-ha0mpeklnnds6lq9iti1ljojv0vh8c4v.apps.googleusercontent.com</string>
+    <string name="cancel">Возникла ошибка, извините, попробуйте снова</string>
+    <string name="network_error">Возникла ошибка</string>
 
     <string name="edit_list_name_header">Изменить название списка</string>
     <string name="add_new_list_header">Создать новый список</string>
@@ -69,4 +69,18 @@
     <string name="added_new_list_toast">Добавлен новый список</string>
     <string name="deleted_list_toast">Удален список</string>
     <string name="edited_list_toast">Изменено название списка</string>
+
+    <string name="delete_task_dialog_msg">Вы уверены, что хотите удалить задачу?</string>
+
+    <string name="preposition_fot_comleted_subtasks_count">из</string>
+
+    <string name="input_task_name_to_create">Введите название для создания задачи</string>
+    <string name="input_subtask_name_to_create">Введите название для создания подзадачи</string>
+    <string name="task_submit_button_text">Создать задачу</string>
+    <string name="subtask_submit_button_text">Создать подзадачу</string>
+    <string name="create_subtask_error_text">Создайте задачу</string>
+    <string name="the_task_has_been_created">Задача была создана</string>
+    <string name="the_subtask_has_been_created">Подзадача была создана</string>
+    <string name="cant_delete_the_last_list">Нельзя удалить единственный список</string>
+    
 </resources>

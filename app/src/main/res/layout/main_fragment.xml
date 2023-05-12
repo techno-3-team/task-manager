@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:titleTextAppearance="@style/toolbar_style_title_text" />
+                app:titleTextAppearance="@style/toolbar_style_title_text"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

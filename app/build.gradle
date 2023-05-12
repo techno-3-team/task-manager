@@ -2,14 +2,15 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
+//    id 'com.google.gms.google-services'
 }
 
 android {
-    namespace 'com.techno_3_team.task_manager'
+    namespace 'com.techno_3_team.task_manager_firebase'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.techno_3_team.task_manager"
+        applicationId "com.techno_3_team.task_manager_firebase"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -17,9 +18,16 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            versionNameSuffix '-debug'
+            buildConfigField "String", "CLIENT_ID", "\"199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "CLIENT_ID", "\"199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com\""
         }
     }
     compileOptions {
@@ -71,10 +79,12 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-tasks:18.0.2'
     implementation 'com.google.android.gms:play-services-base:18.2.0'
-    implementation 'com.google.android.gms:play-services-tflite-java:16.0.1'
+    implementation 'com.google.android.gms:play-services-tflite-java:16.1.0'
     implementation 'com.google.gms:google-services:4.3.15'
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
-    implementation 'com.google.firebase:firebase-auth-ktx:21.3.0'
-    implementation platform('com.google.firebase:firebase-bom:31.3.0')
+    implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.6.0'
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }
