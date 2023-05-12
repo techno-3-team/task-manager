@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.fragments
+package com.techno_3_team.task_manager_firebase.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.techno_3_team.task_manager.adapters.TaskListAdapter
-import com.techno_3_team.task_manager.data.LTSTViewModel
-import com.techno_3_team.task_manager.data.entities.Task
-import com.techno_3_team.task_manager.databinding.TaskListFragmentBinding
-import com.techno_3_team.task_manager.navigators.navigator
-import com.techno_3_team.task_manager.support.SpacingItemDecorator
-import com.techno_3_team.task_manager.support.observeOnce
+import com.techno_3_team.task_manager_firebase.adapters.TaskListAdapter
+import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
+import com.techno_3_team.task_manager_firebase.data.entities.Task
+import com.techno_3_team.task_manager_firebase.databinding.TaskListFragmentBinding
+import com.techno_3_team.task_manager_firebase.navigators.navigator
+import com.techno_3_team.task_manager_firebase.support.SpacingItemDecorator
+import com.techno_3_team.task_manager_firebase.support.observeOnce
 
 
 class TaskListFragment() : Fragment(), TaskListAdapter.TaskListAdapterCallback {
@@ -46,7 +46,7 @@ class TaskListFragment() : Fragment(), TaskListAdapter.TaskListAdapterCallback {
         super.onViewCreated(view, savedInstanceState)
 
         with(_binding) {
-            val tasks = arrayListOf<com.techno_3_team.task_manager.data.entities.TaskInfo>()
+            val tasks = arrayListOf<com.techno_3_team.task_manager_firebase.data.entities.TaskInfo>()
             taskListAdapter = TaskListAdapter(tasks, navigator(), this@TaskListFragment)
             lvTasksList.adapter = taskListAdapter
 

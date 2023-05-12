@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.data.entities
+package com.techno_3_team.task_manager_firebase.data.entities
 
 
 data class ListInfo(

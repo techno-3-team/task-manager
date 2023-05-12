@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.adapters
+package com.techno_3_team.task_manager_firebase.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.data.entities.ListInfo
-import com.techno_3_team.task_manager.fragments.ListsSettingsFragment
-import com.techno_3_team.task_manager.support.ItemTouchHelperAdapter
+import com.techno_3_team.task_manager_firebase.R
+import com.techno_3_team.task_manager_firebase.data.entities.ListInfo
+import com.techno_3_team.task_manager_firebase.support.ItemTouchHelperAdapter
 import java.util.*
 
 class ListsSettingsAdapter(

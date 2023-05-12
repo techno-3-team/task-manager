@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.adapters
+package com.techno_3_team.task_manager_firebase.adapters
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -10,11 +10,11 @@ import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.custom_views.TaskView
-import com.techno_3_team.task_manager.data.entities.TaskInfo
-import com.techno_3_team.task_manager.navigators.Navigator
-import com.techno_3_team.task_manager.structures.Task
+import com.techno_3_team.task_manager_firebase.R
+import com.techno_3_team.task_manager_firebase.custom_views.TaskView
+import com.techno_3_team.task_manager_firebase.data.entities.Task
+import com.techno_3_team.task_manager_firebase.data.entities.TaskInfo
+import com.techno_3_team.task_manager_firebase.navigators.Navigator
 
 class TaskListAdapter(
     private var tasks: ArrayList<TaskInfo>,

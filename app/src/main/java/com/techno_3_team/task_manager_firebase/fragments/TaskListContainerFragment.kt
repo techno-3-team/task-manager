@@ -1,6 +1,6 @@
-package com.techno_3_team.task_manager.fragments
+package com.techno_3_team.task_manager_firebase.fragments
 
-import android.content.Context
+
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -11,14 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.google.android.material.tabs.TabLayout
-import com.techno_3_team.task_manager.adapters.TabPagerAdapter
-import com.techno_3_team.task_manager.data.LTSTViewModel
-import com.techno_3_team.task_manager.data.entities.List
-import com.techno_3_team.task_manager.databinding.TaskListContainerFragmentBinding
-import com.techno_3_team.task_manager.fragment_features.HasMainScreenActions
-import com.techno_3_team.task_manager.navigators.navigator
-import com.techno_3_team.task_manager.support.CURRENT_LIST_ID
-
+import com.techno_3_team.task_manager_firebase.databinding.TaskListContainerFragmentBinding
+import com.techno_3_team.task_manager_firebase.adapters.TabPagerAdapter
+import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
+import com.techno_3_team.task_manager_firebase.data.entities.List
+import com.techno_3_team.task_manager_firebase.fragment_features.HasMainScreenActions
+import com.techno_3_team.task_manager_firebase.navigators.navigator
+import com.techno_3_team.task_manager_firebase.support.CURRENT_LIST_ID
 
 class TaskListContainerFragment : Fragment(), HasMainScreenActions {
 

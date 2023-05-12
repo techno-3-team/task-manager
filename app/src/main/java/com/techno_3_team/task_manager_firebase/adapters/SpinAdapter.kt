@@ -1,8 +1,8 @@
-package com.techno_3_team.task_manager.adapters
+package com.techno_3_team.task_manager_firebase.adapters
 
 import android.content.Context
 import android.widget.ArrayAdapter
-import com.techno_3_team.task_manager.data.entities.List
+import com.techno_3_team.task_manager_firebase.data.entities.List
 
 class SpinAdapter(
     context: Context,

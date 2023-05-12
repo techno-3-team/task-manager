@@ -1,7 +1,7 @@
-package com.techno_3_team.task_manager.data.entities
+package com.techno_3_team.task_manager_firebase.data.entities
 
 import androidx.room.TypeConverters
-import com.techno_3_team.task_manager.data.Converters
+import com.techno_3_team.task_manager_firebase.data.Converters
 import java.util.*
 
 @TypeConverters(Converters::class)

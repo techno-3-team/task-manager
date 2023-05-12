@@ -1,9 +1,9 @@
-package com.techno_3_team.task_manager.data.dao
+package com.techno_3_team.task_manager_firebase.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.techno_3_team.task_manager.data.entities.*
-import com.techno_3_team.task_manager.data.entities.List
+import com.techno_3_team.task_manager_firebase.data.entities.*
+import com.techno_3_team.task_manager_firebase.data.entities.List
 
 @Dao
 interface LTSTDao {

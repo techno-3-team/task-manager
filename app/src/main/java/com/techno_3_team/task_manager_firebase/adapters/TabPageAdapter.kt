@@ -1,12 +1,12 @@
-package com.techno_3_team.task_manager.adapters
+package com.techno_3_team.task_manager_firebase.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.techno_3_team.task_manager.fragments.TaskListFragment
+import com.techno_3_team.task_manager_firebase.fragments.TaskListFragment
 
 class TabPagerAdapter(
-    private val lists: ArrayList<com.techno_3_team.task_manager.data.entities.List>,
+    private val lists: ArrayList<com.techno_3_team.task_manager_firebase.data.entities.List>,
     fm: FragmentManager
 ) : FragmentPagerAdapter(fm) {
 
@@ -18,7 +18,7 @@ class TabPagerAdapter(
         return lists.size
     }
 
-    fun putLists(lists: List<com.techno_3_team.task_manager.data.entities.List>) {
+    fun putLists(lists: List<com.techno_3_team.task_manager_firebase.data.entities.List>) {
         this.lists.clear()
         this.lists.addAll(lists)
         notifyDataSetChanged()

@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.fragments
+package com.techno_3_team.task_manager_firebase.fragments
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -18,20 +18,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.techno_3_team.task_manager.*
-import com.techno_3_team.task_manager.adapters.SpinAdapter
-import com.techno_3_team.task_manager.adapters.SubtaskAdapter
-import com.techno_3_team.task_manager.data.LTSTViewModel
-import com.techno_3_team.task_manager.data.entities.List
-import com.techno_3_team.task_manager.data.entities.Subtask
-import com.techno_3_team.task_manager.data.entities.Task
-import com.techno_3_team.task_manager.databinding.TaskFragmentBinding
-import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
-import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
-import com.techno_3_team.task_manager.navigators.navigator
-import com.techno_3_team.task_manager.support.CURRENT_LIST_ID
-import com.techno_3_team.task_manager.support.SpacingItemDecorator
-import com.techno_3_team.task_manager.support.observeOnce
+import com.techno_3_team.task_manager_firebase.*
+import com.techno_3_team.task_manager_firebase.databinding.TaskFragmentBinding
+import com.techno_3_team.task_manager_firebase.adapters.SpinAdapter
+import com.techno_3_team.task_manager_firebase.adapters.SubtaskAdapter
+import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
+import com.techno_3_team.task_manager_firebase.data.entities.List
+import com.techno_3_team.task_manager_firebase.data.entities.Subtask
+import com.techno_3_team.task_manager_firebase.data.entities.Task
+import com.techno_3_team.task_manager_firebase.fragment_features.HasCustomTitle
+import com.techno_3_team.task_manager_firebase.fragment_features.HasDeleteAction
+import com.techno_3_team.task_manager_firebase.navigators.navigator
+import com.techno_3_team.task_manager_firebase.support.CURRENT_LIST_ID
+import com.techno_3_team.task_manager_firebase.support.SpacingItemDecorator
+import com.techno_3_team.task_manager_firebase.support.observeOnce
 import java.util.*
 import java.util.stream.Collectors
 

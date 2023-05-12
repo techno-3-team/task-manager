@@ -1,16 +1,16 @@
-package com.techno_3_team.task_manager.data
+package com.techno_3_team.task_manager_firebase.data
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.techno_3_team.task_manager.data.entities.*
+import com.techno_3_team.task_manager_firebase.data.entities.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LTSTViewModel(application: Application) : AndroidViewModel(application) {
 
-    val readLists: LiveData<List<com.techno_3_team.task_manager.data.entities.List>>
+    val readLists: LiveData<List<com.techno_3_team.task_manager_firebase.data.entities.List>>
     val readListInfo: LiveData<List<ListInfo>>
     private val repository: LTSTRepository
 
@@ -37,7 +37,7 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getSubtasksByTaskId(taskId)
     }
 
-    fun addList(list: com.techno_3_team.task_manager.data.entities.List) {
+    fun addList(list: com.techno_3_team.task_manager_firebase.data.entities.List) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addList(list)
         }
@@ -88,7 +88,7 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun updateList(list: com.techno_3_team.task_manager.data.entities.List) {
+    fun updateList(list: com.techno_3_team.task_manager_firebase.data.entities.List) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateList(list)
         }

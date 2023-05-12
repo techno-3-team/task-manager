@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.adapters
+package com.techno_3_team.task_manager_firebase.adapters
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -9,14 +9,14 @@ import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.custom_views.TaskView
-import com.techno_3_team.task_manager.structures.Subtask
+import com.techno_3_team.task_manager_firebase.R
+import com.techno_3_team.task_manager_firebase.custom_views.TaskView
+import com.techno_3_team.task_manager_firebase.data.entities.Subtask
 import java.util.*
 import kotlin.collections.ArrayList
 
 class SubtaskAdapter(
-    private val subtasks: ArrayList<com.techno_3_team.task_manager.data.entities.Subtask>,
+    private val subtasks: ArrayList<Subtask>,
     private val callback: TaskFragmentAdapterCallback
 ) : ListAdapter<Subtask, SubtaskAdapter.TaskViewHolder>(TaskItemDiffCallback()) {
 
@@ -35,13 +35,13 @@ class SubtaskAdapter(
         return subtasks.size
     }
 
-    fun addSubtask(subtask: com.techno_3_team.task_manager.data.entities.Subtask) {
+    fun addSubtask(subtask: Subtask) {
         subtasks.add(subtask)
         notifyItemInserted(subtasks.size - 1)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun putSubtasks(subtasks: List<com.techno_3_team.task_manager.data.entities.Subtask>) {
+    fun putSubtasks(subtasks: List<Subtask>) {
         this.subtasks.clear()
         this.subtasks.addAll(subtasks)
         notifyDataSetChanged()
@@ -67,7 +67,7 @@ class SubtaskAdapter(
         private val date: TextView = itemView.findViewById(R.id.date)
 
         @SuppressLint("SetTextI18n")
-        fun bind(subtask: com.techno_3_team.task_manager.data.entities.Subtask) {
+        fun bind(subtask: Subtask) {
             checkBox.isChecked = subtask.isCompleted
             header.text = subtask.header
 

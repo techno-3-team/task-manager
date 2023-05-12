@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager
+package com.techno_3_team.task_manager_firebase
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,13 +8,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
-import com.techno_3_team.task_manager.data.LTSTViewModel
-import com.techno_3_team.task_manager.databinding.ActivityMainBinding
-import com.techno_3_team.task_manager.fragments.LoginFragment
-import com.techno_3_team.task_manager.fragments.MainFragment
-import com.techno_3_team.task_manager.navigators.PrimaryNavigator
-import com.techno_3_team.task_manager.support.AUTH_KEY
-import com.techno_3_team.task_manager.support.IS_DEFAULT_THEME_KEY
+import com.techno_3_team.task_manager_firebase.databinding.ActivityMainBinding
+import com.techno_3_team.task_manager_firebase.R
+import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
+import com.techno_3_team.task_manager_firebase.fragments.LoginFragment
+import com.techno_3_team.task_manager_firebase.fragments.MainFragment
+import com.techno_3_team.task_manager_firebase.navigators.PrimaryNavigator
+import com.techno_3_team.task_manager_firebase.support.AUTHORIZED
+import com.techno_3_team.task_manager_firebase.support.IS_DEFAULT_THEME_KEY
 
 
 class MainActivity : AppCompatActivity(), PrimaryNavigator {

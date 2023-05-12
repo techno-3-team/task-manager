@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.fragments
+package com.techno_3_team.task_manager_firebase.fragments
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -16,14 +16,14 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.data.LTSTViewModel
-import com.techno_3_team.task_manager.data.entities.Subtask
+import com.techno_3_team.task_manager_firebase.R
 import com.techno_3_team.task_manager.databinding.SubtaskFragmentBinding
-import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
-import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
-import com.techno_3_team.task_manager.navigators.navigator
-import com.techno_3_team.task_manager.support.observeOnce
+import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
+import com.techno_3_team.task_manager_firebase.data.entities.Subtask
+import com.techno_3_team.task_manager_firebase.fragment_features.HasCustomTitle
+import com.techno_3_team.task_manager_firebase.fragment_features.HasDeleteAction
+import com.techno_3_team.task_manager_firebase.navigators.navigator
+import com.techno_3_team.task_manager_firebase.support.observeOnce
 import java.util.*
 
 open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,

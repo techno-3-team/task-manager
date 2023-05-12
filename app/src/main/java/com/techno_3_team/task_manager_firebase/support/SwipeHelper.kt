@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.support
+package com.techno_3_team.task_manager_firebase.support
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,8 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
-import com.techno_3_team.task_manager.fragments.ListsSettingsFragment
+import com.techno_3_team.task_manager_firebase.adapters.ListsSettingsAdapter
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.max

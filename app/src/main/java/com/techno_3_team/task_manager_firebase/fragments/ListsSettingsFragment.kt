@@ -1,8 +1,7 @@
-package com.techno_3_team.task_manager.fragments
+package com.techno_3_team.task_manager_firebase.fragments
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -18,15 +17,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.adapters.ListsSettingsAdapter
-import com.techno_3_team.task_manager.data.LTSTViewModel
-import com.techno_3_team.task_manager.data.entities.ListInfo
-import com.techno_3_team.task_manager.databinding.FragmentListsSettingsBinding
-import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
-import com.techno_3_team.task_manager.support.CURRENT_LIST_ID
-import com.techno_3_team.task_manager.support.SpacingItemDecorator
-import com.techno_3_team.task_manager.support.SwipeHelper
+import com.techno_3_team.task_manager_firebase.R
+import com.techno_3_team.task_manager_firebase.adapters.ListsSettingsAdapter
+import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
+import com.techno_3_team.task_manager_firebase.data.entities.ListInfo
+import com.techno_3_team.task_manager_firebase.databinding.FragmentListsSettingsBinding
+import com.techno_3_team.task_manager_firebase.fragment_features.HasCustomTitle
+import com.techno_3_team.task_manager_firebase.support.CURRENT_LIST_ID
+import com.techno_3_team.task_manager_firebase.support.SpacingItemDecorator
+import com.techno_3_team.task_manager_firebase.support.SwipeHelper
 
 
 class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.EventListener {
@@ -93,14 +92,14 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.E
         val firstList = (_binding.lists.adapter as ListsSettingsAdapter).getList(firstPos)
         val secondList = (_binding.lists.adapter as ListsSettingsAdapter).getList(secondPos)
         ltstViewModel.updateList(
-            com.techno_3_team.task_manager.data.entities.List(
+            com.techno_3_team.task_manager_firebase.data.entities.List(
                 firstList.listId,
                 firstList.listName,
                 secondList.listOrderPos
             )
         )
         ltstViewModel.updateList(
-            com.techno_3_team.task_manager.data.entities.List(
+            com.techno_3_team.task_manager_firebase.data.entities.List(
                 secondList.listId,
                 secondList.listName,
                 firstList.listOrderPos
@@ -130,7 +129,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.E
 //                )
 //            )
             ltstViewModel.addList(
-                com.techno_3_team.task_manager.data.entities.List(
+                com.techno_3_team.task_manager_firebase.data.entities.List(
                     0,
                     text.text.toString(),
                     adapter.getOrderPosForNewList()
@@ -208,7 +207,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.E
 
             val list = adapter.getList(position)
             ltstViewModel.updateList(
-                com.techno_3_team.task_manager.data.entities.List(
+                com.techno_3_team.task_manager_firebase.data.entities.List(
                     list.listId,
                     text.text.toString(),
                     list.listOrderPos

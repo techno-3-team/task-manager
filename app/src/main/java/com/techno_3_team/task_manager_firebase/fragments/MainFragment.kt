@@ -1,4 +1,4 @@
-package com.techno_3_team.task_manager.fragments
+package com.techno_3_team.task_manager_firebase.fragments
 
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
@@ -25,13 +25,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.preference.PreferenceManagerimport com.google.android.gms.auth.api.identity.BeginSignInRequest
+import androidx.preference.PreferenceManager
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.appbar.MaterialToolbar
 import com.techno_3_team.task_manager_firebase.R
+import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
 import com.techno_3_team.task_manager_firebase.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager_firebase.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager_firebase.fragment_features.HasDeleteAction
@@ -39,16 +41,6 @@ import com.techno_3_team.task_manager_firebase.fragment_features.HasMainScreenAc
 import com.techno_3_team.task_manager_firebase.navigators.Navigator
 import com.techno_3_team.task_manager_firebase.navigators.navigator
 import com.techno_3_team.task_manager_firebase.support.*
-
-import com.techno_3_team.task_manager.R
-import com.techno_3_team.task_manager.data.LTSTViewModel
-import com.techno_3_team.task_manager.databinding.MainFragmentBinding
-import com.techno_3_team.task_manager.fragment_features.HasCustomTitle
-import com.techno_3_team.task_manager.fragment_features.HasDeleteAction
-import com.techno_3_team.task_manager.fragment_features.HasMainScreenActions
-import com.techno_3_team.task_manager.navigators.Navigator
-import com.techno_3_team.task_manager.navigators.navigator
-import com.techno_3_team.task_manager.support.*
 import java.util.*
 
 
