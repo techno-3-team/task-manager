@@ -17,10 +17,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.techno_3_team.task_manager_firebase.R
-import com.techno_3_team.task_manager_firebase.data.Converters
-import com.techno_3_team.task_manager_firebase.databinding.SubtaskFragmentBinding
 import com.techno_3_team.task_manager_firebase.data.LTSTViewModel
 import com.techno_3_team.task_manager_firebase.data.entities.Subtask
+import com.techno_3_team.task_manager_firebase.databinding.SubtaskFragmentBinding
 import com.techno_3_team.task_manager_firebase.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager_firebase.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager_firebase.navigators.navigator
@@ -79,7 +78,10 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     taDesc.setText(task.description)
                     updateIsCheckedState(taskCheck.isChecked)
                     initDate(task.date)
-                    binding.tvDateTime.text = getStringDate()
+
+                    if (savedMonth > 0) {
+                        binding.tvDateTime.text = getStringDate()
+                    }
                 }
                 if (editText.text.isEmpty()) {
                     editText.isFocusableInTouchMode = true;
@@ -219,7 +221,10 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         savedHour = hourOfDay
         savedMinute = minute
-        binding.tvDateTime.text = getStringDate()
+
+        if (savedMonth > 0) {
+            binding.tvDateTime.text = getStringDate()
+        }
     }
 
     private fun getStringDate(): String {

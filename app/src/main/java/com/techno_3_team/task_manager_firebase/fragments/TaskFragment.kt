@@ -93,7 +93,9 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     taDesc.setText(task!!.description)
                     updateIsCheckedState(taskCheck.isChecked)
                     initDate(task!!.date)
-                    binding.tvDateTime.text = getStringDate()
+                    if (isDateExists()) {
+                        tvDateTime.text = getStringDate()
+                    }
                 } else {
                     FAB.visibility = INVISIBLE
                 }
@@ -129,7 +131,6 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     listSpin.adapter = spinAdapter
                     val listId = preference.getInt(CURRENT_LIST_ID, -1)
-                    Log.e("tag", "list id = $listId")
                     listSpin.setSelection(spinAdapter.getPosByListId(listId))
                     listSpin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(
@@ -212,13 +213,7 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     listId,
                     editText.text.toString(),
                     taskCheck.isChecked,
-                    com.techno_3_team.task_manager_firebase.support.Date(
-                        savedYear,
-                        savedMonth,
-                        savedDay,
-                        savedHour,
-                        savedMinute
-                    ),
+                    getDateToSave(),
                     taDesc.text.toString()
                 )
             )
@@ -299,11 +294,9 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
         savedHour = hourOfDay
         savedMinute = minute
 
-        binding.tvDateTime.text = getStringDate()
-    }
-
-    private fun getStringDate(): String {
-        return "$savedHour:$savedMinute, $savedDay.${savedMonth}.$savedYear"
+        if (isDateExists()) {
+            binding.tvDateTime.text = getStringDate()
+        }
     }
 
     private fun initDate(date: com.techno_3_team.task_manager_firebase.support.Date?) {
@@ -317,15 +310,20 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
         savedMinute = date.minute
     }
 
-    private fun getDateToSave() = if (savedMonth == 0)
-            null else
+    private fun isDateExists() = savedMinute > 0
+
+    private fun getDateToSave() = if (isDateExists())
             com.techno_3_team.task_manager_firebase.support.Date(
                 savedYear,
                 savedMonth,
                 savedDay,
                 savedHour,
                 savedMinute
-            )
+            ) else null
+
+    private fun getStringDate(): String {
+        return "$savedHour:$savedMinute, $savedDay.${savedMonth}.$savedYear"
+    }
 
     override fun getCustomTitle() = getString(R.string.task_toolbar_name)
 
