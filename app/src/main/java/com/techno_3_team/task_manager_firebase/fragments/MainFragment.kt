@@ -155,7 +155,7 @@ class MainFragment : Fragment(), Navigator {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("tag", "creating... ${preference.getInt(LANGUAGE_KEY, -1)}")
+
         supportFM = requireActivity().supportFragmentManager
 
         val toolbar: MaterialToolbar = requireActivity().findViewById(mainBinding.toolbar.id)
@@ -166,12 +166,10 @@ class MainFragment : Fragment(), Navigator {
             getString(R.string.app_name)
 
         val taskListContainerFragment = TaskListContainerFragment()
-        if (savedInstanceState == null) {
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .add(mainBinding.mainContainer.id, taskListContainerFragment, "MF")
-                .commit()
-        }
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .add(mainBinding.mainContainer.id, taskListContainerFragment, "MF")
+            .commit()
 
         with(mainBinding) {
             sideBar.btListsSideBar.setOnClickListener {
@@ -224,10 +222,10 @@ class MainFragment : Fragment(), Navigator {
                     item.itemId == R.id.clear_checked -> {
                         deleteCheckedTasks()
                     }
-                    item.itemId == R.id.sort_by_name ||
-                            item.itemId == R.id.sort_by_date -> {
-                        updateTasksOrder(item.itemId)
-                    }
+//                    item.itemId == R.id.sort_by_name ||
+//                            item.itemId == R.id.sort_by_date -> {
+//                        updateTasksOrder(item.itemId)
+//                    }
                     item.itemId == android.R.id.home && currentFragment is TaskListContainerFragment -> {
                         mainBinding.drawer.openDrawer(GravityCompat.START)
                     }
@@ -280,11 +278,11 @@ class MainFragment : Fragment(), Navigator {
     }
 
     private fun updateTasksOrder(itemId: Int) {
-        if (itemId == R.id.sort_by_name) {
-
-        } else {
-
-        }
+//        if (itemId == R.id.sort_by_name) {
+//
+//        } else {
+//
+//        }
     }
 
     private fun updateUi() {
