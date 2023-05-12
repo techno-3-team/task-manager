@@ -27,7 +27,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "CLIENT_ID", "\"199947240338-6hl8ccqd5deemhgbds2j61u9tm6ua5ma.apps.googleusercontent.com\""
+            buildConfigField "String", "CLIENT_ID", "\"199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com\""
         }
     }
     compileOptions {
