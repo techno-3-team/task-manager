@@ -57,7 +57,7 @@
     <string name="task_name_hint">task name</string>
     <string name="subtask_name_hint">subtask name</string>
 
-    <string name="web_client_id" translatable="false">634822883635-qbnkf7so8jako8af8kg6gt5lice7cdlo.apps.googleusercontent.com</string>
+    <string name="web_client_id" translatable="false">199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com</string>
 
     <string name="cancel">Error occurred, sorry, try again</string>
     <string name="network_error">Network error</string>
