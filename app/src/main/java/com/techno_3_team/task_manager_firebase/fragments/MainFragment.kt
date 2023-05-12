@@ -144,7 +144,6 @@ class MainFragment : Fragment(), Navigator {
             }
         }
 
-    //    private var authorized = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -199,11 +198,18 @@ class MainFragment : Fragment(), Navigator {
                     displaySignIn()
             }
             sideBar.btGoogleSideBAr2AccountManagement.setOnClickListener {
-                //TODO: управление аккаунтами гугл
+                Log.e("onViewCreated", "click on sign out")
+                oneTapClient?.signOut()
+                preference.edit().putString(ID_TOKEN, null).apply()
+                username = null
+                preference.edit().putString(USERNAME, username).apply()
+                authorized = false
+                preference.edit().putBoolean(IS_AUTHORIZED, authorized).apply()
+                requireActivity().recreate()
             }
             sideBar.btGoogleSideBAr2Sync.setOnClickListener {
                 //TODO: синхорнизировать задачи с гугл аккаунтом.
-                //для разреешения коллизий -- наше приложение в приоритете
+                //для разрешения коллизий -- наше приложение в приоритете
             }
         }
 
