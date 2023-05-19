@@ -32,6 +32,8 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.techno_3_team.task_manager_google.BuildConfig
 import com.techno_3_team.task_manager_google.R
 import com.techno_3_team.task_manager_google.data.LTSTViewModel
@@ -41,8 +43,18 @@ import com.techno_3_team.task_manager_google.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager_google.fragment_features.HasMainScreenActions
 import com.techno_3_team.task_manager_google.navigators.Navigator
 import com.techno_3_team.task_manager_google.navigators.navigator
+import com.techno_3_team.task_manager_google.net.RetrofitClient
+import com.techno_3_team.task_manager_google.net.TaskApi
 import com.techno_3_team.task_manager_google.support.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class MainFragment : Fragment(), Navigator {
@@ -81,6 +93,8 @@ class MainFragment : Fragment(), Navigator {
     private val serverClientId by lazy { BuildConfig.CLIENT_ID }
 
     private var username: String? = null
+
+    private var token: String? = null
 
     private val oneTapResult =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
@@ -206,8 +220,7 @@ class MainFragment : Fragment(), Navigator {
                 requireActivity().recreate()
             }
             sideBar.btGoogleSideBAr2Sync.setOnClickListener {
-                //TODO: синхорнизировать задачи с гугл аккаунтом.
-                //для разрешения коллизий -- наше приложение в приоритете
+                googleSynchronize()
             }
         }
 
@@ -249,6 +262,34 @@ class MainFragment : Fragment(), Navigator {
         supportFM.unregisterFragmentLifecycleCallbacks(fragmentListener)
     }
 
+    private fun deleteTask() {
+        (currentFragment as HasDeleteAction).delete()
+    }
+
+    private fun deleteCheckedTasks() {
+        val currListId = preference.getInt(CURRENT_LIST_ID, -1)
+        ltstViewModel.deleteCompletedTasks(currListId)
+    }
+
+    private fun updateTasksOrder(itemId: Int) {
+    }
+
+    /**
+     * UI
+     */
+
+    private fun updateUi() {
+        val fragment = currentFragment
+        val bar = (requireActivity() as AppCompatActivity).supportActionBar
+        if (fragment is HasCustomTitle) {
+            bar?.title = (fragment as HasCustomTitle).getCustomTitle()
+        } else {
+            bar?.title = getString(R.string.app_name)
+        }
+        updateMenu(mainBinding.toolbar.menu, requireActivity().menuInflater)
+    }
+
+
     private fun setDeleteDialog() {
         val message = getString(R.string.delete_task_dialog_msg)
         val deleteBut = getString(R.string.delete_button_name)
@@ -266,34 +307,6 @@ class MainFragment : Fragment(), Navigator {
 
         val alertDialog = builder.create()
         alertDialog.show()
-    }
-
-    private fun deleteTask() {
-        (currentFragment as HasDeleteAction).delete()
-    }
-
-    private fun deleteCheckedTasks() {
-        val currListId = preference.getInt(CURRENT_LIST_ID, -1)
-        ltstViewModel.deleteCompletedTasks(currListId)
-    }
-
-    private fun updateTasksOrder(itemId: Int) {
-//        if (itemId == R.id.sort_by_name) {
-//
-//        } else {
-//
-//        }
-    }
-
-    private fun updateUi() {
-        val fragment = currentFragment
-        val bar = (requireActivity() as AppCompatActivity).supportActionBar
-        if (fragment is HasCustomTitle) {
-            bar?.title = (fragment as HasCustomTitle).getCustomTitle()
-        } else {
-            bar?.title = getString(R.string.app_name)
-        }
-        updateMenu(mainBinding.toolbar.menu, requireActivity().menuInflater)
     }
 
     private fun updateMenu(menu: Menu, inflater: MenuInflater) {
@@ -374,18 +387,6 @@ class MainFragment : Fragment(), Navigator {
         return managementHidden
     }
 
-    private fun accountManagement() {
-        if (authorized) {
-            Log.e("accountManagement", "managementHidden $managementHidden")
-            managementHidden = rotateFab(mainBinding.sideBar.accountSelectAction, !managementHidden)
-            mainBinding.sideBar.managementGroup.visibility = when {
-                mainBinding.sideBar.managementGroup.visibility == View.VISIBLE -> View.GONE
-                else -> View.VISIBLE
-            }
-            Log.e("accountManagement", "managementHidden $managementHidden")
-        }
-    }
-
     private fun setAccountButton() {
         if (authorized) {
             mainBinding.sideBar.googleAccount.text = username
@@ -398,6 +399,10 @@ class MainFragment : Fragment(), Navigator {
             setAuthorizationVariables()
         }
     }
+
+    /**
+     * GOOGLE AUTHORIZATION
+     */
 
     private fun setAuthorizationVariables() {
         Log.e("startAuthorization", "creating requests")
@@ -468,6 +473,59 @@ class MainFragment : Fragment(), Navigator {
     private fun oneTapRes(intentSenderRequest: IntentSenderRequest) {
         oneTapResult.launch(intentSenderRequest)
     }
+
+    private fun accountManagement() {
+        if (authorized) {
+            Log.e("accountManagement", "managementHidden $managementHidden")
+            managementHidden = rotateFab(mainBinding.sideBar.accountSelectAction, !managementHidden)
+            mainBinding.sideBar.managementGroup.visibility = when {
+                mainBinding.sideBar.managementGroup.visibility == View.VISIBLE -> View.GONE
+                else -> View.VISIBLE
+            }
+            Log.e("accountManagement", "managementHidden $managementHidden")
+        }
+    }
+
+
+    /**
+     * NET
+     */
+
+
+    private fun googleSynchronize() {
+        val gson = Gson()
+        val retrofit = getRetrofitApi(gson)
+        CoroutineScope(Dispatchers.IO).launch {
+            val lists = retrofit.getLists(token!!)
+        }
+    }
+
+    private fun getRetrofitApi(gson: Gson) = RetrofitClient.getClient(gson).create(TaskApi::class.java)
+
+
+//    fun provideRetrofit(client: OkHttpClient, gson: Gson) =
+//        Retrofit.Builder().baseUrl(BuildConfig.ENDPOINT)
+//            .client(client)
+//            .addConverterFactory(GsonConverterFactory.create(gson))
+//            .build()
+//
+//    fun provideApi(retrofit: Retrofit): TaskApi = retrofit.create(TaskApi::class.java)
+//
+//    fun provideGson(): Gson = GsonBuilder().create()
+//
+//    fun provideOkHttpClient(restInterceptor: Interceptor) =
+//        OkHttpClient.Builder()
+//            .readTimeout(10, TimeUnit.SECONDS)
+//            .connectTimeout(10, TimeUnit.SECONDS)
+//            .callTimeout(10, TimeUnit.SECONDS)
+//            .addInterceptor(restInterceptor)
+//            .build()
+
+
+
+    /**
+     * NAVIGATION
+     */
 
     override fun showTaskScreen(taskId: Int) {
         launchFragment(TaskFragment(taskId))

@@ -23,11 +23,13 @@ android {
             debuggable true
             versionNameSuffix '-debug'
             buildConfigField "String", "CLIENT_ID", "\"176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com\""
+            buildConfigField "String", "ENDPOINT", "\"https://tasks.googleapis.com\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "CLIENT_ID", "\"176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com\""
+            buildConfigField "String", "ENDPOINT", "\"https://tasks.googleapis.com\""
         }
     }
     compileOptions {
@@ -87,4 +89,23 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.6.0'
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-analytics-ktx:21.2.2'
+
+    implementation 'com.google.gms:google-services:4.3.15'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.7'
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+//    implementation('com.google.apis:google-api-services-calendar:v3-rev20230406-2.0.0') {
+//        exclude group: 'com.google.guava', module: 'listenablefuture'
+//    }
+//    implementation('com.google.apis:google-api-services-tasks:v1-rev20230401-2.0.0')
+//    implementation 'com.google.http-client:google-http-client-gson:1.43.1'
+//    implementation('com.google.api-client:google-api-client-android:2.2.0') {
+//        exclude group: 'org.apache.httpcomponents'
+//    }
+//    implementation('com.google.apis:google-api-services-drive:v3-rev20230423-2.0.0') {
+//        exclude group: 'org.apache.httpcomponents'
+//    }
 }
