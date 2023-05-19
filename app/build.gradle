@@ -2,14 +2,15 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
 }
 
 android {
-    namespace 'com.techno_3_team.task_manager_firebase'
+    namespace 'com.techno_3_team.task_manager_google'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.techno_3_team.task_manager_firebase"
+        applicationId "com.techno_3_team.task_manager_google"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -21,12 +22,12 @@ android {
             applicationIdSuffix ".debug"
             debuggable true
             versionNameSuffix '-debug'
-            buildConfigField "String", "CLIENT_ID", "\"199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com\""
+            buildConfigField "String", "CLIENT_ID", "\"176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "CLIENT_ID", "\"199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com\""
+            buildConfigField "String", "CLIENT_ID", "\"176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com\""
         }
     }
     compileOptions {
