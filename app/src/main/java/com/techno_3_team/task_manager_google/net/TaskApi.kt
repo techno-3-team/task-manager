@@ -2,6 +2,7 @@ package com.techno_3_team.task_manager_google.net
 
 import com.google.gson.Gson
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -23,6 +24,21 @@ interface TaskApi {
     suspend fun getToken(
         @Query("id_token") token: String
     ) : retrofit2.Response<NewApiToken>
+
+    @GET("https://cloudresourcemanager.googleapis.com/v3/projects/{project_id}")
+    suspend fun request(
+        @Query("project_id") project_id: String
+    ) : retrofit2.Response<Gson>
+
+    @POST("https://accounts.google.com/o/oauth2/v2/auth?")
+    suspend fun postToken(
+        @Query("client_id") client_id: String,
+        @Query("redirect_uri") redirect_uri: String,
+        @Query("scope") scope: String,
+        @Query("code_challenge") code_challenge: String,
+        @Query("code_challenge_method") code_challenge_method: String,
+        @Query("response_type") response_type: String,
+    ): retrofit2.Response<String>
 
 //    @POST("https://oauth2.googleapis.com/token")
 //    suspend fun postToken(

@@ -7,6 +7,7 @@ import android.content.IntentSender
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -21,6 +22,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
@@ -39,6 +41,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.techno_3_team.task_manager_google.BuildConfig
 import com.techno_3_team.task_manager_google.R
 import com.techno_3_team.task_manager_google.data.LTSTViewModel
@@ -60,6 +63,9 @@ import com.techno_3_team.task_manager_google.support.USERNAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.security.MessageDigest
+import java.security.SecureRandom
+import java.util.Base64
 import java.util.Locale
 
 
@@ -177,6 +183,7 @@ class MainFragment : Fragment(), Navigator {
         return mainBinding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -505,25 +512,45 @@ class MainFragment : Fragment(), Navigator {
      */
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun googleSynchronize() {
-        val gson = Gson()
+        val gson = GsonBuilder().setLenient().create()
         val retrofit = getRetrofitApi(gson)
         CoroutineScope(Dispatchers.IO).launch {
-            val newToken = retrofit.getToken(token!!)
-            Log.e("googleSynchronize", newToken.toString())
+//            val newToken = retrofit.getToken(token!!)
+//            Log.e("googleSynchronize", newToken.toString())
 
-/*            val token = retrofit.postToken("176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com",
-            "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",
-            "https://task-manager-2-386811.firebaseapp.com",
-            "https://www.googleapis.com/auth/tasks")*/
+            val  charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+            val secureRandom = SecureRandom()
+            val str= (1..43).map {
+                secureRandom.nextInt(charPool.size).let { charPool[it] }
+            }.joinToString("")
+            val codeVerifier = Base64.getUrlEncoder().withoutPadding().encodeToString(str.toByteArray())
+
+            val md = MessageDigest.getInstance("SHA-256")
+            val codeChallenge=  Base64.getUrlEncoder().withoutPadding()
+                .encodeToString(md.digest(codeVerifier.toByteArray()))
+            println(codeChallenge)
+
+            val token = retrofit.postToken(
+                "176729332799-nj3fescrstoane4j6pir4fejgpi6hvk3.apps.googleusercontent.com",
+                "com.techno_3_team.task_manager_google:/",
+                "https://www.googleapis.com/auth/tasks",
+                codeChallenge.toString(),
+                "S256",
+                "code"
+            )
+            Log.e("googleSynchronize", token.toString())
+
+
+            /*             "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",
+                        "https://task-manager-2-386811.firebaseapp.com",
+                        "https://www.googleapis.com/auth/tasks")*/
 
 //            val lists = retrofit.getLists(token!!)
-            val lists = retrofit.getLists("ya29.a0AWY7CkljcnMhO173gmuQR_fFvZecm0BkoU5VyaByEt4eEzx_S5mrpG22Mpf8Gelbq2iqRsSKmS35rkuMJRofBiVJToyQ1M30uFkhQpOzuJophocAFxgHmJ4-FYHaL6czXi6lT7jtuT-gHnLTHkdmVgo_77T0GU8czkV8aCgYKAcISARMSFQG1tDrpYohw9cUZ9B4J80uQnPuhsA0171")
-            Log.e("googleSynchronize", lists.toString())
-
-
+//            val lists = retrofit.getLists("ya29.a0AWY7CkljcnMhO173gmuQR_fFvZecm0BkoU5VyaByEt4eEzx_S5mrpG22Mpf8Gelbq2iqRsSKmS35rkuMJRofBiVJToyQ1M30uFkhQpOzuJophocAFxgHmJ4-FYHaL6czXi6lT7jtuT-gHnLTHkdmVgo_77T0GU8czkV8aCgYKAcISARMSFQG1tDrpYohw9cUZ9B4J80uQnPuhsA0171")
+//            Log.e("googleSynchronize", lists.toString())
         }
-        println()
     }
 
     private fun getRetrofitApi(gson: Gson) =
