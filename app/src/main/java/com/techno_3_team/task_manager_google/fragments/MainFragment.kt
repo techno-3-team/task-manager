@@ -10,7 +10,13 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
@@ -33,7 +39,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.techno_3_team.task_manager_google.BuildConfig
 import com.techno_3_team.task_manager_google.R
 import com.techno_3_team.task_manager_google.data.LTSTViewModel
@@ -45,16 +50,17 @@ import com.techno_3_team.task_manager_google.navigators.Navigator
 import com.techno_3_team.task_manager_google.navigators.navigator
 import com.techno_3_team.task_manager_google.net.RetrofitClient
 import com.techno_3_team.task_manager_google.net.TaskApi
-import com.techno_3_team.task_manager_google.support.*
+import com.techno_3_team.task_manager_google.support.CURRENT_LIST_ID
+import com.techno_3_team.task_manager_google.support.ID_TOKEN
+import com.techno_3_team.task_manager_google.support.IS_AUTHORIZED
+import com.techno_3_team.task_manager_google.support.IS_DEFAULT_THEME_KEY
+import com.techno_3_team.task_manager_google.support.LANGUAGE_KEY
+import com.techno_3_team.task_manager_google.support.RESULT_KEY
+import com.techno_3_team.task_manager_google.support.USERNAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
-import java.util.concurrent.TimeUnit
+import java.util.Locale
 
 
 class MainFragment : Fragment(), Navigator {
@@ -105,11 +111,13 @@ class MainFragment : Fragment(), Navigator {
                         oneTapClient?.getSignInCredentialFromIntent(result.data)
                     val idToken = credential?.googleIdToken
                     username = credential?.displayName
+
                     when {
                         idToken != null -> {
                             // Got an ID token from Google. Use it to authenticate with your backend.
                             preference.edit().putString(ID_TOKEN, idToken).apply()
                             preference.edit().putString(USERNAME, username).apply()
+                            token = idToken
                             Log.e(tag, "idToken $idToken")
                             authorized = true
                             preference.edit().putBoolean(IS_AUTHORIZED, authorized).apply()
@@ -135,6 +143,7 @@ class MainFragment : Fragment(), Navigator {
                             Toast.makeText(context, getString(R.string.cancel), Toast.LENGTH_LONG)
                         toast.show()
                     }
+
                     CommonStatusCodes.NETWORK_ERROR -> {
                         Log.e(tag, "One-tap encountered a network error.")
                         // Try again or just ignore.
@@ -145,6 +154,7 @@ class MainFragment : Fragment(), Navigator {
                         )
                         toast.show()
                     }
+
                     else -> {
                         Log.e(
                             tag, "Couldn't get credential from result." +
@@ -203,6 +213,7 @@ class MainFragment : Fragment(), Navigator {
             authorized = preference.getBoolean(IS_AUTHORIZED, false)
             Log.e("onViewCreated", "preference authorized $authorized")
             username = preference.getString(USERNAME, null)
+            token = preference.getString(ID_TOKEN, null)
             setAccountButton()
             sideBar.btGoogleSideBAr.setOnClickListener {
                 accountManagement()
@@ -242,9 +253,11 @@ class MainFragment : Fragment(), Navigator {
                     item.itemId == android.R.id.home && currentFragment is TaskListContainerFragment -> {
                         mainBinding.drawer.openDrawer(GravityCompat.START)
                     }
+
                     item.itemId == R.id.delete_task -> {
                         setDeleteDialog()
                     }
+
                     else -> return false
                 }
                 return true
@@ -496,11 +509,25 @@ class MainFragment : Fragment(), Navigator {
         val gson = Gson()
         val retrofit = getRetrofitApi(gson)
         CoroutineScope(Dispatchers.IO).launch {
-            val lists = retrofit.getLists(token!!)
+            val newToken = retrofit.getToken(token!!)
+            Log.e("googleSynchronize", newToken.toString())
+
+/*            val token = retrofit.postToken("176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com",
+            "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",
+            "https://task-manager-2-386811.firebaseapp.com",
+            "https://www.googleapis.com/auth/tasks")*/
+
+//            val lists = retrofit.getLists(token!!)
+            val lists = retrofit.getLists("ya29.a0AWY7CkljcnMhO173gmuQR_fFvZecm0BkoU5VyaByEt4eEzx_S5mrpG22Mpf8Gelbq2iqRsSKmS35rkuMJRofBiVJToyQ1M30uFkhQpOzuJophocAFxgHmJ4-FYHaL6czXi6lT7jtuT-gHnLTHkdmVgo_77T0GU8czkV8aCgYKAcISARMSFQG1tDrpYohw9cUZ9B4J80uQnPuhsA0171")
+            Log.e("googleSynchronize", lists.toString())
+
+
         }
+        println()
     }
 
-    private fun getRetrofitApi(gson: Gson) = RetrofitClient.getClient(gson).create(TaskApi::class.java)
+    private fun getRetrofitApi(gson: Gson) =
+        RetrofitClient.getClient(gson).create(TaskApi::class.java)
 
 
 //    fun provideRetrofit(client: OkHttpClient, gson: Gson) =
@@ -520,7 +547,6 @@ class MainFragment : Fragment(), Navigator {
 //            .callTimeout(10, TimeUnit.SECONDS)
 //            .addInterceptor(restInterceptor)
 //            .build()
-
 
 
     /**

@@ -56,7 +56,7 @@ class LoginFragment : Fragment() {
 //                    oneTapClient = Identity.getSignInClient(requireActivity())
                     val credential =
                         oneTapClient?.getSignInCredentialFromIntent(result.data)
-                    val idToken = credential?.googleIdToken
+                    val idToken =credential?.googleIdToken
                     username = credential?.displayName
                     when {
                         idToken != null -> {
@@ -75,6 +75,7 @@ class LoginFragment : Fragment() {
                             Log.e(tag, "go to main fragment")
                             (requireActivity() as PrimaryNavigator).showMainFragment()
                         }
+
                         else -> {
                             // Shouldn't happen.
                             Log.e(tag, "No ID token or password!")
@@ -90,6 +91,7 @@ class LoginFragment : Fragment() {
                             Toast.makeText(context, getString(R.string.cancel), Toast.LENGTH_LONG)
                         toast.show()
                     }
+
                     CommonStatusCodes.NETWORK_ERROR -> {
                         Log.e(tag, "One-tap encountered a network error.")
                         // Try again or just ignore.
@@ -100,6 +102,7 @@ class LoginFragment : Fragment() {
                         )
                         toast.show()
                     }
+
                     else -> {
                         Log.e(
                             tag, "Couldn't get credential from result." +

@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
-//    id 'com.google.gms.google-services'
 }
 
 android {
@@ -96,16 +95,4 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.14.7'
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
-
-//    implementation('com.google.apis:google-api-services-calendar:v3-rev20230406-2.0.0') {
-//        exclude group: 'com.google.guava', module: 'listenablefuture'
-//    }
-//    implementation('com.google.apis:google-api-services-tasks:v1-rev20230401-2.0.0')
-//    implementation 'com.google.http-client:google-http-client-gson:1.43.1'
-//    implementation('com.google.api-client:google-api-client-android:2.2.0') {
-//        exclude group: 'org.apache.httpcomponents'
-//    }
-//    implementation('com.google.apis:google-api-services-drive:v3-rev20230423-2.0.0') {
-//        exclude group: 'org.apache.httpcomponents'
-//    }
 }
