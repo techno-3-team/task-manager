@@ -534,7 +534,7 @@ class MainFragment : Fragment(), Navigator {
 
             val token = retrofit.postToken(
                 "176729332799-nj3fescrstoane4j6pir4fejgpi6hvk3.apps.googleusercontent.com",
-                "com.techno_3_team.task_manager_google:/",
+                "https://my-app.com/callback",
                 "https://www.googleapis.com/auth/tasks",
                 codeChallenge.toString(),
                 "S256",

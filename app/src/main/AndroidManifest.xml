@@ -20,9 +20,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <data android:scheme="http" android:host="my-app.com" android:path="/callback" />
             </intent-filter>
         </activity>
 
     </application>
-
 </manifest>

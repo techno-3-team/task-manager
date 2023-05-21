@@ -40,15 +40,8 @@ interface TaskApi {
         @Query("response_type") response_type: String,
     ): retrofit2.Response<String>
 
-//    @POST("https://oauth2.googleapis.com/token")
-//    suspend fun postToken(
-//        @Query("client_is") client_id: String,
-//        @Query("secret_client") secret_client: String,
-//        @Query("uri") uri: String,
-//        @Query("scope") scope: String,
-//    )
-
 }
+
 /*
 web:
 client id: 176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com

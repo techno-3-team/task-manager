@@ -70,7 +70,9 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
             val tasks = repository.getTasks(listId)
             repository.deleteCompletedTasks(listId)
             tasks.forEach { task ->
-                repository.deleteSubtasks(task.taskId)
+                if (task.isCompleted) {
+                    repository.deleteSubtasks(task.taskId)
+                }
             }
         }
     }
