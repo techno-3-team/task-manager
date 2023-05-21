@@ -513,8 +513,8 @@ class MainFragment : Fragment(), Navigator {
         val gson = GsonBuilder().setLenient().create()
         val retrofit = getRetrofitApi(gson)
         CoroutineScope(Dispatchers.IO).launch {
-//            val newToken = retrofit.getToken(token!!)
-//            Log.e("googleSynchronize", newToken.toString())
+            val newToken = retrofit.getToken(token!!)
+            Log.i("googleSynchronize", newToken.toString())
 
             val  charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
             val secureRandom = SecureRandom()
@@ -530,26 +530,27 @@ class MainFragment : Fragment(), Navigator {
                 .getUrlEncoder()
                 .withoutPadding()
                 .encodeToString(md.digest(codeVerifier.toByteArray()))
-            Log.d("sec_code", codeChallenge)
+//            Log.d("sec_code", codeChallenge)
 
             val apiCode = retrofit.getApiCode(
-                "176729332799-nj3fescrstoane4j6pir4fejgpi6hvk3.apps.googleusercontent.com",
-                "com.techno_3_team.task_manager_google:/",
+                "176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com",
+                "https://task-manager-2-386811.firebaseapp.com/__/auth/handler",
                 "https://www.googleapis.com/auth/tasks",
                 codeChallenge,
                 "S256",
                 "code"
             )
             Log.i("google synchronize get code", apiCode.toString())
+//            Log.e("code", apiCode.body()!!.access_code)
 
-            val accessToken = retrofit.getAccessToken(
-                "176729332799-nj3fescrstoane4j6pir4fejgpi6hvk3.apps.googleusercontent.com",
-                "",
-                apiCode.body()!!.code,
-                "authorization_code",
-                "com.techno_3_team.task_manager_google:/"
-            )
-            Log.i("google synchronize get token", accessToken.toString())
+//            val accessToken = retrofit.getAccessToken(
+//                "176729332799-nj3fescrstoane4j6pir4fejgpi6hvk3.apps.googleusercontent.com",
+//                "",
+//                apiCode.body()!!.code,
+//                "authorization_code",
+//                "com.techno_3_team.task_manager_google:/"
+//            )
+//            Log.i("google synchronize get token", accessToken.toString())
 
 
 
@@ -561,6 +562,7 @@ class MainFragment : Fragment(), Navigator {
 //            val lists = retrofit.getLists("ya29.a0AWY7CkljcnMhO173gmuQR_fFvZecm0BkoU5VyaByEt4eEzx_S5mrpG22Mpf8Gelbq2iqRsSKmS35rkuMJRofBiVJToyQ1M30uFkhQpOzuJophocAFxgHmJ4-FYHaL6czXi6lT7jtuT-gHnLTHkdmVgo_77T0GU8czkV8aCgYKAcISARMSFQG1tDrpYohw9cUZ9B4J80uQnPuhsA0171")
 //            Log.e("googleSynchronize", lists.toString())
         }
+        println()
     }
 
     private fun getRetrofitApi(gson: Gson) =

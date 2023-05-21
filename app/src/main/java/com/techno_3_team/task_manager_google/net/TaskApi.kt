@@ -38,7 +38,7 @@ interface TaskApi {
         @Query("code_challenge") codeChallenge: String,
         @Query("code_challenge_method") codeChallengeMethod: String,
         @Query("response_type") responseType: String,
-    ): retrofit2.Response<ApiCode>
+    ): retrofit2.Response<String>
 
     @POST("https://oauth2.googleapis.com/token?")
     suspend fun getAccessToken(

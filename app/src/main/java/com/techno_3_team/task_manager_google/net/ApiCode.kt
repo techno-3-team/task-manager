@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ApiCode(
     @SerializedName("code")
-    val code: String,
+    val access_code: String/*,
     @SerializedName("error")
-    val error: String
+    val error: String*/
 )
