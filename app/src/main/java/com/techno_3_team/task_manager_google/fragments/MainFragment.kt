@@ -3,10 +3,12 @@ package com.techno_3_team.task_manager_google.fragments
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.IntentSender
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -24,6 +26,7 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.core.view.MenuHost
@@ -532,15 +535,31 @@ class MainFragment : Fragment(), Navigator {
                 .encodeToString(md.digest(codeVerifier.toByteArray()))
 //            Log.d("sec_code", codeChallenge)
 
-            val apiCode = retrofit.getApiCode(
-                "176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com",
-                "https://task-manager-2-386811.firebaseapp.com/__/auth/handler",
-                "https://www.googleapis.com/auth/tasks",
-                codeChallenge,
-                "S256",
-                "code"
-            )
-            Log.i("google synchronize get code", apiCode.toString())
+//            val apiCode = retrofit.getApiCode(
+//                "176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com",
+////                "https://task-manager-2-386811.firebaseapp.com/__/auth/handler",
+//                "com.techno_3_team.task_manager_google:/",
+//                "https://www.googleapis.com/auth/tasks",
+//                codeChallenge,
+//                "S256",
+//                "code"
+//            )
+//            Log.i("google synchronize get code", apiCode.toString())
+
+            val authUrl="https://accounts.google.com/o/oauth2/v2/auth?" +
+                    "client_id=176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com" +
+                    "&redirect_uri=https://task-manager-2-386811.firebaseapp.com/__/auth/handler" +
+                    "&scope=https://www.googleapis.com/auth/tasks" +
+                    "&code_challenge=$codeChallenge" +
+                    "&code_challenge_method=S256" +
+                    "&response_type=code"
+            val builder = CustomTabsIntent.Builder( )
+            builder.setShowTitle(true)
+            builder.setInstantAppsEnabled(true)
+            val customBuilder = builder.build()
+            customBuilder.launchUrl(requireContext(), Uri.parse(authUrl))
+
+
 //            Log.e("code", apiCode.body()!!.access_code)
 
 //            val accessToken = retrofit.getAccessToken(

@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,8 +23,12 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <data android:scheme="https" android:host="task-manager-2-386811.firebaseapp.com/__/auth" android:path="/handler" />
-                <data android:scheme="com.techno_3_team.task_manager_google"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="https" android:host="task-manager-2-386811.firebaseapp.com" android:path="/__/auth/handler" />
             </intent-filter>
         </activity>
 
