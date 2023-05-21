@@ -252,7 +252,7 @@ class MainFragment : Fragment(), Navigator {
             override fun onMenuItemSelected(item: MenuItem): Boolean {
                 when {
                     item.itemId == R.id.clear_checked -> {
-                        deleteCheckedTasks()
+                        setDeleteCheckedDialog()
                     }
 //                    item.itemId == R.id.sort_by_name ||
 //                            item.itemId == R.id.sort_by_date -> {
@@ -285,12 +285,6 @@ class MainFragment : Fragment(), Navigator {
 
     private fun deleteTask() {
         (currentFragment as HasDeleteAction).delete()
-    }
-
-    private fun deleteCheckedTasks() {
-        val currListId = preference.getInt(CURRENT_LIST_ID, -1)
-        ltstViewModel.deleteCompletedTasks(currListId)
-        setDeleteCheckedDialog()
     }
 
     private fun updateTasksOrder(itemId: Int) {
@@ -343,7 +337,8 @@ class MainFragment : Fragment(), Navigator {
         builder.setMessage(message)
         builder.setCancelable(false)
         builder.setPositiveButton(deleteBut) { _, _ ->
-            deleteTask()
+            val currListId = preference.getInt(CURRENT_LIST_ID, -1)
+            ltstViewModel.deleteCompletedTasks(currListId)
         }
         builder.setNegativeButton(cancelBut) { dialog, _ ->
             dialog.cancel()
