@@ -3,7 +3,6 @@ package com.techno_3_team.task_manager_google.fragments
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Intent
 import android.content.IntentSender
 import android.content.SharedPreferences
 import android.content.res.Configuration
@@ -137,6 +136,7 @@ class MainFragment : Fragment(), Navigator {
                             Log.e(tag, "activity recreate")
                             requireActivity().recreate()
                         }
+
                         else -> {
                             // Shouldn't happen.
                             Log.e(tag, "No ID token or password!")
@@ -519,9 +519,9 @@ class MainFragment : Fragment(), Navigator {
             val newToken = retrofit.getToken(token!!)
             Log.i("googleSynchronize", newToken.toString())
 
-            val  charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+            val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
             val secureRandom = SecureRandom()
-            val str= (1..43).map {
+            val str = (1..43).map {
                 secureRandom.nextInt(charPool.size).let { charPool[it] }
             }.joinToString("")
             val codeVerifier = Base64
@@ -529,7 +529,7 @@ class MainFragment : Fragment(), Navigator {
                 .withoutPadding()
                 .encodeToString(str.toByteArray())
             val md = MessageDigest.getInstance("SHA-256")
-            val codeChallenge=  Base64
+            val codeChallenge = Base64
                 .getUrlEncoder()
                 .withoutPadding()
                 .encodeToString(md.digest(codeVerifier.toByteArray()))
@@ -546,14 +546,14 @@ class MainFragment : Fragment(), Navigator {
 //            )
 //            Log.i("google synchronize get code", apiCode.toString())
 
-            val authUrl="https://accounts.google.com/o/oauth2/v2/auth?" +
+            val authUrl = "https://accounts.google.com/o/oauth2/v2/auth?" +
                     "client_id=176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com" +
                     "&redirect_uri=https://task-manager-2-386811.firebaseapp.com/__/auth/handler" +
                     "&scope=https://www.googleapis.com/auth/tasks" +
                     "&code_challenge=$codeChallenge" +
                     "&code_challenge_method=S256" +
                     "&response_type=code"
-            val builder = CustomTabsIntent.Builder( )
+            val builder = CustomTabsIntent.Builder()
             builder.setShowTitle(true)
             builder.setInstantAppsEnabled(true)
             val customBuilder = builder.build()
@@ -570,7 +570,6 @@ class MainFragment : Fragment(), Navigator {
 //                "com.techno_3_team.task_manager_google:/"
 //            )
 //            Log.i("google synchronize get token", accessToken.toString())
-
 
 
 //            "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",
