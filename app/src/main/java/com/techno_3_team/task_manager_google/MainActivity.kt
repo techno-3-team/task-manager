@@ -2,6 +2,8 @@ package com.techno_3_team.task_manager_google
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
@@ -14,6 +16,7 @@ import com.techno_3_team.task_manager_google.fragments.LoginFragment
 import com.techno_3_team.task_manager_google.fragments.MainFragment
 import com.techno_3_team.task_manager_google.navigators.PrimaryNavigator
 import com.techno_3_team.task_manager_google.support.IS_DEFAULT_THEME_KEY
+import com.techno_3_team.task_manager_google.support.IS_IT_FIRST_VISIT
 import com.techno_3_team.task_manager_google.support.IS_LOGIN_FRAGMENT_DISPLAYED
 
 
@@ -28,7 +31,18 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
     private lateinit var ltstViewModel: LTSTViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        initTheme()
+        val isItFirstVisit = preference.getBoolean(IS_IT_FIRST_VISIT, true)
+        if (isItFirstVisit) {
+            preference.edit()
+                .putBoolean(IS_IT_FIRST_VISIT, false)
+                .apply()
+            when (isDarkThemeOn()) {
+                true -> setTheme(R.style.Theme_CustomTheme_Default)
+                else -> setTheme(R.style.Theme_CustomTheme_Light)
+            }
+        } else {
+            initTheme()
+        }
         setContentView(R.layout.activity_main)
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -45,9 +59,13 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
         }
     }
 
+    private fun Context.isDarkThemeOn(): Boolean {
+        return resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+    }
+
     private fun initTheme() {
         val isDefaultThemeKey = preference.getBoolean(IS_DEFAULT_THEME_KEY, true)
-
         if (isDefaultThemeKey) {
             setTheme(R.style.Theme_CustomTheme_Default)
         } else {

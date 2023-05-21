@@ -2,6 +2,7 @@ package com.techno_3_team.task_manager_google.support
 
 const val RESULT_KEY = "result_key"
 const val IS_DEFAULT_THEME_KEY = "is_default_theme_key"
+const val IS_IT_FIRST_VISIT = "is_it_first_visit"
 const val LANGUAGE_KEY = "language_key"
 const val CURRENT_LIST_ID = "current_list_id_key"
 const val IS_AUTHORIZED = "is_authorized_key"
