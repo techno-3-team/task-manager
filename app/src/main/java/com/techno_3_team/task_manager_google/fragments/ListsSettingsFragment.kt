@@ -2,6 +2,7 @@ package com.techno_3_team.task_manager_google.fragments
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -107,6 +108,28 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.E
         )
     }
 
+    private fun setDeleteDialog() {
+        val title = getString(R.string.title_delete_list)
+        val message = getString(R.string.delete_button_list)
+        val deleteBut = getString(R.string.delete_button_name)
+        val cancelBut = getString(R.string.cancel_button_name)
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setCancelable(false)
+        builder.setPositiveButton(deleteBut) { _, _ ->
+            // Deleting list
+        }
+        builder.setNegativeButton(cancelBut) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)?.setTextColor(resources.getColor(R.color.red))
+    }
+
     private fun onAddDialog(view: View) {
         val builder = AlertDialog.Builder(view.context)
         val layoutName = LinearLayout(view.context)
@@ -138,10 +161,11 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.E
         }
         builder.setNegativeButton(getString(R.string.cancel_button_name)) { dialog, _ -> dialog.cancel() }
 
-        val dialog = builder.create();
+        val dialog = builder.create()
         dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
         dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         dialog.show()
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE)?.setTextColor(resources.getColor(R.color.red))
 
         text.requestFocus()
     }
@@ -160,6 +184,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.E
             R.color.red,
             object : SwipeHelper.UnderlayButtonClickListener {
                 override fun onClick() {
+                    setDeleteDialog()
                     val adapter = _binding.lists.adapter as ListsSettingsAdapter
                     if (adapter.itemCount > 1) {
                         val list = adapter.getList(position)

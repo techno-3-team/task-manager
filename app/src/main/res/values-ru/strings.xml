@@ -64,6 +64,10 @@
     <string name="add_new_list_header">Создать новый список</string>
     <string name="edit_button_name">Изменить</string>
     <string name="delete_button_name">Удалить</string>
+    <string name="delete_button_list">Вы уверены, что хотите удалить список задач?</string>
+    <string name="delete_button_checked">Вы уверены, что хотите удалить выполенные задачи?</string>
+    <string name="delete_title_checked">Удалить выполненые задачи</string>
+    <string name="title_delete_list">Удалить список</string>
     <string name="add_button_name">создать</string>
     <string name="cancel_button_name">отменить</string>
     <string name="added_new_list_toast">Добавлен новый список</string>

@@ -3,6 +3,7 @@ package com.techno_3_team.task_manager_google.fragments
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.IntentSender
 import android.content.SharedPreferences
 import android.content.res.Configuration
@@ -289,6 +290,7 @@ class MainFragment : Fragment(), Navigator {
     private fun deleteCheckedTasks() {
         val currListId = preference.getInt(CURRENT_LIST_ID, -1)
         ltstViewModel.deleteCompletedTasks(currListId)
+        setDeleteCheckedDialog()
     }
 
     private fun updateTasksOrder(itemId: Int) {
@@ -327,6 +329,29 @@ class MainFragment : Fragment(), Navigator {
 
         val alertDialog = builder.create()
         alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)?.setTextColor(resources.getColor(R.color.red))
+    }
+
+    private fun setDeleteCheckedDialog() {
+        val title = getString(R.string.delete_title_checked)
+        val message = getString(R.string.delete_button_checked)
+        val deleteBut = getString(R.string.delete_button_name)
+        val cancelBut = getString(R.string.cancel_button_name)
+
+        val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setCancelable(false)
+        builder.setPositiveButton(deleteBut) { _, _ ->
+            deleteTask()
+        }
+        builder.setNegativeButton(cancelBut) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)?.setTextColor(resources.getColor(R.color.red))
     }
 
     private fun updateMenu(menu: Menu, inflater: MenuInflater) {
