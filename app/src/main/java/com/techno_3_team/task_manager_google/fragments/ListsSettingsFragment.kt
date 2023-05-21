@@ -108,7 +108,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.E
         )
     }
 
-    private fun setDeleteDialog() {
+    private fun setDeleteDialog(position: Int) {
         val title = getString(R.string.title_delete_list)
         val message = getString(R.string.delete_button_list)
         val deleteBut = getString(R.string.delete_button_name)
@@ -119,7 +119,18 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.E
         builder.setMessage(message)
         builder.setCancelable(false)
         builder.setPositiveButton(deleteBut) { _, _ ->
-            // Deleting list
+            val adapter = _binding.lists.adapter as ListsSettingsAdapter
+            if (adapter.itemCount > 1) {
+                val list = adapter.getList(position)
+//                    adapter.deleteList(position)
+                ltstViewModel.deleteList(list.listId)
+                preference.edit()
+                    .remove(CURRENT_LIST_ID)
+                    .apply()
+                toast("${getString(R.string.deleted_list_toast)} \"${list.listName}\"")
+            } else {
+                toast(getString(R.string.cant_delete_the_last_list))
+            }
         }
         builder.setNegativeButton(cancelBut) { dialog, _ ->
             dialog.cancel()
@@ -184,19 +195,7 @@ class ListsSettingsFragment : Fragment(), HasCustomTitle, ListsSettingsAdapter.E
             R.color.red,
             object : SwipeHelper.UnderlayButtonClickListener {
                 override fun onClick() {
-                    setDeleteDialog()
-                    val adapter = _binding.lists.adapter as ListsSettingsAdapter
-                    if (adapter.itemCount > 1) {
-                        val list = adapter.getList(position)
-//                    adapter.deleteList(position)
-                        ltstViewModel.deleteList(list.listId)
-                        preference.edit()
-                            .remove(CURRENT_LIST_ID)
-                            .apply()
-                        toast("${getString(R.string.deleted_list_toast)} \"${list.listName}\"")
-                    } else {
-                        toast(getString(R.string.cant_delete_the_last_list))
-                    }
+                    setDeleteDialog(position)
                 }
             })
     }
