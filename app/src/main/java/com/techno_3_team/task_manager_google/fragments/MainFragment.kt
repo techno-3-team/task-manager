@@ -297,7 +297,6 @@ class MainFragment : Fragment(), Navigator {
     /**
      * UI
      */
-
     private fun updateUi() {
         val fragment = currentFragment
         val bar = (requireActivity() as AppCompatActivity).supportActionBar
@@ -423,7 +422,6 @@ class MainFragment : Fragment(), Navigator {
     /**
      * GOOGLE AUTHORIZATION
      */
-
     private fun setAuthorizationVariables() {
         Log.e("startAuthorization", "creating requests")
         signUpRequest = BeginSignInRequest.builder()
@@ -510,8 +508,6 @@ class MainFragment : Fragment(), Navigator {
     /**
      * NET
      */
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun googleSynchronize() {
         val gson = GsonBuilder().setLenient().create()
@@ -525,28 +521,42 @@ class MainFragment : Fragment(), Navigator {
             val str= (1..43).map {
                 secureRandom.nextInt(charPool.size).let { charPool[it] }
             }.joinToString("")
-            val codeVerifier = Base64.getUrlEncoder().withoutPadding().encodeToString(str.toByteArray())
-
+            val codeVerifier = Base64
+                .getUrlEncoder()
+                .withoutPadding()
+                .encodeToString(str.toByteArray())
             val md = MessageDigest.getInstance("SHA-256")
-            val codeChallenge=  Base64.getUrlEncoder().withoutPadding()
+            val codeChallenge=  Base64
+                .getUrlEncoder()
+                .withoutPadding()
                 .encodeToString(md.digest(codeVerifier.toByteArray()))
-            println(codeChallenge)
+            Log.d("sec_code", codeChallenge)
 
-            val token = retrofit.postToken(
+            val apiCode = retrofit.getApiCode(
                 "176729332799-nj3fescrstoane4j6pir4fejgpi6hvk3.apps.googleusercontent.com",
-                "https://my-app.com/callback",
+                "com.techno_3_team.task_manager_google:/",
                 "https://www.googleapis.com/auth/tasks",
-                codeChallenge.toString(),
+                codeChallenge,
                 "S256",
                 "code"
             )
-            Log.e("googleSynchronize", token.toString())
+            Log.i("google synchronize get code", apiCode.toString())
+
+            val accessToken = retrofit.getAccessToken(
+                "176729332799-nj3fescrstoane4j6pir4fejgpi6hvk3.apps.googleusercontent.com",
+                "",
+                apiCode.body()!!.code,
+                "authorization_code",
+                "com.techno_3_team.task_manager_google:/"
+            )
+            Log.i("google synchronize get token", accessToken.toString())
 
 
-            /*             "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",
-                        "https://task-manager-2-386811.firebaseapp.com",
-                        "https://www.googleapis.com/auth/tasks")*/
 
+//            "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",
+//            "https://task-manager-2-386811.firebaseapp.com",
+//            "https://www.googleapis.com/auth/tasks")
+//
 //            val lists = retrofit.getLists(token!!)
 //            val lists = retrofit.getLists("ya29.a0AWY7CkljcnMhO173gmuQR_fFvZecm0BkoU5VyaByEt4eEzx_S5mrpG22Mpf8Gelbq2iqRsSKmS35rkuMJRofBiVJToyQ1M30uFkhQpOzuJophocAFxgHmJ4-FYHaL6czXi6lT7jtuT-gHnLTHkdmVgo_77T0GU8czkV8aCgYKAcISARMSFQG1tDrpYohw9cUZ9B4J80uQnPuhsA0171")
 //            Log.e("googleSynchronize", lists.toString())
@@ -579,7 +589,6 @@ class MainFragment : Fragment(), Navigator {
     /**
      * NAVIGATION
      */
-
     override fun showTaskScreen(taskId: Int) {
         launchFragment(TaskFragment(taskId))
     }

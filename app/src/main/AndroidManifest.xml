@@ -16,11 +16,13 @@
 
         <activity
             android:name="com.techno_3_team.task_manager_google.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <data android:scheme="http" android:host="my-app.com" android:path="/callback" />
+                <data android:scheme="com.techno_3_team.task_manager_google"/>
             </intent-filter>
         </activity>
 

@@ -31,15 +31,23 @@ interface TaskApi {
     ) : retrofit2.Response<Gson>
 
     @POST("https://accounts.google.com/o/oauth2/v2/auth?")
-    suspend fun postToken(
-        @Query("client_id") client_id: String,
-        @Query("redirect_uri") redirect_uri: String,
+    suspend fun getApiCode(
+        @Query("client_id") clientId: String,
+        @Query("redirect_uri") redirectUri: String,
         @Query("scope") scope: String,
-        @Query("code_challenge") code_challenge: String,
-        @Query("code_challenge_method") code_challenge_method: String,
-        @Query("response_type") response_type: String,
-    ): retrofit2.Response<String>
+        @Query("code_challenge") codeChallenge: String,
+        @Query("code_challenge_method") codeChallengeMethod: String,
+        @Query("response_type") responseType: String,
+    ): retrofit2.Response<ApiCode>
 
+    @POST("https://oauth2.googleapis.com/token?")
+    suspend fun getAccessToken(
+        @Query("client_id") clientId: String,
+        @Query("code") code: String,
+        @Query("code_verifier") codeVerifier: String,
+        @Query("grant_type") grantType: String,
+        @Query("redirect_uri") redirectUri : String,
+    ): retrofit2.Response<AccessToken>
 }
 
 /*
