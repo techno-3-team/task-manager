@@ -267,14 +267,12 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
         binding.llDateTime.setOnClickListener {
             getDateTimeCalendar()
             this.context?.let { it1 ->
-                DatePickerDialog(
-                    it1,
-                    R.style.TimePickerTheme,
-                    this,
-                    year,
-                    month,
-                    day
-                ).show()
+                run {
+                    val dateDialog =
+                        DatePickerDialog(it1, R.style.TimePickerTheme, this, year, month, day)
+                    dateDialog.window?.setBackgroundDrawableResource(R.drawable.timepicker_shape)
+                    dateDialog.show()
+                }
             }
         }
     }
@@ -286,7 +284,9 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
 
         getDateTimeCalendar()
 
-        TimePickerDialog(this.context, R.style.TimePickerTheme, this, hour, minute, true).show()
+        val dialog = TimePickerDialog(this.context, R.style.TimePickerTheme, this, hour, minute, true)
+        dialog.window?.setBackgroundDrawableResource(R.drawable.timepicker_shape)
+        dialog.show()
     }
 
     @SuppressLint("SetTextI18n")
