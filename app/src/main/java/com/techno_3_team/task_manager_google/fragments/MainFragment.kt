@@ -8,18 +8,25 @@ import android.content.IntentSender
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.core.view.MenuHost
@@ -45,21 +52,27 @@ import com.techno_3_team.task_manager_google.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager_google.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager_google.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager_google.fragment_features.HasMainScreenActions
-import com.techno_3_team.task_manager_google.fragment_features.Recreate
 import com.techno_3_team.task_manager_google.navigators.Navigator
 import com.techno_3_team.task_manager_google.navigators.navigator
 import com.techno_3_team.task_manager_google.net.RetrofitClient
 import com.techno_3_team.task_manager_google.net.TaskApi
-import com.techno_3_team.task_manager_google.support.*
+import com.techno_3_team.task_manager_google.support.CURRENT_LIST_ID
+import com.techno_3_team.task_manager_google.support.ID_TOKEN
+import com.techno_3_team.task_manager_google.support.IS_AUTHORIZED
+import com.techno_3_team.task_manager_google.support.IS_DEFAULT_THEME_KEY
+import com.techno_3_team.task_manager_google.support.LANGUAGE_KEY
+import com.techno_3_team.task_manager_google.support.RESULT_KEY
+import com.techno_3_team.task_manager_google.support.USERNAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
 import java.security.SecureRandom
-import java.util.*
+import java.util.Base64
+import java.util.Locale
 
 
-class MainFragment : Fragment(), Navigator, Recreate {
+class MainFragment : Fragment(), Navigator {
 
     private lateinit var mainBinding: MainFragmentBinding
     private lateinit var supportFM: FragmentManager
@@ -186,7 +199,6 @@ class MainFragment : Fragment(), Navigator, Recreate {
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
             getString(R.string.app_name)
 
-//        Log.i("curr fragment", "$currentFragment")
         if (savedInstanceState == null) {
             requireActivity().supportFragmentManager
                 .beginTransaction()
@@ -263,15 +275,6 @@ class MainFragment : Fragment(), Navigator, Recreate {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-//        requireActivity().onBackPressedDispatcher.addCallback(
-//            viewLifecycleOwner,
-//            object : OnBackPressedCallback(true) {
-//                override fun handleOnBackPressed() {
-//                    Log.i("curr_fragment", "$currentFragment")
-//
-//                }
-//            })
-
         setCurrentThemeIcon()
         setLanguageRadioButton()
 
@@ -290,11 +293,9 @@ class MainFragment : Fragment(), Navigator, Recreate {
     private fun updateTasksOrder(itemId: Int) {
     }
 
-
     /**
      * UI
      */
-
     private fun updateUi() {
         val fragment = currentFragment
         val bar = (requireActivity() as AppCompatActivity).supportActionBar
@@ -446,7 +447,6 @@ class MainFragment : Fragment(), Navigator, Recreate {
     /**
      * GOOGLE AUTHORIZATION
      */
-
     private fun setAuthorizationVariables() {
         Log.e("startAuthorization", "creating requests")
         signUpRequest = BeginSignInRequest.builder()
@@ -533,48 +533,76 @@ class MainFragment : Fragment(), Navigator, Recreate {
     /**
      * NET
      */
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun googleSynchronize() {
         val gson = GsonBuilder().setLenient().create()
         val retrofit = getRetrofitApi(gson)
         CoroutineScope(Dispatchers.IO).launch {
-//            val newToken = retrofit.getToken(token!!)
-//            Log.e("googleSynchronize", newToken.toString())
+            val newToken = retrofit.getToken(token!!)
+            Log.i("googleSynchronize", newToken.toString())
 
             val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
             val secureRandom = SecureRandom()
             val str = (1..43).map {
                 secureRandom.nextInt(charPool.size).let { charPool[it] }
             }.joinToString("")
-            val codeVerifier =
-                Base64.getUrlEncoder().withoutPadding().encodeToString(str.toByteArray())
-
+            val codeVerifier = Base64
+                .getUrlEncoder()
+                .withoutPadding()
+                .encodeToString(str.toByteArray())
             val md = MessageDigest.getInstance("SHA-256")
-            val codeChallenge = Base64.getUrlEncoder().withoutPadding()
+            val codeChallenge = Base64
+                .getUrlEncoder()
+                .withoutPadding()
                 .encodeToString(md.digest(codeVerifier.toByteArray()))
-            println(codeChallenge)
+//            Log.d("sec_code", codeChallenge)
 
-            val token = retrofit.postToken(
-                "176729332799-nj3fescrstoane4j6pir4fejgpi6hvk3.apps.googleusercontent.com",
-                "com.techno_3_team.task_manager_google:/",
-                "https://www.googleapis.com/auth/tasks",
-                codeChallenge.toString(),
-                "S256",
-                "code"
-            )
-            Log.e("googleSynchronize", token.toString())
+//            val apiCode = retrofit.getApiCode(
+//                "176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com",
+////                "https://task-manager-2-386811.firebaseapp.com/__/auth/handler",
+//                "com.techno_3_team.task_manager_google:/",
+//                "https://www.googleapis.com/auth/tasks",
+//                codeChallenge,
+//                "S256",
+//                "code"
+//            )
+//            Log.i("google synchronize get code", apiCode.toString())
+
+            val authUrl = "https://accounts.google.com/o/oauth2/v2/auth?" +
+                    "client_id=176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com" +
+                    "&redirect_uri=https://task-manager-2-386811.firebaseapp.com/__/auth/handler" +
+                    "&scope=https://www.googleapis.com/auth/tasks" +
+                    "&code_challenge=$codeChallenge" +
+                    "&code_challenge_method=S256" +
+                    "&response_type=code"
+            val builder = CustomTabsIntent.Builder()
+            builder.setShowTitle(true)
+            builder.setInstantAppsEnabled(true)
+            val customBuilder = builder.build()
+            customBuilder.launchUrl(requireContext(), Uri.parse(authUrl))
 
 
-            /*             "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",
-                        "https://task-manager-2-386811.firebaseapp.com",
-                        "https://www.googleapis.com/auth/tasks")*/
+//            Log.e("code", apiCode.body()!!.access_code)
 
+//            val accessToken = retrofit.getAccessToken(
+//                "176729332799-nj3fescrstoane4j6pir4fejgpi6hvk3.apps.googleusercontent.com",
+//                "",
+//                apiCode.body()!!.code,
+//                "authorization_code",
+//                "com.techno_3_team.task_manager_google:/"
+//            )
+//            Log.i("google synchronize get token", accessToken.toString())
+
+
+//            "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",
+//            "https://task-manager-2-386811.firebaseapp.com",
+//            "https://www.googleapis.com/auth/tasks")
+//
 //            val lists = retrofit.getLists(token!!)
 //            val lists = retrofit.getLists("ya29.a0AWY7CkljcnMhO173gmuQR_fFvZecm0BkoU5VyaByEt4eEzx_S5mrpG22Mpf8Gelbq2iqRsSKmS35rkuMJRofBiVJToyQ1M30uFkhQpOzuJophocAFxgHmJ4-FYHaL6czXi6lT7jtuT-gHnLTHkdmVgo_77T0GU8czkV8aCgYKAcISARMSFQG1tDrpYohw9cUZ9B4J80uQnPuhsA0171")
 //            Log.e("googleSynchronize", lists.toString())
         }
+        println()
     }
 
     private fun getRetrofitApi(gson: Gson) =
@@ -611,7 +639,6 @@ class MainFragment : Fragment(), Navigator, Recreate {
     override fun showSubtaskScreen(taskId: Int, subtaskId: Int) {
         launchFragment(SubtaskFragment.newInstance(taskId, subtaskId))
     }
-
     override fun showListSettingsScreen() {
         launchFragment(ListsSettingsFragment())
         mainBinding.drawer.closeDrawer(Gravity.LEFT)
@@ -640,13 +667,6 @@ class MainFragment : Fragment(), Navigator, Recreate {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .addToBackStack(null)
             .replace(mainBinding.mainContainer.id, fragment, "")
-            .commit()
-    }
-
-    override fun recreate() {
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(mainBinding.mainContainer.id, TaskListContainerFragment(), "MF")
             .commit()
     }
 }
