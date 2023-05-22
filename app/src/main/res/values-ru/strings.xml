@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">Менеджер задач</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="list1">list 1</string>
+    <string name="list2">list 2</string>
+    <string name="list3">list 3</string>
+    <string name="list1231">list 1231</string>
+    <string name="list5">list 5</string>
+    <string name="list12341">list 12341</string>
+    <string name="set_deadline">установить дедлайн</string>
+
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="continue_without_authorization">Войти без аккаунта</string>
+    <string name="continue_with_google">Войти с Google</string>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="list_toolbar_name">Списки</string>
+    <string name="task_toolbar_name">Задача</string>
+    <string name="subtask_toolbar_name">Подзадача</string>
+
+    <string name="move_above">Move above</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="clear_checked">clear checked</string>
+    <string name="sort_order">tasks sort order</string>
+    <string name="sort_by_date">по дате</string>
+    <string name="sort_by_name">по названию</string>
+    <string name="sort_by_importance">по важности</string>
+
+    <string name="google_account">Google аккаунт</string>
+    <string name="sign_out">Выйти</string>
+    <string name="synchronize">Синхронизировать</string>
+    <string name="en">EN</string>
+    <string name="ru">RU</string>
+    <string name="switch_languages">переключение языков</string>
+    <string name="switch_theme">переключение темы</string>
+
+    <string name="trashbox">delete</string>
+
+    <string-array name="lists">
+        <item>tasks list 1</item>
+        <item>tasks list 2</item>
+        <item>tasks list 3</item>
+        <item>tasks list 4</item>
+    </string-array>
+
+    <string name="floating_action_button">floating action button</string>
+    <string name="add_new_list">add new list</string>
+    <string name="task_description">описание задачи</string>
+    <string name="subtask_description">описание подзадачи</string>
+    <string name="parent_task_name">название задачи</string>
+    <string name="subtask_name">название подзадачи</string>
+    <string name="account_icon">аватарка аккаунта</string>
+    <string name="account_select_action">аккаунт выберете действие</string>
+    <string name="task_name_hint">название задачи</string>
+    <string name="subtask_name_hint">название подзадачи</string>
+
+    <string name="cancel">Возникла ошибка, извините, попробуйте снова</string>
+    <string name="network_error">Возникла ошибка</string>
+
+    <string name="edit_list_name_header">Изменить название списка</string>
+    <string name="add_new_list_header">Создать новый список</string>
+    <string name="edit_button_name">Изменить</string>
+    <string name="delete_button_name">Удалить</string>
+    <string name="delete_button_list">Вы уверены, что хотите удалить список задач?</string>
+    <string name="delete_button_checked">Вы уверены, что хотите удалить выполенные задачи?</string>
+    <string name="delete_title_checked">Удалить выполненые задачи</string>
+    <string name="title_delete_list">Удалить список</string>
+    <string name="add_button_name">создать</string>
+    <string name="cancel_button_name">отменить</string>
+    <string name="added_new_list_toast">Добавлен новый список</string>
+    <string name="deleted_list_toast">Удален список</string>
+    <string name="edited_list_toast">Изменено название списка</string>
+
+    <string name="delete_task_dialog_msg">Вы уверены, что хотите удалить задачу?</string>
+
+    <string name="preposition_fot_comleted_subtasks_count">из</string>
+
+    <string name="input_task_name_to_create">Введите название для создания задачи</string>
+    <string name="input_subtask_name_to_create">Введите название для создания подзадачи</string>
+    <string name="task_submit_button_text">Создать задачу</string>
+    <string name="subtask_submit_button_text">Создать подзадачу</string>
+    <string name="create_subtask_error_text">Создайте задачу</string>
+    <string name="the_task_has_been_created">Задача была создана</string>
+    <string name="the_subtask_has_been_created">Подзадача была создана</string>
+    <string name="cant_delete_the_last_list">Нельзя удалить единственный список</string>
+    
+</resources>

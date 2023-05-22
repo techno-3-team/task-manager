@@ -1,3 +1,92 @@
 <resources>
-    <string name="app_name">task-manager</string>
+    <string name="app_name">Task manager</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="list1">list 1</string>
+    <string name="list2">list 2</string>
+    <string name="list3">list 3</string>
+    <string name="list1231">list 1231</string>
+    <string name="list5">list 5</string>
+    <string name="list12341">list 12341</string>
+    <string name="set_deadline">set deadline</string>
+
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="continue_without_authorization">Sign in without an account</string>
+    <string name="continue_with_google">Sign in with Google</string>
+    <string name="welcome">Welcome!</string>
+    <string name="list_toolbar_name">Lists</string>
+    <string name="task_toolbar_name">Task</string>
+    <string name="subtask_toolbar_name">Subtask</string>
+
+    <string name="move_above">Move above</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="clear_checked">clear checked</string>
+    <string name="sort_order">tasks sort order</string>
+    <string name="sort_by_date">by date</string>
+    <string name="sort_by_name">by name</string>
+    <string name="sort_by_importance">by importance</string>
+
+    <string name="google_account">Google account</string>
+    <string name="sign_out">Sign out</string>
+    <string name="synchronize">Synchronize</string>
+    <string name="en">EN</string>
+    <string name="ru">RU</string>
+    <string name="switch_languages">switch language</string>
+    <string name="switch_theme">switch theme</string>
+
+    <string name="trashbox">delete</string>
+
+    <string-array name="lists">
+        <item>tasks list 1</item>
+        <item>tasks list 2</item>
+        <item>tasks list 3</item>
+        <item>tasks list 4</item>
+    </string-array>
+
+    <string name="floating_action_button">floating action button</string>
+    <string name="add_new_list">add new list</string>
+    <string name="task_description">task description</string>
+    <string name="subtask_description">subtask description</string>
+    <string name="parent_task_name">task name</string>
+    <string name="subtask_name">subtask name</string>
+    <string name="account_icon">account icon</string>
+    <string name="account_select_action">account select action</string>
+    <string name="task_name_hint">task name</string>
+    <string name="subtask_name_hint">subtask name</string>
+
+<!--    <string name="web_client_id" translatable="false">199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com</string>-->
+
+    <string name="cancel">Error occurred, sorry, try again</string>
+    <string name="network_error">Network error</string>
+
+    <string name="edit_list_name_header">Edit list name</string>
+    <string name="add_new_list_header">Add new list</string>
+    <string name="edit_button_name">Edit</string>
+    <string name="delete_button_name">Delete</string>
+    <string name="delete_button_list">Are you sure you want to delete the list?</string>
+    <string name="delete_title_checked">Deleting checked tasks</string>
+    <string name="delete_button_checked">Are you sure you want to delete checked tasks?</string>
+    <string name="add_button_name">add</string>
+    <string name="title_delete_list">Delete list</string>
+    <string name="cancel_button_name">Cancel</string>
+    <string name="added_new_list_toast">Added new list</string>
+    <string name="deleted_list_toast">Deleted list</string>
+    <string name="edited_list_toast">Edited list name of to</string>
+
+    <string name="delete_task_dialog_msg">Do you want to delete this task?</string>
+
+    <string name="preposition_fot_comleted_subtasks_count">of</string>
+
+    <string name="input_task_name_to_create">Enter the name to create a task</string>
+    <string name="input_subtask_name_to_create">Enter the name to create a subtask</string>
+    <string name="task_submit_button_text">Create task</string>
+    <string name="subtask_submit_button_text">Create subtask</string>
+    <string name="create_subtask_error_text">Create task</string>
+    <string name="the_task_has_been_created">The task has been created</string>
+    <string name="the_subtask_has_been_created">The subtask has been created</string>
+    <string name="cant_delete_the_last_list">You cannot delete the last list</string>
+
 </resources>
