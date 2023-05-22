@@ -2,15 +2,14 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
-//    id 'com.google.gms.google-services'
 }
 
 android {
-    namespace 'com.techno_3_team.task_manager_firebase'
+    namespace 'com.techno_3_team.task_manager_google'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.techno_3_team.task_manager_firebase"
+        applicationId "com.techno_3_team.task_manager_google"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -22,12 +21,14 @@ android {
             applicationIdSuffix ".debug"
             debuggable true
             versionNameSuffix '-debug'
-            buildConfigField "String", "CLIENT_ID", "\"199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com\""
+            buildConfigField "String", "CLIENT_ID", "\"176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com\""
+            buildConfigField "String", "ENDPOINT", "\"https://tasks.googleapis.com\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "CLIENT_ID", "\"199947240338-48qdg1nita3ip6kj4mf5pptnr0bqncd7.apps.googleusercontent.com\""
+            buildConfigField "String", "CLIENT_ID", "\"176729332799-cjonm5oerv57tau4hpjmun71ua6b2hov.apps.googleusercontent.com\""
+            buildConfigField "String", "ENDPOINT", "\"https://tasks.googleapis.com\""
         }
     }
     compileOptions {
@@ -47,7 +48,7 @@ android {
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 
     // Navigation Component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
@@ -86,5 +87,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.6.0'
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.2.2'
+
+    implementation 'com.google.gms:google-services:4.3.15'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.7'
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    implementation 'androidx.browser:browser:1.5.0'
 }
