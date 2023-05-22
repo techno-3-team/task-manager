@@ -30,20 +30,29 @@ import com.techno_3_team.task_manager_google.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager_google.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager_google.navigators.navigator
 import com.techno_3_team.task_manager_google.support.CURRENT_LIST_ID
+import com.techno_3_team.task_manager_google.support.CURRENT_TASK_ID
 import com.techno_3_team.task_manager_google.support.SpacingItemDecorator
 import com.techno_3_team.task_manager_google.support.observeOnce
 import java.util.*
 import java.util.stream.Collectors
 
 
-class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
+class TaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener, HasCustomTitle, HasDeleteAction,
     SubtaskAdapter.TaskFragmentAdapterCallback {
 
     private lateinit var binding: TaskFragmentBinding
     private lateinit var ltstViewModel: LTSTViewModel
-    private var taskId: Int = -1
     private var task: Task? = null
+
+    private val taskId: Int by lazy {
+        val value = arguments?.getInt(CURRENT_TASK_ID)
+        if (value != null) {
+            return@lazy value
+        } else {
+            throw IllegalStateException("argument $CURRENT_TASK_ID can't be null")
+        }
+    }
 
     private var day = 0
     private var month = 0
@@ -61,10 +70,6 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
 
     private val preference: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
-    }
-
-    constructor(taskId: Int) : this() {
-        this.taskId = taskId
     }
 
     override fun onCreateView(
@@ -139,9 +144,8 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                             position: Int,
                             id: Long
                         ) {
-                            val listId =
-                                (binding.listSpin.adapter as SpinAdapter).getListId(position)
-                            preference.edit().putInt(CURRENT_LIST_ID, listId).apply()
+                            val currListId = (binding.listSpin.adapter as SpinAdapter).getListId(position)
+                            preference.edit().putInt(CURRENT_LIST_ID, currListId).apply()
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -284,7 +288,8 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
 
         getDateTimeCalendar()
 
-        val dialog = TimePickerDialog(this.context, R.style.TimePickerTheme, this, hour, minute, true)
+        val dialog =
+            TimePickerDialog(this.context, R.style.TimePickerTheme, this, hour, minute, true)
         dialog.window?.setBackgroundDrawableResource(R.drawable.timepicker_shape)
         dialog.show()
     }
@@ -313,13 +318,13 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
     private fun isDateExists() = savedMinute > 0
 
     private fun getDateToSave() = if (isDateExists())
-            com.techno_3_team.task_manager_google.support.Date(
-                savedYear,
-                savedMonth,
-                savedDay,
-                savedHour,
-                savedMinute
-            ) else null
+        com.techno_3_team.task_manager_google.support.Date(
+            savedYear,
+            savedMonth,
+            savedDay,
+            savedHour,
+            savedMinute
+        ) else null
 
     private fun getStringDate(): String {
         return "$savedHour:$savedMinute, $savedDay.${savedMonth}.$savedYear"
@@ -350,6 +355,16 @@ class TaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
                     subtask.description
                 )
             )
+        }
+    }
+
+    companion object {
+        fun newInstance(taskId: Int): TaskFragment {
+            return TaskFragment().apply {
+                arguments = Bundle(1).apply {
+                    putInt(CURRENT_TASK_ID, taskId)
+                }
+            }
         }
     }
 }

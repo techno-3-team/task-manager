@@ -4,7 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.techno_3_team.task_manager_google.data.entities.*
+import com.techno_3_team.task_manager_google.data.entities.ListInfo
+import com.techno_3_team.task_manager_google.data.entities.Subtask
+import com.techno_3_team.task_manager_google.data.entities.Task
+import com.techno_3_team.task_manager_google.data.entities.TaskInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -70,7 +73,9 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
             val tasks = repository.getTasks(listId)
             repository.deleteCompletedTasks(listId)
             tasks.forEach { task ->
-                repository.deleteSubtasks(task.taskId)
+                if (task.isCompleted) {
+                    repository.deleteSubtasks(task.taskId)
+                }
             }
         }
     }

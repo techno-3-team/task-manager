@@ -3,15 +3,19 @@ package com.techno_3_team.task_manager_google
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
-import com.techno_3_team.task_manager_google.databinding.ActivityMainBinding
 import com.techno_3_team.task_manager_google.data.LTSTViewModel
+import com.techno_3_team.task_manager_google.databinding.ActivityMainBinding
 import com.techno_3_team.task_manager_google.fragments.LoginFragment
 import com.techno_3_team.task_manager_google.fragments.MainFragment
+import com.techno_3_team.task_manager_google.fragments.TaskListContainerFragment
 import com.techno_3_team.task_manager_google.navigators.PrimaryNavigator
 import com.techno_3_team.task_manager_google.support.IS_DEFAULT_THEME_KEY
 import com.techno_3_team.task_manager_google.support.IS_LOGIN_FRAGMENT_DISPLAYED
@@ -69,10 +73,18 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
         return super.onSupportNavigateUp()
     }
 
+
     override fun showMainFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(mainActivityBinding.container.id, MainFragment(), "main")
             .commit()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (supportFragmentManager.fragments.last() is TaskListContainerFragment ) {
+            finish()
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

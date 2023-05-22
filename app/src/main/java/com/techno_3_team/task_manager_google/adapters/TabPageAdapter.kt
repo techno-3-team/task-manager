@@ -11,7 +11,7 @@ class TabPagerAdapter(
 ) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-        return TaskListFragment(lists[position].listId)
+        return TaskListFragment.newInstance(lists[position].listId)
     }
 
     override fun getCount(): Int {

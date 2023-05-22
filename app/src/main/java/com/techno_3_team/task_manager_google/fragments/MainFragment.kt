@@ -12,15 +12,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -50,27 +45,21 @@ import com.techno_3_team.task_manager_google.databinding.MainFragmentBinding
 import com.techno_3_team.task_manager_google.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager_google.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager_google.fragment_features.HasMainScreenActions
+import com.techno_3_team.task_manager_google.fragment_features.Recreate
 import com.techno_3_team.task_manager_google.navigators.Navigator
 import com.techno_3_team.task_manager_google.navigators.navigator
 import com.techno_3_team.task_manager_google.net.RetrofitClient
 import com.techno_3_team.task_manager_google.net.TaskApi
-import com.techno_3_team.task_manager_google.support.CURRENT_LIST_ID
-import com.techno_3_team.task_manager_google.support.ID_TOKEN
-import com.techno_3_team.task_manager_google.support.IS_AUTHORIZED
-import com.techno_3_team.task_manager_google.support.IS_DEFAULT_THEME_KEY
-import com.techno_3_team.task_manager_google.support.LANGUAGE_KEY
-import com.techno_3_team.task_manager_google.support.RESULT_KEY
-import com.techno_3_team.task_manager_google.support.USERNAME
+import com.techno_3_team.task_manager_google.support.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
 import java.security.SecureRandom
-import java.util.Base64
-import java.util.Locale
+import java.util.*
 
 
-class MainFragment : Fragment(), Navigator {
+class MainFragment : Fragment(), Navigator, Recreate {
 
     private lateinit var mainBinding: MainFragmentBinding
     private lateinit var supportFM: FragmentManager
@@ -197,11 +186,13 @@ class MainFragment : Fragment(), Navigator {
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
             getString(R.string.app_name)
 
-        val taskListContainerFragment = TaskListContainerFragment()
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .add(mainBinding.mainContainer.id, taskListContainerFragment, "MF")
-            .commit()
+//        Log.i("curr fragment", "$currentFragment")
+        if (savedInstanceState == null) {
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .add(mainBinding.mainContainer.id, TaskListContainerFragment(), "MF")
+                .commit()
+        }
 
         with(mainBinding) {
             sideBar.btListsSideBar.setOnClickListener {
@@ -272,6 +263,15 @@ class MainFragment : Fragment(), Navigator {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
+//        requireActivity().onBackPressedDispatcher.addCallback(
+//            viewLifecycleOwner,
+//            object : OnBackPressedCallback(true) {
+//                override fun handleOnBackPressed() {
+//                    Log.i("curr_fragment", "$currentFragment")
+//
+//                }
+//            })
+
         setCurrentThemeIcon()
         setLanguageRadioButton()
 
@@ -289,6 +289,7 @@ class MainFragment : Fragment(), Navigator {
 
     private fun updateTasksOrder(itemId: Int) {
     }
+
 
     /**
      * UI
@@ -323,7 +324,8 @@ class MainFragment : Fragment(), Navigator {
 
         val alertDialog = builder.create()
         alertDialog.show()
-        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)?.setTextColor(resources.getColor(R.color.red))
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+            ?.setTextColor(resources.getColor(R.color.red))
     }
 
     private fun setDeleteCheckedDialog() {
@@ -346,7 +348,8 @@ class MainFragment : Fragment(), Navigator {
 
         val alertDialog = builder.create()
         alertDialog.show()
-        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)?.setTextColor(resources.getColor(R.color.red))
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+            ?.setTextColor(resources.getColor(R.color.red))
     }
 
     private fun updateMenu(menu: Menu, inflater: MenuInflater) {
@@ -540,15 +543,16 @@ class MainFragment : Fragment(), Navigator {
 //            val newToken = retrofit.getToken(token!!)
 //            Log.e("googleSynchronize", newToken.toString())
 
-            val  charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+            val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
             val secureRandom = SecureRandom()
-            val str= (1..43).map {
+            val str = (1..43).map {
                 secureRandom.nextInt(charPool.size).let { charPool[it] }
             }.joinToString("")
-            val codeVerifier = Base64.getUrlEncoder().withoutPadding().encodeToString(str.toByteArray())
+            val codeVerifier =
+                Base64.getUrlEncoder().withoutPadding().encodeToString(str.toByteArray())
 
             val md = MessageDigest.getInstance("SHA-256")
-            val codeChallenge=  Base64.getUrlEncoder().withoutPadding()
+            val codeChallenge = Base64.getUrlEncoder().withoutPadding()
                 .encodeToString(md.digest(codeVerifier.toByteArray()))
             println(codeChallenge)
 
@@ -601,11 +605,11 @@ class MainFragment : Fragment(), Navigator {
      */
 
     override fun showTaskScreen(taskId: Int) {
-        launchFragment(TaskFragment(taskId))
+        launchFragment(TaskFragment.newInstance(taskId))
     }
 
     override fun showSubtaskScreen(taskId: Int, subtaskId: Int) {
-        launchFragment(SubtaskFragment(taskId, subtaskId))
+        launchFragment(SubtaskFragment.newInstance(taskId, subtaskId))
     }
 
     override fun showListSettingsScreen() {
@@ -636,6 +640,13 @@ class MainFragment : Fragment(), Navigator {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .addToBackStack(null)
             .replace(mainBinding.mainContainer.id, fragment, "")
+            .commit()
+    }
+
+    override fun recreate() {
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(mainBinding.mainContainer.id, TaskListContainerFragment(), "MF")
             .commit()
     }
 }

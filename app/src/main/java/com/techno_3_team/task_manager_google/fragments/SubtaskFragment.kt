@@ -23,17 +23,33 @@ import com.techno_3_team.task_manager_google.databinding.SubtaskFragmentBinding
 import com.techno_3_team.task_manager_google.fragment_features.HasCustomTitle
 import com.techno_3_team.task_manager_google.fragment_features.HasDeleteAction
 import com.techno_3_team.task_manager_google.navigators.navigator
+import com.techno_3_team.task_manager_google.support.CURRENT_SUBTASK_ID
+import com.techno_3_team.task_manager_google.support.CURRENT_TASK_ID
 import com.techno_3_team.task_manager_google.support.observeOnce
 import java.util.*
 
-open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
+open class SubtaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener, HasCustomTitle, HasDeleteAction {
 
     private lateinit var binding: SubtaskFragmentBinding
     private lateinit var ltstViewModel: LTSTViewModel
 
-    private var taskId: Int = -1
-    private var subtaskId: Int = -1
+    private val taskId: Int by lazy {
+        val value = arguments?.getInt(CURRENT_TASK_ID)
+        if (value != null) {
+            return@lazy value
+        } else {
+            throw IllegalStateException("argument $CURRENT_TASK_ID can't be null")
+        }
+    }
+    private val subtaskId: Int by lazy {
+        val value = arguments?.getInt(CURRENT_SUBTASK_ID)
+        if (value != null) {
+            return@lazy value
+        } else {
+            throw IllegalStateException("argument $CURRENT_SUBTASK_ID can't be null")
+        }
+    }
 
     private var day = 0
     private var month = 0
@@ -48,11 +64,6 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
     private var savedMinute = 0
 
     private var toast: Toast? = null
-
-    constructor(taskId: Int, subtaskId: Int) : this() {
-        this.taskId = taskId
-        this.subtaskId = subtaskId
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -246,5 +257,16 @@ open class SubtaskFragment() : Fragment(), DatePickerDialog.OnDateSetListener,
     override fun delete() {
         ltstViewModel.deleteSubtask(subtaskId)
         navigator().goBack()
+    }
+
+    companion object {
+        fun newInstance(taskId: Int, subtaskId: Int): SubtaskFragment {
+            return SubtaskFragment().apply {
+                arguments = Bundle(2).apply {
+                    putInt(CURRENT_TASK_ID, taskId)
+                    putInt(CURRENT_SUBTASK_ID, subtaskId)
+                }
+            }
+        }
     }
 }

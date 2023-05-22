@@ -36,11 +36,6 @@ class SubtaskAdapter(
         return subtasks.size
     }
 
-    fun addSubtask(subtask: Subtask) {
-        subtasks.add(subtask)
-        notifyItemInserted(subtasks.size - 1)
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     fun putSubtasks(subtasks: List<Subtask>) {
         this.subtasks.clear()
