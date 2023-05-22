@@ -3,11 +3,13 @@ package com.techno_3_team.task_manager_google.fragments
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.IntentSender
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -137,6 +139,7 @@ class MainFragment : Fragment(), Navigator {
                             Log.e(tag, "activity recreate")
                             requireActivity().recreate()
                         }
+
                         else -> {
                             // Shouldn't happen.
                             Log.e(tag, "No ID token or password!")
@@ -229,7 +232,16 @@ class MainFragment : Fragment(), Navigator {
             sideBar.btGoogleSideBAr.setOnClickListener {
                 accountManagement()
                 if (!authorized)
-                    displaySignIn()
+                    if (hasConnection(context)) {
+                        displaySignIn()
+                    } else {
+                        val toast = Toast.makeText(
+                            context,
+                            getString(R.string.network_error),
+                            Toast.LENGTH_LONG
+                        )
+                        toast.show()
+                    }
             }
             sideBar.btGoogleSideBAr2AccountManagement.setOnClickListener {
                 Log.e("onViewCreated", "click on sign out")
@@ -242,7 +254,16 @@ class MainFragment : Fragment(), Navigator {
                 requireActivity().recreate()
             }
             sideBar.btGoogleSideBAr2Sync.setOnClickListener {
-                googleSynchronize()
+                if (hasConnection(context)) {
+                    googleSynchronize()
+                } else {
+                    val toast = Toast.makeText(
+                        context,
+                        getString(R.string.network_error),
+                        Toast.LENGTH_LONG
+                    )
+                    toast.show()
+                }
             }
         }
 
@@ -533,6 +554,20 @@ class MainFragment : Fragment(), Navigator {
     /**
      * NET
      */
+    private fun hasConnection(context: Context?): Boolean {
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        var wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        if (wifiInfo != null && wifiInfo.isConnected) {
+            return true
+        }
+        wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+        if (wifiInfo != null && wifiInfo.isConnected) {
+            return true
+        }
+        wifiInfo = cm.activeNetworkInfo
+        return wifiInfo != null && wifiInfo.isConnected
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun googleSynchronize() {
         val gson = GsonBuilder().setLenient().create()
@@ -639,6 +674,7 @@ class MainFragment : Fragment(), Navigator {
     override fun showSubtaskScreen(taskId: Int, subtaskId: Int) {
         launchFragment(SubtaskFragment.newInstance(taskId, subtaskId))
     }
+
     override fun showListSettingsScreen() {
         launchFragment(ListsSettingsFragment())
         mainBinding.drawer.closeDrawer(Gravity.LEFT)
