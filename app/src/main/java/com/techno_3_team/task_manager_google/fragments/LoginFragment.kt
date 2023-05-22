@@ -1,8 +1,10 @@
 package com.techno_3_team.task_manager_google.fragments
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.IntentSender
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,8 +24,8 @@ import com.techno_3_team.task_manager_google.BuildConfig
 import com.techno_3_team.task_manager_google.R
 import com.techno_3_team.task_manager_google.databinding.LoginFragmentBinding
 import com.techno_3_team.task_manager_google.navigators.PrimaryNavigator
-import com.techno_3_team.task_manager_google.support.IS_AUTHORIZED
 import com.techno_3_team.task_manager_google.support.ID_TOKEN
+import com.techno_3_team.task_manager_google.support.IS_AUTHORIZED
 import com.techno_3_team.task_manager_google.support.IS_LOGIN_FRAGMENT_DISPLAYED
 import com.techno_3_team.task_manager_google.support.USERNAME
 
@@ -56,7 +58,7 @@ class LoginFragment : Fragment() {
 //                    oneTapClient = Identity.getSignInClient(requireActivity())
                     val credential =
                         oneTapClient?.getSignInCredentialFromIntent(result.data)
-                    val idToken =credential?.googleIdToken
+                    val idToken = credential?.googleIdToken
                     username = credential?.displayName
                     when {
                         idToken != null -> {
@@ -139,8 +141,17 @@ class LoginFragment : Fragment() {
         }
         loginBinding!!.continueWithGoogle.setOnClickListener {
             Log.e("onViewCreated", "clicked on google authorization")
-            setAuthorizationVariables()
-            displaySignIn()
+            if (hasConnection(context)) {
+                setAuthorizationVariables()
+                displaySignIn()
+            } else {
+                val toast = Toast.makeText(
+                    context,
+                    getString(R.string.network_error),
+                    Toast.LENGTH_LONG
+                )
+                toast.show()
+            }
         }
 
         Log.e("onViewCreated", "login fragment was created")
@@ -219,5 +230,19 @@ class LoginFragment : Fragment() {
 
     private fun oneTapRes(intentSenderRequest: IntentSenderRequest) {
         oneTapResult.launch(intentSenderRequest)
+    }
+
+    private fun hasConnection(context: Context?): Boolean {
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        var wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        if (wifiInfo != null && wifiInfo.isConnected) {
+            return true
+        }
+        wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+        if (wifiInfo != null && wifiInfo.isConnected) {
+            return true
+        }
+        wifiInfo = cm.activeNetworkInfo
+        return wifiInfo != null && wifiInfo.isConnected
     }
 }
