@@ -24,8 +24,12 @@ class LTSTViewModel(application: Application) : AndroidViewModel(application) {
         readListInfo = repository.readListInfo
     }
 
-    fun getTaskInfoByListId(listId: Int): LiveData<List<TaskInfo>> {
-        return repository.getTaskInfoByListId(listId)
+    fun getTaskInfoByListIdNameSort(listId: Int): LiveData<List<TaskInfo>> {
+        return repository.getTaskInfoByListIdNameSort(listId)
+    }
+
+    fun getTaskInfoByListIdDateSort(listId: Int): LiveData<List<TaskInfo>> {
+        return repository.getTaskInfoByListIdDateSort(listId)
     }
 
     fun getTask(taskId: Int): LiveData<List<Task>> {

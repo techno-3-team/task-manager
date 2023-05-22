@@ -98,5 +98,19 @@ interface LTSTDao {
                 "group by taskId " +
                 "order by header"
     )
-    fun selectTaskWithSubtaskCompletionInfo(listId: Int): LiveData<kotlin.collections.List<TaskInfo>>
+    fun selectTaskWithSubtaskCompletionInfoHeaderSort(listId: Int): LiveData<kotlin.collections.List<TaskInfo>>
+
+    @Transaction
+    @Query(
+        "select taskId, listId, tt.header as header, tt.isCompleted as isCompleted, tt.date as date, tt.description as description, " +
+                "coalesce(sum(case when st.isCompleted then 1 else 0 end), 0) as completedSubtaskCount, " +
+                "coalesce(sum(case when st.header is null then 0 else 1 end), 0) as subtaskCount " +
+                "from task_table as tt " +
+                "left join subtask_table as st " +
+                "using (taskId) " +
+                "where listId = :listId " +
+                "group by taskId " +
+                "order by date desc"
+    )
+    fun selectTaskWithSubtaskCompletionInfoDateSort(listId: Int): LiveData<kotlin.collections.List<TaskInfo>>
 }

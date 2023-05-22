@@ -10,24 +10,28 @@ class LTSTRepository(private val ltstDao: LTSTDao) {
         ltstDao.readLists()
     var readListInfo: LiveData<List<ListInfo>> = ltstDao.selectListWithTaskCompletionInfo()
 
-    fun getTaskInfoByListId(listId: Int): LiveData<List<TaskInfo>> {
-        return ltstDao.selectTaskWithSubtaskCompletionInfo(listId)
+    fun getTaskInfoByListIdNameSort(listId: Int): LiveData<List<TaskInfo>> {
+        return ltstDao.selectTaskWithSubtaskCompletionInfoHeaderSort(listId)
     }
 
-    fun getSubtasksByTaskId(taskId: Int): LiveData<List<Subtask>> {
-        return ltstDao.selectSubtasksByTaskId(taskId)
+    fun getTaskInfoByListIdDateSort(listId: Int): LiveData<List<TaskInfo>> {
+        return ltstDao.selectTaskWithSubtaskCompletionInfoDateSort(listId)
+    }
+
+    fun getTasks(listId: Int): List<Task> {
+        return ltstDao.getTasks(listId)
     }
 
     fun getTask(taskId: Int): LiveData<List<Task>> {
         return ltstDao.selectTask(taskId)
     }
 
-    fun getSubtask(subtaskId: Int): LiveData<List<Subtask>> {
-        return ltstDao.selectSubtask(subtaskId)
+    fun getSubtasksByTaskId(taskId: Int): LiveData<List<Subtask>> {
+        return ltstDao.selectSubtasksByTaskId(taskId)
     }
 
-    fun getTasks(listId: Int): List<Task> {
-        return ltstDao.getTasks(listId)
+    fun getSubtask(subtaskId: Int): LiveData<List<Subtask>> {
+        return ltstDao.selectSubtask(subtaskId)
     }
 
     suspend fun addList(list: com.techno_3_team.task_manager_google.data.entities.List) {

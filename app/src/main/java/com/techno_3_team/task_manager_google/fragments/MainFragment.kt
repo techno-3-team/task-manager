@@ -13,13 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
@@ -56,20 +50,13 @@ import com.techno_3_team.task_manager_google.navigators.Navigator
 import com.techno_3_team.task_manager_google.navigators.navigator
 import com.techno_3_team.task_manager_google.net.RetrofitClient
 import com.techno_3_team.task_manager_google.net.TaskApi
-import com.techno_3_team.task_manager_google.support.CURRENT_LIST_ID
-import com.techno_3_team.task_manager_google.support.ID_TOKEN
-import com.techno_3_team.task_manager_google.support.IS_AUTHORIZED
-import com.techno_3_team.task_manager_google.support.IS_DEFAULT_THEME_KEY
-import com.techno_3_team.task_manager_google.support.LANGUAGE_KEY
-import com.techno_3_team.task_manager_google.support.RESULT_KEY
-import com.techno_3_team.task_manager_google.support.USERNAME
+import com.techno_3_team.task_manager_google.support.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
 import java.security.SecureRandom
-import java.util.Base64
-import java.util.Locale
+import java.util.*
 
 
 class MainFragment : Fragment(), Navigator {
@@ -257,18 +244,18 @@ class MainFragment : Fragment(), Navigator {
                     item.itemId == R.id.clear_checked -> {
                         setDeleteCheckedDialog()
                     }
-//                    item.itemId == R.id.sort_by_name ||
-//                            item.itemId == R.id.sort_by_date -> {
-//                        updateTasksOrder(item.itemId)
-//                    }
+                    item.itemId == R.id.sort_by_name -> {
+                        updateTasksOrder(true)
+                    }
+                    item.itemId == R.id.sort_by_date -> {
+                        updateTasksOrder(false)
+                    }
                     item.itemId == android.R.id.home && currentFragment is TaskListContainerFragment -> {
                         mainBinding.drawer.openDrawer(GravityCompat.START)
                     }
-
                     item.itemId == R.id.delete_task -> {
                         setDeleteDialog()
                     }
-
                     else -> return false
                 }
                 return true
@@ -290,8 +277,8 @@ class MainFragment : Fragment(), Navigator {
         (currentFragment as HasDeleteAction).delete()
     }
 
-    private fun updateTasksOrder(itemId: Int) {
-    }
+    private fun updateTasksOrder(taskOrder: Boolean) =
+        preference.edit().putBoolean(SORT_ORDER, taskOrder).apply()
 
     /**
      * UI
@@ -639,6 +626,7 @@ class MainFragment : Fragment(), Navigator {
     override fun showSubtaskScreen(taskId: Int, subtaskId: Int) {
         launchFragment(SubtaskFragment.newInstance(taskId, subtaskId))
     }
+
     override fun showListSettingsScreen() {
         launchFragment(ListsSettingsFragment())
         mainBinding.drawer.closeDrawer(Gravity.LEFT)
