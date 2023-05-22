@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity(), PrimaryNavigator {
                 .putBoolean(IS_IT_FIRST_VISIT, false)
                 .apply()
             when (isDarkThemeOn()) {
-                true -> setTheme(R.style.Theme_CustomTheme_Default)
-                else -> setTheme(R.style.Theme_CustomTheme_Light)
+                true -> setTheme(R.style.Theme_CustomTheme_Light)
+                else -> setTheme(R.style.Theme_CustomTheme_Default)
             }
         } else {
             initTheme()
